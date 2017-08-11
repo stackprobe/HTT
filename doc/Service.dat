@@ -1,0 +1,2 @@
+GET "<BASE>Get.exe" DocRoot.dat
+HEAD "<BASE>Get.exe" /H DocRoot.dat
