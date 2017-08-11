@@ -1,7 +1,7 @@
-HTT
-===
+簡易HTTPサーバー
+================
 
-ドメインごとにサイトを立てられる簡易ＨＴＴＰサーバー
+ドメインごとにサイトを立てられるシンプルなHTTPサーバー
 
 
 ビルド済み配布物
@@ -19,5 +19,5 @@ http://stackprobe.dip.jp/HTT
 マニュアル
 ----------
 
-*
+https://github.com/stackprobe/HTT/blob/master/doc/Readme.txt
 
