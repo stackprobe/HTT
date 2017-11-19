@@ -106,8 +106,14 @@ void getCryptoBlock_MS(uchar *buffer, int size)
 #endif
 }
 
-//#define SEEDSIZE 20
-//#define SEEDSIZE 300
+#if 1
+#define BUFFERSIZE 65536
+
+static void GetCryptoBlock(uchar *buffer)
+{
+	getCryptoBlock_MS(buffer, BUFFERSIZE);
+}
+#else
 #define SEEDSIZE 4096
 #define BUFFERSIZE 64 // == sha512 hash size
 
@@ -142,6 +148,7 @@ static void GetCryptoBlock(uchar *buffer)
 	memcpy(buffer, sha512_hash, BUFFERSIZE);
 	sha512_unevacuate();
 }
+#endif
 int getCryptoByte(void)
 {
 	static uchar buffer[BUFFERSIZE];

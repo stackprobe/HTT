@@ -12,7 +12,7 @@
 #include "SockServer.h"
 #include "Mutex.h"
 #include "FileList.h"
-#include "sha512.h"
+//#include "sha512.h"
 #include "CryptoRand.h"
 #include "rbt.h"
 

@@ -88,7 +88,6 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Mutex.cpp" />
     <ClCompile Include="rbt.cpp" />
-    <ClCompile Include="sha512.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="SockServer.cpp" />
     <ClCompile Include="Tools.cpp" />
@@ -116,7 +115,6 @@
     <ClInclude Include="MemAlloc.h" />
     <ClInclude Include="Mutex.h" />
     <ClInclude Include="rbt.h" />
-    <ClInclude Include="sha512.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="SockServer.h" />
     <ClInclude Include="System.h" />
