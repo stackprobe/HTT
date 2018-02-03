@@ -236,11 +236,51 @@ char *MimeList[][2] =
 	"m4v", "video/mp4",
 	"mp4", "video/mp4",
 	"ogv", "video/ogg",
+
+	// 2018.2.2 ’Ç‰Á
+
+	"svg", "image/svg+xml",
 };
 
 char *GetMimeType(char *file)
 {
 	char *ext = getExt(file);
+
+#if 0 // gen
+	{
+		FILE *fp = fileOpen("C:\\temp\\1.txt", "wt");
+
+		for(int index = 0; index < lengthof(MimeList); index++)
+		{
+			writeLine_x(fp, xcout("%s\t%s", MimeList[index][0], MimeList[index][1]));
+		}
+		fileClose(fp);
+	}
+#endif
+
+	{
+		char *mimeTypeFile = combine(getSelfDir(), MIME_TYPE_FILE); // g
+
+		if(existFile(mimeTypeFile))
+		{
+			autoList<char *> *lines = readLines(mimeTypeFile); // g
+
+			for(int index = 0; index < lines->GetCount(); index++)
+			{
+				char *line = lines->GetElement(index);
+				char *p = strchr(line, '\t');
+
+				errorCase(!p);
+
+				*p = '\0';
+
+				if(!_stricmp(line, ext))
+				{
+					return p + 1;
+				}
+			}
+		}
+	}
 
 	for(int index = 0; index < lengthof(MimeList); index++)
 	{

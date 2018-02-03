@@ -14,3 +14,6 @@
 #define DEFAULT_HOST "default"
 
 #define HEADER_VALUE_NOT_DEFINED "éwíËÇ»Çµ"
+
+// selfDir Ç…Ç†ÇÈÅB
+#define MIME_TYPE_FILE "MimeType.tsv"
