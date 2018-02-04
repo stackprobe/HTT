@@ -46,6 +46,23 @@ namespace Charlotte
 
 			try
 			{
+#if false
+				string file;
+
+				if (File.Exists(Consts.MIME_TYPE_FILE))
+				{
+					file = Consts.MIME_TYPE_FILE;
+				}
+				else if (File.Exists(Consts.MIME_TYPE_FILE_ESCAPED))
+				{
+					file = Consts.MIME_TYPE_FILE_ESCAPED;
+				}
+				else
+				{
+					file = Consts.MIME_TYPE_FILE_DEBUG;
+				}
+				using (CsvFileReader reader = new CsvFileReader(file))
+#else
 				if (File.Exists(Consts.MIME_TYPE_FILE) == false)
 				{
 					if (File.Exists(Consts.MIME_TYPE_FILE_ESCAPED))
@@ -58,6 +75,7 @@ namespace Charlotte
 					}
 				}
 				using (CsvFileReader reader = new CsvFileReader(Consts.MIME_TYPE_FILE))
+#endif
 				{
 					for (; ; )
 					{
@@ -253,6 +271,15 @@ namespace Charlotte
 			try
 			{
 				this.Save();
+
+				MessageBox.Show(
+					this,
+					"保存しました。",
+					"成功",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Information
+					);
+
 				this.Close();
 			}
 			catch (Exception ex)
@@ -269,6 +296,8 @@ namespace Charlotte
 
 		private void Save()
 		{
+			//File.Delete(Consts.MIME_TYPE_FILE_ESCAPED);
+
 			using (CsvFileWriter writer = new CsvFileWriter(Consts.MIME_TYPE_FILE))
 			{
 				for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)

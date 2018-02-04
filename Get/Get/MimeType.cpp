@@ -278,6 +278,7 @@ char *GetMimeType(char *file)
 					return p + 1; // ’ˆÓFp ‚Í lines ‚Ìˆê•”
 				}
 			}
+			return DefaultMimeType;
 		}
 	}
 
