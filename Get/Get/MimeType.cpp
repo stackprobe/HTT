@@ -242,21 +242,20 @@ char *MimeList[][2] =
 	"svg", "image/svg+xml",
 };
 
+void Debug_GenerateMimeTypeFile()
+{
+	FILE *fp = fileOpen("C:\\temp\\" MIME_TYPE_FILE "_", "wt");
+
+	for(int index = 0; index < lengthof(MimeList); index++)
+	{
+		writeLine_x(fp, xcout("%s\t%s", MimeList[index][0], MimeList[index][1]));
+	}
+	fileClose(fp);
+}
+
 char *GetMimeType(char *file)
 {
 	char *ext = getExt(file);
-
-#if 0 // gen
-	{
-		FILE *fp = fileOpen("C:\\temp\\1.txt", "wt");
-
-		for(int index = 0; index < lengthof(MimeList); index++)
-		{
-			writeLine_x(fp, xcout("%s\t%s", MimeList[index][0], MimeList[index][1]));
-		}
-		fileClose(fp);
-	}
-#endif
 
 	{
 		char *mimeTypeFile = combine(getSelfDir(), MIME_TYPE_FILE); // g
@@ -276,7 +275,7 @@ char *GetMimeType(char *file)
 
 				if(!_stricmp(line, ext))
 				{
-					return p + 1;
+					return p + 1; // ’ˆÓFp ‚Í lines ‚Ìˆê•”
 				}
 			}
 		}

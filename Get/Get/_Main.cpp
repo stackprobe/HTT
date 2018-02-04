@@ -58,6 +58,10 @@ static char *Soft503HtmlFile;
 
 int main(int argc, char **argv)
 {
+#if 0 // test
+	Debug_GenerateMimeTypeFile();
+#endif
+
 	errorCase(!existFile(IP_FILE));
 	errorCase(!existFile(RECV_FILE));
 	errorCase(!existFile(SEND_FILE));

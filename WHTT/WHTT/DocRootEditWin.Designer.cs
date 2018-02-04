@@ -82,7 +82,7 @@
 			this.RootDir.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
 			this.RootDir.Name = "RootDir";
 			this.RootDir.ReadOnly = true;
-			this.RootDir.Size = new System.Drawing.Size(428, 31);
+			this.RootDir.Size = new System.Drawing.Size(425, 31);
 			this.RootDir.TabIndex = 3;
 			this.RootDir.Click += new System.EventHandler(this.RootDir_Click);
 			this.RootDir.TextChanged += new System.EventHandler(this.RootDir_TextChanged);
