@@ -24,7 +24,7 @@ namespace Charlotte.Tools
 
 			for (int index = 0; index < minlen; index++)
 			{
-				int ret = Comp(a[0], b[0]);
+				int ret = Comp(a[index], b[index]);
 
 				if (ret != 0)
 					return ret;
