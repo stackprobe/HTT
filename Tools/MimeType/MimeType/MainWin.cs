@@ -53,26 +53,15 @@ namespace Charlotte
 				{
 					file = Consts.MIME_TYPE_FILE;
 				}
-				else if (File.Exists(Consts.MIME_TYPE_FILE_ESCAPED))
-				{
-					file = Consts.MIME_TYPE_FILE_ESCAPED;
-				}
 				else
 				{
-					file = Consts.MIME_TYPE_FILE_DEBUG;
+					file = Consts.MIME_TYPE_FILE_DEBUG; // devenv
 				}
 				using (CsvFileReader reader = new CsvFileReader(file))
 #else
 				if (File.Exists(Consts.MIME_TYPE_FILE) == false)
 				{
-					if (File.Exists(Consts.MIME_TYPE_FILE_ESCAPED))
-					{
-						File.Move(Consts.MIME_TYPE_FILE_ESCAPED, Consts.MIME_TYPE_FILE);
-					}
-					else
-					{
-						File.Copy(Consts.MIME_TYPE_FILE_DEBUG, Consts.MIME_TYPE_FILE); // devenv
-					}
+					File.Copy(Consts.MIME_TYPE_FILE_DEBUG, Consts.MIME_TYPE_FILE); // devenv
 				}
 				using (CsvFileReader reader = new CsvFileReader(Consts.MIME_TYPE_FILE))
 #endif
@@ -241,6 +230,7 @@ namespace Charlotte
 			if (0 <= rowidx)
 			{
 				this.MainSheet.Rows[rowidx].Selected = true;
+				this.MS_ScrollTo(rowidx);
 			}
 		}
 
@@ -253,6 +243,7 @@ namespace Charlotte
 
 			this.MS_Swap(rowidx - 1, rowidx);
 			this.MainSheet.Rows[rowidx - 1].Selected = true;
+			this.MS_ScrollTo(rowidx - 1);
 		}
 
 		private void BtnDown_Click(object sender, EventArgs e)
@@ -264,6 +255,12 @@ namespace Charlotte
 
 			this.MS_Swap(rowidx, rowidx + 1);
 			this.MainSheet.Rows[rowidx + 1].Selected = true;
+			this.MS_ScrollTo(rowidx + 1);
+		}
+
+		private void MS_ScrollTo(int rowidx)
+		{
+			this.MainSheet.FirstDisplayedScrollingRowIndex = Math.Max(0, rowidx - 3);
 		}
 
 		private void BtnSave_Click(object sender, EventArgs e)
@@ -296,8 +293,6 @@ namespace Charlotte
 
 		private void Save()
 		{
-			//File.Delete(Consts.MIME_TYPE_FILE_ESCAPED);
-
 			using (CsvFileWriter writer = new CsvFileWriter(Consts.MIME_TYPE_FILE))
 			{
 				for (int rowidx = 0; rowidx < this.MainSheet.RowCount; rowidx++)

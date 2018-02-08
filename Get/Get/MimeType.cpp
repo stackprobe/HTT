@@ -244,13 +244,15 @@ char *MimeList[][2] =
 
 void Debug_GenerateMimeTypeFile()
 {
-	FILE *fp = fileOpen("C:\\temp\\" MIME_TYPE_FILE "_", "wt");
+	FILE *fp = fileOpen("C:\\temp\\" MIME_TYPE_FILE, "wb");
 
 	for(int index = 0; index < lengthof(MimeList); index++)
 	{
 		writeLine_x(fp, xcout("%s\t%s", MimeList[index][0], MimeList[index][1]));
 	}
 	fileClose(fp);
+
+	system("START C:\\temp");
 }
 
 char *GetMimeType(char *file)

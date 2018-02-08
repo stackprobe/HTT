@@ -36,7 +36,7 @@ namespace Charlotte
 					CheckLogonUserAndTmp();
 
 					if (MessageBox.Show(
-		@"このツールは HTT.exe を停止した状態で実行しなければなりません。
+		@"このツールは HTT.exe を停止した状態で実行して下さい。
 起動して宜しいですか？",
 						APP_TITLE + " / 確認",
 						MessageBoxButtons.OKCancel,
@@ -148,10 +148,7 @@ namespace Charlotte
 
 		private static void CheckAloneExe()
 		{
-			if (
-				File.Exists(Consts.MIME_TYPE_FILE) ||
-				File.Exists(Consts.MIME_TYPE_FILE_ESCAPED)
-				) // リリースに含まれるファイル
+			if (File.Exists(Consts.MIME_TYPE_FILE)) // リリースに含まれるファイル
 				return;
 
 			if (Directory.Exists(@"..\Debug")) // ? devenv

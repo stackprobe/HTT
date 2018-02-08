@@ -22,7 +22,7 @@ namespace Charlotte
 			string ret = buff.ToString();
 
 			if (ret == "")
-				ret = "<error>";
+				ret = "error";
 
 			return ret;
 		}
