@@ -262,7 +262,7 @@ char *GetMimeType(char *file)
 	{
 		char *mimeTypeFile = combine(getSelfDir(), MIME_TYPE_FILE); // g
 
-		if(existFile(mimeTypeFile))
+//		if(existFile(mimeTypeFile))
 		{
 			autoList<char *> *lines = readLines(mimeTypeFile); // g
 
@@ -284,6 +284,7 @@ char *GetMimeType(char *file)
 		}
 	}
 
+	/*
 	for(int index = 0; index < lengthof(MimeList); index++)
 	{
 		if(!_stricmp(ext, MimeList[index][0]))
@@ -292,6 +293,7 @@ char *GetMimeType(char *file)
 		}
 	}
 	return DefaultMimeType;
+	*/
 }
 int IsMimeHtml(char *file)
 {
