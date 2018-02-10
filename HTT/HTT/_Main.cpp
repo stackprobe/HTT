@@ -61,7 +61,8 @@ int main(int argc, char **argv)
 	errorCase_m(lastDiskFree < DiskFreeBootTime, "ハードディスクの空きが不足しています。\n2GB以上の空きが必要です。"); // ? under 2GB
 
 	int portno = 80;
-	char *serviceFile = "..\\..\\TestService.dat";
+//	char *serviceFile = "Service.dat";
+	char *serviceFile = "Service.dat_"; // HTT.exeが引数無しで起動しちゃうのはマズいかなと。。
 
 	if(argIs("/P"))
 	{
