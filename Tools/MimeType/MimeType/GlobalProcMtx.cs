@@ -53,11 +53,14 @@ namespace Charlotte
 					if (ProcMtx.WaitOne(0))
 						break;
 
-					ProcMtx.Close();
-					ProcMtx = null;
+					Program.PostMessage(new Exception());
 				}
-				catch
-				{ }
+				catch (Exception e)
+				{
+					Program.PostMessage(e);
+				}
+
+				CloseProcMtx();
 
 				if (8 < c)
 				{
@@ -89,8 +92,17 @@ namespace Charlotte
 
 		public static void Release()
 		{
-			ProcMtx.ReleaseMutex();
-			ProcMtx.Close();
+			CloseProcMtx();
+		}
+
+		private static void CloseProcMtx()
+		{
+			try { ProcMtx.ReleaseMutex(); }
+			catch { }
+
+			try { ProcMtx.Close(); }
+			catch { }
+
 			ProcMtx = null;
 		}
 	}

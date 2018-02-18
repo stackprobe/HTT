@@ -63,7 +63,7 @@ namespace Charlotte
 
 		public static void PostMessage(object message)
 		{
-			// TODO
+			// noop
 		}
 
 		public const string APP_IDENT = "{9364cbfb-d6d2-4462-ba89-e0273e12504d}";
