@@ -30,15 +30,15 @@ namespace Charlotte
 
 			if (ProcMtx.WaitOne(0) == false)
 			{
+				ProcMtx.Close();
+				ProcMtx = null;
+
 				System.Windows.Forms.MessageBox.Show(
 					"Already started on the other logon session !",
 					title + " / Error",
 					System.Windows.Forms.MessageBoxButtons.OK,
 					System.Windows.Forms.MessageBoxIcon.Error
 					);
-
-				ProcMtx.Close();
-				ProcMtx = null;
 
 				return false;
 			}
@@ -52,6 +52,9 @@ namespace Charlotte
 
 					if (ProcMtx.WaitOne(0))
 						break;
+
+					ProcMtx.Close();
+					ProcMtx = null;
 
 					Program.PostMessage(new Exception());
 				}

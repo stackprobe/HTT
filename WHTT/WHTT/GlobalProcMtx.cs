@@ -58,6 +58,8 @@ namespace Charlotte
 			}
 			catch
 			{
+				Release();
+
 				System.Windows.Forms.MessageBox.Show(
 					"Already started on the other logon session !",
 					title + " / Error",
@@ -73,8 +75,12 @@ namespace Charlotte
 
 		public static void Release()
 		{
-			_globalProcMtx.ReleaseMutex();
-			_globalProcMtx.Close();
+			try { _globalProcMtx.ReleaseMutex(); }
+			catch { }
+
+			try { _globalProcMtx.Close(); }
+			catch { }
+
 			_globalProcMtx = null;
 		}
 	}
