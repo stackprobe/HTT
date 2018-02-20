@@ -143,7 +143,7 @@ void removeDir(char *dir)
 }
 void clearDir(char *dir)
 {
-	for(int c = 0; c < 10; c++)
+	for(int c = 0; c < 50; c++)
 	{
 		autoList<char *> *paths = lss(dir);
 
@@ -155,7 +155,7 @@ void clearDir(char *dir)
 		if(1 <= c)
 		{
 			LOGPOS();
-			Sleep(100 * c);
+			Sleep(c); // 1 + 2 + 3 + ... + 49 == 1225
 		}
 		while(paths->GetCount())
 		{
