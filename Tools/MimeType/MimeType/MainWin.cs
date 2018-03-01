@@ -260,7 +260,7 @@ namespace Charlotte
 
 		private void MS_ScrollTo(int rowidx)
 		{
-			this.MainSheet.FirstDisplayedScrollingRowIndex = Math.Max(0, rowidx - 3);
+			this.MainSheet.FirstDisplayedScrollingRowIndex = Math.Max(0, rowidx - 9);
 		}
 
 		private void BtnSave_Click(object sender, EventArgs e)
