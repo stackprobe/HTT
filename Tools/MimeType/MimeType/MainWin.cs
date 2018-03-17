@@ -39,7 +39,7 @@ namespace Charlotte
 
 			this.MainSheet.ColumnCount = 2;
 			this.MainSheet.Columns[0].HeaderText = "拡張子";
-			this.MainSheet.Columns[1].HeaderText = "MIME Type";
+			this.MainSheet.Columns[1].HeaderText = "MIME Type (Content-Type)";
 
 			this.MainSheet.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
 			this.MainSheet.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
