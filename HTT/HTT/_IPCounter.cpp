@@ -27,7 +27,7 @@ static int CompNode(Node_t *i1, Node_t *i2, void *dummy)
 
 static oneObject(rbtTree_t, rbtCreateTree((int (*)(void *, void *, void *))CompNode, (void (*)(void *, void *))ReleaseNode, NULL), GetTree)
 
-static Node_t *GetFerret(char *ip)
+static Node_t *GetTarget(char *ip)
 {
 	static Node_t i;
 
@@ -37,7 +37,7 @@ static Node_t *GetFerret(char *ip)
 }
 void IncrementIPCount(char *ip)
 {
-	if(!rbtHasElement(GetTree(), GetFerret(ip)))
+	if(!rbtHasElement(GetTree(), GetTarget(ip)))
 	{
 		rbtAddElement(GetTree(), CreateNode(ip));
 	}
@@ -45,7 +45,7 @@ void IncrementIPCount(char *ip)
 }
 int GetIPCount(char *ip)
 {
-	if(!rbtHasElement(GetTree(), GetFerret(ip)))
+	if(!rbtHasElement(GetTree(), GetTarget(ip)))
 	{
 		return 0;
 	}
@@ -53,7 +53,7 @@ int GetIPCount(char *ip)
 }
 void DecrementIPCount(char *ip)
 {
-	Node_t *i = (Node_t *)rbtGetElement(GetTree(), GetFerret(ip));
+	Node_t *i = (Node_t *)rbtGetElement(GetTree(), GetTarget(ip));
 
 	errorCase(i->Count < 1);
 	i->Count--;

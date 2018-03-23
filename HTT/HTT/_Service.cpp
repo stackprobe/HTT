@@ -180,10 +180,10 @@ void LoadServiceFile(char *serviceFile)
 Service_t *GetService(char *name)
 {
 	errorCase(!name);
-	static Service_t ferret;
-	ferret.Name = name;
+	static Service_t target;
+	target.Name = name;
 
-	int index = ServiceList->BinSearch(CompServiceName, &ferret);
+	int index = ServiceList->BinSearch(CompServiceName, &target);
 
 	if(index == -1) // ? not found
 		return NULL;
