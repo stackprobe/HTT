@@ -483,7 +483,7 @@ transmission:
 				if(GetResStatus() == RS_RED)
 				{
 					cout("RED_TRANS_BREAK\n");
-					ConnectList->Shuffle();
+					ConnectList->Shuffle_7();
 					goto forceDisconnection;
 				}
 				if(index == 2 && connFlag) // 暫定_大量接続対策
@@ -529,7 +529,7 @@ transmission:
 					index--;
 				}
 			}
-			ConnectList->Shuffle(); // 順序による何らかの偏りを懸念...
+			ConnectList->Shuffle_7(); // 順序による何らかの偏りを懸念...
 		}
 		if(nextPeriodExecTime < now()) // ? 定期的なサービスの空実行
 		{

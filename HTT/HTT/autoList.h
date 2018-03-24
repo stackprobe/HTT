@@ -264,11 +264,23 @@ public:
 		memFree(rotArea);
 	}
 	*/
+	void Shuffle_7()
+	{
+		if(7 <= this->Count)
+		{
+			for(int index = 0; index < 7; index++)
+			{
+				this->Swap(index, getCryptoRand() % this->Count);
+			}
+		}
+		else
+			this->Shuffle();
+	}
 	void Shuffle()
 	{
-		for(int bound = this->Count; 2 <= bound; bound--)
+		for(int range = this->Count; 2 <= range; range--)
 		{
-			this->Swap(bound - 1, getCryptoRand() % bound);
+			this->Swap(range - 1, getCryptoRand() % range);
 		}
 	}
 
