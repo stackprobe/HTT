@@ -46,25 +46,13 @@ namespace Charlotte
 
 			try
 			{
-#if false
-				string file;
-
-				if (File.Exists(Consts.MIME_TYPE_FILE))
-				{
-					file = Consts.MIME_TYPE_FILE;
-				}
-				else
-				{
-					file = Consts.MIME_TYPE_FILE_DEBUG; // devenv
-				}
-				using (CsvFileReader reader = new CsvFileReader(file))
-#else
+#if DEBUG
 				if (File.Exists(Consts.MIME_TYPE_FILE) == false)
 				{
-					File.Copy(Consts.MIME_TYPE_FILE_DEBUG, Consts.MIME_TYPE_FILE); // devenv
+					File.Copy(Consts.MIME_TYPE_FILE_DEBUG, Consts.MIME_TYPE_FILE);
 				}
-				using (CsvFileReader reader = new CsvFileReader(Consts.MIME_TYPE_FILE))
 #endif
+				using (CsvFileReader reader = new CsvFileReader(Consts.MIME_TYPE_FILE))
 				{
 					for (; ; )
 					{
@@ -217,6 +205,18 @@ namespace Charlotte
 				MessageBox.Show(
 					this,
 					"選択してね。",
+					"削除できません",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning
+					);
+
+				return;
+			}
+			if (this.MainSheet.RowCount == 1)
+			{
+				MessageBox.Show(
+					this,
+					"リストを空にすることは出来ません。",
 					"削除できません",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Warning
