@@ -36,7 +36,7 @@ namespace Charlotte
 					CheckLogonUserAndTmp();
 
 					if (MessageBox.Show(
-		@"このツールは HTT.exe を停止した状態で実行して下さい。
+@"このツールは HTT.exe を停止した状態で実行して下さい。
 起動して宜しいですか？",
 						APP_TITLE + " / 確認",
 						MessageBoxButtons.OKCancel,
