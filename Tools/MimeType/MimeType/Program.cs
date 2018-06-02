@@ -52,9 +52,8 @@ namespace Charlotte
 						Application.Run(new MainWin());
 
 						// < orig
-
-						GlobalProcMtx.Release();
 					}
+					GlobalProcMtx.Release();
 				}
 				procMutex.ReleaseMutex();
 			}
