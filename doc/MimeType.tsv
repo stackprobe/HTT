@@ -65,6 +65,7 @@ jpe	image/jpeg
 jpeg	image/jpeg
 jpg	image/jpeg
 js	application/x-javascript
+json	application/json
 latex	application/x-latex
 lha	application/octet-stream
 lsf	video/x-la-asf

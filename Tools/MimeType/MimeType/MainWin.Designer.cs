@@ -40,6 +40,9 @@
 			this.BtnDelete = new System.Windows.Forms.Button();
 			this.BtnAdd = new System.Windows.Forms.Button();
 			this.BtnEdit = new System.Windows.Forms.Button();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.拡張子でソートSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mIMETypeでソートTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.MainSheet)).BeginInit();
 			this.MainSheetMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -63,18 +66,23 @@
 			this.MainSheet.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.MainSheet.Size = new System.Drawing.Size(454, 437);
 			this.MainSheet.TabIndex = 0;
+			this.MainSheet.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainSheet_CellContentClick);
+			this.MainSheet.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainSheet_CellDoubleClick);
 			// 
 			// MainSheetMenu
 			// 
 			this.MainSheetMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.選択解除CToolStripMenuItem});
+            this.選択解除CToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.拡張子でソートSToolStripMenuItem,
+            this.mIMETypeでソートTToolStripMenuItem});
 			this.MainSheetMenu.Name = "MainSheetMenu";
-			this.MainSheetMenu.Size = new System.Drawing.Size(138, 26);
+			this.MainSheetMenu.Size = new System.Drawing.Size(185, 98);
 			// 
 			// 選択解除CToolStripMenuItem
 			// 
 			this.選択解除CToolStripMenuItem.Name = "選択解除CToolStripMenuItem";
-			this.選択解除CToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+			this.選択解除CToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.選択解除CToolStripMenuItem.Text = "選択解除(&C)";
 			this.選択解除CToolStripMenuItem.Click += new System.EventHandler(this.選択解除CToolStripMenuItem_Click);
 			// 
@@ -155,6 +163,25 @@
 			this.BtnEdit.UseVisualStyleBackColor = true;
 			this.BtnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 6);
+			// 
+			// 拡張子でソートSToolStripMenuItem
+			// 
+			this.拡張子でソートSToolStripMenuItem.Name = "拡張子でソートSToolStripMenuItem";
+			this.拡張子でソートSToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.拡張子でソートSToolStripMenuItem.Text = "拡張子でソート(&S)";
+			this.拡張子でソートSToolStripMenuItem.Click += new System.EventHandler(this.拡張子でソートSToolStripMenuItem_Click);
+			// 
+			// mIMETypeでソートTToolStripMenuItem
+			// 
+			this.mIMETypeでソートTToolStripMenuItem.Name = "mIMETypeでソートTToolStripMenuItem";
+			this.mIMETypeでソートTToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.mIMETypeでソートTToolStripMenuItem.Text = "MIME Type でソート(&T)";
+			this.mIMETypeでソートTToolStripMenuItem.Click += new System.EventHandler(this.mIMETypeでソートTToolStripMenuItem_Click);
+			// 
 			// MainWin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -197,6 +224,9 @@
 		private System.Windows.Forms.Button BtnEdit;
 		private System.Windows.Forms.ContextMenuStrip MainSheetMenu;
 		private System.Windows.Forms.ToolStripMenuItem 選択解除CToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem 拡張子でソートSToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mIMETypeでソートTToolStripMenuItem;
 	}
 }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Charlotte.Tools;
+using System.Collections;
 
 namespace Charlotte
 {
@@ -307,6 +308,67 @@ namespace Charlotte
 		private void BtnClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void MainSheet_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			// noop
+		}
+
+		private void MainSheet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex == -1)
+			{
+				this.MS_Sort(e.ColumnIndex);
+			}
+		}
+
+		private void MS_Sort(int colidx)
+		{
+			if (colidx == 0)
+			{
+				this.MS_Sort((a, b) => StringTools.CompIgnoreCase(
+					"" + a.Cells[0].Value,
+					"" + b.Cells[0].Value
+					));
+			}
+			else if (colidx == 1)
+			{
+				this.MS_Sort((a, b) => StringTools.CompIgnoreCase(
+					a.Cells[1].Value + "\t" + a.Cells[0].Value,
+					b.Cells[1].Value + "\t" + b.Cells[0].Value
+					));
+			}
+		}
+
+		private void MS_Sort(Comparison<DataGridViewRow> comp)
+		{
+			this.MainSheet.Sort(new MS_Comp()
+			{
+				Comp = comp,
+			});
+
+			this.MainSheet.ClearSelection();
+		}
+
+		private class MS_Comp : IComparer
+		{
+			public Comparison<DataGridViewRow> Comp;
+
+			public int Compare(object a, object b)
+			{
+				return Comp((DataGridViewRow)a, (DataGridViewRow)b);
+			}
+		}
+
+		private void 拡張子でソートSToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.MS_Sort(0);
+		}
+
+		private void mIMETypeでソートTToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.MS_Sort(1);
 		}
 	}
 }
