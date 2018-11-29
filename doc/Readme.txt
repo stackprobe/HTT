@@ -1,138 +1,138 @@
 ===============================================================================
 
-�@�h���C�����ƂɃT�C�g�𗧂Ă���ȈՂg�s�s�o�T�[�o�[
+　ドメインごとにサイトを立てられる簡易ＨＴＴＰサーバー
 
 ===============================================================================
 
 
-���\�t�g�̊T�v
+■ソフトの概要
 
-�@�V���v���Ȃg�s�s�o�T�[�o�[�ł��B
-�@�f�d�s�i�y�[�W��\��������A�t�@�C�����_�E�����[�h�����肷�邾���j�����ł��܂��񂪁A
-�@�ώG�Ȑݒ�����邱�ƂȂ��A�ȒP�ɃT�[�o�[�𗧂Ă邱�Ƃ��ł��܂��B
+　シンプルなＨＴＴＰサーバーです。
+　ＧＥＴ（ページを表示したり、ファイルをダウンロードしたりするだけ）しかできませんが、
+　煩雑な設定をすることなく、簡単にサーバーを立てることができます。
 
-�@����������Ȃ��ȂƎv�����̂ŁA�h���C�����ƂɈقȂ�T�C�g��ݒu�ł���悤�ɂ��܂����B
-�@�O���[�o���h�o��������Ȃ��Ă��A�擾�����h���C���̐������T�C�g�𗧂Ă��܂��B
-
-
-�������
-
-�@Windows 10
-�@�m�F���Ă��܂��� Windows 7/8/8.1 �ł�������������܂���B
-
-�@.NET Framework 4 ���g�p���܂��B
+　何か物足りないなと思ったので、ドメインごとに異なるサイトを設置できるようにしました。
+　グローバルＩＰが一つしかなくても、取得したドメインの数だけサイトを立てられます。
 
 
-���C���X�g�[�����@
+■動作環境
 
-�@�A�[�J�C�u�̒��g�����[�J���f�B�X�N��̔C�ӂ̏ꏊ�ɃR�s�[���ĉ������B
+　Windows 10
+　確認していませんが Windows 7/8/8.1 でも動くかもしれません。
 
-
-���A���C���X�g�[�����@
-
-�@���W�X�g���Ȃǂ͈�؎g���Ă��܂���B
-�@�t�@�C�����폜���邾���ŃA���C���X�g�[���ł��܂��B
+　.NET Framework 4 を使用します。
 
 
-���g����
+■インストール方法
 
-�@WHTT.exe �����s����ƃT�[�o�[���N�����܂��B
-
-�@�u���E�U����ȉ��̂t�q�k���J���Ă݂ĉ������B
-
-�@�@http://localhost/
-�@�@http://127.0.0.1/
-�@�@http://127.0.0.2/
-
-�@���ꂼ��قȂ�y�[�W���\�����ꂽ��N���͐����ł��B
+　アーカイブの中身をローカルディスク上の任意の場所にコピーして下さい。
 
 
-�@�����j���[�̐���
+■アンインストール方法
 
-�@�@�A�v���P�[�V���� / �J�n ... ��~�����T�[�o�[���ċN�����܂��B
-�@�@�A�v���P�[�V���� / ��~ ... �T�[�o�[���~���܂��B
-�@�@�A�v���P�[�V���� / �I�� ... �T�[�o�[���~���āA�v���O�������I�����܂��B
-�@�@�ݒ� / �|�[�g�ԍ�       ... �|�[�g�ԍ���ύX���܂��B
-�@�@�ݒ� / ���J�t�H���_     ... ���J�t�H���_��ύX���܂��B
-�@�@�c�[�� / �A�N�Z�X���O   ... �A�N�Z�X���O��\�����܂��B
-
-�@�����J�t�H���_�̐ݒ�
-
-�@�@���X�g�ɂ́u�h���C���� ==> �Ή�����f�B���N�g���v�̌`�ŕ\������܂��B
-�@�@�o�^����Ă��Ȃ��h���C�����ŃA�N�Z�X���ꂽ�ꍇ�Adefault �ɑΉ�����f�B���N�g�����g�p����܂��B
-
-�@�@�Ⴆ�� happy-tea-time ==> C:\HTT\DocRoot �Ɠo�^�����ꍇ�A
-�@�@http://happy-tea-time/sub/abc.txt �Ƃ������N�G�X�g�� C:\HTT\DocRoot\sub\abc.txt �Ƃ����t�@�C���̎擾�ɂȂ�܂��B
-
-�@�@�܂� default ==> C:\Assam �Ɠo�^�� darjeeling-tea �Ƃ����h���C����o�^���Ă��Ȃ��ꍇ�A
-�@�@http://darjeeling-tea/orange-pekoe.html �Ƃ������N�G�X�g�� C:\Assam\orange-pekoe.html �Ƃ����t�@�C���̎擾�ɂȂ�܂��B
-
-�@�@�h���C�������ǂ��w�肵�ėǂ���������Ȃ��ꍇ�́A�A�N�Z�X���O�� Host:"�z�X�g��" �ɍ��킹�Ă݂ĉ������B
-�@�@�Ⴆ�� Host:"earlgray" �Ƃ������N�G�X�g�́A�h���C���� earlgray �ɑΉ����܂��B
-
-�@�@�h���C�����ɕ�����K�v���Ȃ��ꍇ�́Adefault �̂ݓo�^���Ă��g���������B
-
-�@���A�N�Z�X���O
-
-�@�@���O�̃f�[�^�T�C�Y�͒����傫���Ȃ�܂����A���悻�Q�O�O�j�a�𒴂��邱�Ƃ͂���܂���B
-�@�@�i�Q�O�O�j�a�𒴂������ɁA�Â�������P�O�O�j�a�폜���܂��j
-
-�@�@���t�H�[�}�b�g�iWHTT.exe ���猩���ꍇ�j
-
-�@�@�@���t�Ǝ��� �N���C�A���gIP "���N�G�X�g" Host:"�z�X�g��" User-Agent:"���[�U�[�G�[�W�F���g"
-�@�@�@Domain:"�R�t����ꂽ�h���C����" Target-Path:"�A�N�Z�X��̃��[�J���p�X"
-�@�@�@Status: �X�e�[�^�X�R�[�h
-
-�@�@�@�t�H�[�}�b�g��ύX����ɂ� WHTT_AccessLogFormat.conf �����������ĉ������B
-�@�@�@WHTT_AccessLogFormat.conf �̏����͈ȉ��̂Ƃ���B
-
-�@�@�@�@�����R�[�h       ... Shift_JIS
-�@�@�@�@�u�������p�^�[�� ...
-
-�@�@�@�@�@$TimeStamp  ... ���t�Ǝ���
-�@�@�@�@�@$ClientIP   ... �N���C�A���gIP
-�@�@�@�@�@$Request    ... ���N�G�X�g
-�@�@�@�@�@$Host       ... �z�X�g��
-�@�@�@�@�@$UserAgent  ... ���[�U�[�G�[�W�F���g
-�@�@�@�@�@$Domain     ... �R�t����ꂽ�h���C����
-�@�@�@�@�@$TargetPath ... �A�N�Z�X��̃��[�J���p�X
-�@�@�@�@�@$Status     ... �X�e�[�^�X�R�[�h
+　レジストリなどは一切使っていません。
+　ファイルを削除するだけでアンインストールできます。
 
 
-������
+■使い方
 
-�@�N�����Ɉȉ��̏����𖞂����K�v������܂��B
+　WHTT.exe を実行するとサーバーが起動します。
 
-�@�@�����������̋󂫁@�Q�O�O�l�a�ȏ�
-�@�@�����������̋󂫁@�Q�O�p�[�Z���g�ȏ�
-�@�@�n�[�h�f�B�X�N�̋󂫗̈�@�Q�f�a�ȏ�@��1
+　ブラウザから以下のＵＲＬを開いてみて下さい。
 
-�@�ȉ��̂����ꂩ�̏�ԂɂȂ�ƁA�V�����ڑ��𐧌����܂��B
+　　http://localhost/
+　　http://127.0.0.1/
+　　http://127.0.0.2/
 
-�@�@�����������̋󂫁@�c��P�T�O�l�a�ȉ�
-�@�@�����������̋󂫁@�c��P�T�p�[�Z���g�ȉ�
-�@�@�n�[�h�f�B�X�N�̋󂫗̈�@�c��P�D�T�f�a�ȉ��@��1
-
-�@�ȉ��̂����ꂩ�̏�ԂɂȂ�ƁA�S�Ă̐ڑ���ؒf���đҋ@��ԂɂȂ�܂��B
-
-�@�@�����������̋󂫁@�c��P�O�O�l�a�ȉ�
-�@�@�����������̋󂫁@�c��P�O�p�[�Z���g�ȉ�
-�@�@�n�[�h�f�B�X�N�̋󂫗̈�@�c��P�f�a�ȉ��@��1
-
-�@�����h�o�A�h���X����̍ő哯���ڑ����Q�O�ɐ������Ă��܂��B
+　それぞれ異なるページが表示されたら起動は成功です。
 
 
-�@��1 ���ϐ� TMP ���w���h���C�u
+　●メニューの説明
+
+　　アプリケーション / 開始 ... 停止したサーバーを再起動します。
+　　アプリケーション / 停止 ... サーバーを停止します。
+　　アプリケーション / 終了 ... サーバーを停止して、プログラムを終了します。
+　　設定 / ポート番号       ... ポート番号を変更します。
+　　設定 / 公開フォルダ     ... 公開フォルダを変更します。
+　　ツール / アクセスログ   ... アクセスログを表示します。
+
+　●公開フォルダの設定
+
+　　リストには「ドメイン名 ==> 対応するディレクトリ」の形で表示されます。
+　　登録されていないドメイン名でアクセスされた場合、default に対応するディレクトリが使用されます。
+
+　　例えば happy-tea-time ==> C:\HTT\DocRoot と登録した場合、
+　　http://happy-tea-time/sub/abc.txt というリクエストは C:\HTT\DocRoot\sub\abc.txt というファイルの取得になります。
+
+　　また default ==> C:\Assam と登録し darjeeling-tea というドメインを登録していない場合、
+　　http://darjeeling-tea/orange-pekoe.html というリクエストは C:\Assam\orange-pekoe.html というファイルの取得になります。
+
+　　ドメイン名をどう指定して良いか分からない場合は、アクセスログの Host:"ホスト名" に合わせてみて下さい。
+　　例えば Host:"earlgray" というリクエストは、ドメイン名 earlgray に対応します。
+
+　　ドメイン毎に分ける必要がない場合は、default のみ登録してお使い下さい。
+
+　●アクセスログ
+
+　　ログのデータサイズは逐次大きくなりますが、およそ２００ＫＢを超えることはありません。
+　　（２００ＫＢを超えた頃に、古い方から１００ＫＢ削除します）
+
+　　▼フォーマット（WHTT.exe から見た場合）
+
+　　　日付と時刻 クライアントIP "リクエスト" Host:"ホスト名" User-Agent:"ユーザーエージェント"
+　　　Domain:"紐付けられたドメイン名" Target-Path:"アクセス先のローカルパス"
+　　　Status: ステータスコード
+
+　　　フォーマットを変更するには WHTT_AccessLogFormat.conf を書き換えて下さい。
+　　　WHTT_AccessLogFormat.conf の書式は以下のとおり。
+
+　　　　文字コード       ... Shift_JIS
+　　　　置き換えパターン ...
+
+　　　　　$TimeStamp  ... 日付と時刻
+　　　　　$ClientIP   ... クライアントIP
+　　　　　$Request    ... リクエスト
+　　　　　$Host       ... ホスト名
+　　　　　$UserAgent  ... ユーザーエージェント
+　　　　　$Domain     ... 紐付けられたドメイン名
+　　　　　$TargetPath ... アクセス先のローカルパス
+　　　　　$Status     ... ステータスコード
 
 
-����舵�����
+■制限
 
-�@�t���[�\�t�g
+　起動時に以下の条件を満たす必要があります。
+
+　　物理メモリの空き　２００ＭＢ以上
+　　物理メモリの空き　２０パーセント以上
+　　ハードディスクの空き領域　２ＧＢ以上　※1
+
+　以下のいずれかの状態になると、新しい接続を制限します。
+
+　　物理メモリの空き　残り１５０ＭＢ以下
+　　物理メモリの空き　残り１５パーセント以下
+　　ハードディスクの空き領域　残り１．５ＧＢ以下　※1
+
+　以下のいずれかの状態になると、全ての接続を切断して待機状態になります。
+
+　　物理メモリの空き　残り１００ＭＢ以下
+　　物理メモリの空き　残り１０パーセント以下
+　　ハードディスクの空き領域　残り１ＧＢ以下　※1
+
+　同じＩＰアドレスからの最大同時接続を２０に制限しています。
 
 
-����҂ւ̘A����
+　※1 環境変数 TMP が指すドライブ
 
-�@stackprobes@gmail.com
 
-�@�o�O��v�]�Ȃǂ��A�����������B
+■取り扱い種別
+
+　フリーソフト
+
+
+■作者への連絡先
+
+　stackprobes@gmail.com
+
+　バグや要望などご連絡ください。
 
