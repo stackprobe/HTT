@@ -37,7 +37,7 @@ namespace WHTT
 		public int MainWin_W = int.MinValue;
 		public int MainWin_H = int.MinValue;
 		public bool KeepWinPosFlag = true; // 隠しモード
-		
+
 		public readonly int DOMAIN_INFO_NUM_MIN = 1;
 		public readonly int DOMAIN_INFO_NUM_MAX = 1000;
 
@@ -125,6 +125,11 @@ namespace WHTT
 			}
 			catch
 			{ }
+		}
+
+		public bool Is初回起動()
+		{
+			return File.Exists("WHTT.dat") == false; // ? SaveData()を1度も実行していない。
 		}
 	}
 

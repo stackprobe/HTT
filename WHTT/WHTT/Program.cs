@@ -31,6 +31,8 @@ namespace WHTT
 				CheckSelfDir();
 				CheckCopiedExe();
 
+				Tools.AntiWindowsDefenderSmartScreen();
+
 				// サーバー起動中 (HTT 実行中) に WHTT を強制終了すると HTT が残ったままになる。
 				// 強制終了以外止める術がないので、ここで終了させる。
 				HTTProc.EndProc_EventSetPerform();
