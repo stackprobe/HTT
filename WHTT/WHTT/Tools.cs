@@ -124,8 +124,10 @@ namespace WHTT
 						}
 						WriteLog("awdss_OK");
 					}
-					catch
-					{ }
+					catch (Exception e)
+					{
+						WriteLog(e);
+					}
 				}
 				WriteLog("awdss_3");
 			}
@@ -133,19 +135,16 @@ namespace WHTT
 		}
 
 		private static string LogFile = null;
+		private static long WL_Count = 0;
 
 		public static void WriteLog(object message)
 		{
 			try
 			{
 				if (LogFile == null)
-				{
 					LogFile = Path.Combine(BootTools.SelfDir, Path.GetFileNameWithoutExtension(BootTools.SelfFile) + ".log");
 
-					File.Delete(LogFile);
-				}
-
-				using (StreamWriter writer = new StreamWriter(LogFile, true, Encoding.UTF8))
+				using (StreamWriter writer = new StreamWriter(LogFile, WL_Count++ % 1000 != 0, Encoding.UTF8))
 				{
 					writer.WriteLine("[" + DateTime.Now + "] " + message);
 				}
