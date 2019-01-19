@@ -32,6 +32,11 @@ namespace WHTT
 			this.MinimumSize = this.Size;
 		}
 
+		private void DocRootEditWin_Shown(object sender, EventArgs e)
+		{
+			Tools.PostShown(this);
+		}
+
 		private void RootDir_Click(object sender, EventArgs e)
 		{
 			// noop

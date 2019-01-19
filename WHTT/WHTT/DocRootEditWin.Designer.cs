@@ -134,6 +134,7 @@
 			this.Text = "公開フォルダの編集";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DocRootEditWin_FormClosed);
 			this.Load += new System.EventHandler(this.DocRootEditWin_Load);
+			this.Shown += new System.EventHandler(this.DocRootEditWin_Shown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

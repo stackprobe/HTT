@@ -152,6 +152,42 @@ namespace WHTT
 			catch
 			{ }
 		}
+
+		public static void PostShown(Form f)
+		{
+			foreach (Control control in f.Controls)
+			{
+				TextBox tb = control as TextBox;
+
+				if (tb != null)
+				{
+					if (tb.ContextMenuStrip == null)
+					{
+						ContextMenuStrip menu = new ContextMenuStrip();
+
+						menu.Items.Add("全て選択(&A)", null, (sender, e) => { tb.Focus(); tb.SelectAll(); });
+						menu.Items.Add("選択範囲をコピー(&C)", null, (sender, e) => { tb.Focus(); CopyToClipboard(tb); });
+
+						tb.ContextMenuStrip = menu;
+					}
+				}
+			}
+		}
+
+		public static void CopyToClipboard(TextBox tb)
+		{
+			try
+			{
+				string text = tb.SelectedText;
+
+				if (text == "")
+					Clipboard.Clear();
+				else
+					Clipboard.SetText(text);
+			}
+			catch
+			{ }
+		}
 	}
 
 	public class EventSet

@@ -22,6 +22,11 @@ namespace WHTT
 			this.PortNo.SelectAll();
 		}
 
+		private void PortNoWin_Shown(object sender, EventArgs e)
+		{
+			Tools.PostShown(this);
+		}
+
 		private void PortNo_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)Keys.Enter)

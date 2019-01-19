@@ -26,6 +26,7 @@ namespace WHTT
 		private void LogWin_Shown(object sender, EventArgs e)
 		{
 			this.LoadAccessLog();
+			Tools.PostShown(this);
 			this.MT_Enabled = true;
 		}
 
@@ -155,10 +156,12 @@ namespace WHTT
 		{
 			try
 			{
-				Clipboard.SetText(this.LogText.Text);
+				string text = this.LogText.Text;
 
-				//this.LogText.SelectAll();
-				//this.LogText.Focus();
+				if (text == "")
+					Clipboard.Clear();
+				else
+					Clipboard.SetText(this.LogText.Text);
 			}
 			catch
 			{ }

@@ -60,6 +60,7 @@
 			this.Text = "ポート番号";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PortNoWin_FormClosed);
 			this.Load += new System.EventHandler(this.PortNoWin_Load);
+			this.Shown += new System.EventHandler(this.PortNoWin_Shown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
