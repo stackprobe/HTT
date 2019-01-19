@@ -163,30 +163,19 @@ namespace WHTT
 				{
 					if (tb.ContextMenuStrip == null)
 					{
+						ToolStripMenuItem item = new ToolStripMenuItem();
+
+						item.Text = "項目なし";
+						item.Enabled = false;
+
 						ContextMenuStrip menu = new ContextMenuStrip();
 
-						menu.Items.Add("全て選択(&A)", null, (sender, e) => { tb.Focus(); tb.SelectAll(); });
-						menu.Items.Add("選択範囲をコピー(&C)", null, (sender, e) => { tb.Focus(); CopyToClipboard(tb); });
+						menu.Items.Add(item);
 
 						tb.ContextMenuStrip = menu;
 					}
 				}
 			}
-		}
-
-		public static void CopyToClipboard(TextBox tb)
-		{
-			try
-			{
-				string text = tb.SelectedText;
-
-				if (text == "")
-					Clipboard.Clear();
-				else
-					Clipboard.SetText(text);
-			}
-			catch
-			{ }
 		}
 	}
 
