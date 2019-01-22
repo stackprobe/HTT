@@ -98,6 +98,8 @@ namespace WHTT
 			{ }
 		}
 
+		// sync > @ AntiWindowsDefenderSmartScreen
+
 		public static void AntiWindowsDefenderSmartScreen()
 		{
 			WriteLog("awdss_1");
@@ -134,6 +136,8 @@ namespace WHTT
 			WriteLog("awdss_4");
 		}
 
+		// < sync
+
 		private static string LogFile = null;
 		private static long WL_Count = 0;
 
@@ -152,6 +156,8 @@ namespace WHTT
 			catch
 			{ }
 		}
+
+		// sync > @ PostShown
 
 		public static void PostShown(Form f)
 		{
@@ -177,6 +183,8 @@ namespace WHTT
 				}
 			}
 		}
+
+		// < sync
 	}
 
 	public class EventSet
