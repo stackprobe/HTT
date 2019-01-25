@@ -107,6 +107,27 @@ void unaddCwd(void)
 	setCwd_x(GetCwdStack()->UnaddElement());
 }
 
+// sync > @ My_mkdir
+
+static int My_mkdir(char *dir) // ret: ? é∏îs
+{
+	for(int c = 1; ; c++)
+	{
+		if(_mkdir(dir) == 0) // ? ê¨å˜
+			return 0;
+
+		cout("Failed _mkdir \"%s\", %d-th trial. LastError: %08x\n", dir, c, GetLastError());
+
+		if(10 <= c)
+			break;
+
+		Sleep(100);
+	}
+	return 1;
+}
+
+// < sync
+
 void createFile(char *file)
 {
 	errorCase(m_isEmpty(file));
@@ -115,7 +136,7 @@ void createFile(char *file)
 void createDir(char *dir)
 {
 	errorCase(m_isEmpty(dir));
-	errorCase(_mkdir(dir)); // ? é∏îs
+	errorCase(My_mkdir(dir)); // ? é∏îs
 }
 
 void removeFile(char *file)

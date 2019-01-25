@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Charlotte
 {
+	// sync > @ GlobalProcMtx
+
 	public class GlobalProcMtx
 	{
 		private static System.Threading.Mutex _globalProcMtx;
@@ -84,4 +86,6 @@ namespace Charlotte
 			_globalProcMtx = null;
 		}
 	}
+
+	// < sync
 }

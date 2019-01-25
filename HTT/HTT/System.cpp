@@ -136,7 +136,7 @@ char *getSelfFile(void)
 		errorCase(_stricmp(strchr(fileBuff, '\0') - 4, ".exe"));
 
 		fileBuff = strr(fileBuff);
-	} 
+	}
 	return fileBuff;
 }
 char *getSelfDir(void)
@@ -149,12 +149,33 @@ char *getSelfDir(void)
 	return dirBuff;
 }
 
+// sync > @ My_mkdir
+
+static int My_mkdir(char *dir) // ret: ? é∏îs
+{
+	for(int c = 1; ; c++)
+	{
+		if(_mkdir(dir) == 0) // ? ê¨å˜
+			return 0;
+
+		cout("Failed _mkdir \"%s\", %d-th trial. LastError: %08x\n", dir, c, GetLastError());
+
+		if(10 <= c)
+			break;
+
+		Sleep(100);
+	}
+	return 1;
+}
+
+// < sync
+
 static char *TempRtDir;
 
 char *getTempRtDir(void)
 {
 	static char *&dir = TempRtDir;
-	
+
 	if(!dir)
 	{
 		dir = ConfigTmpDir;
@@ -173,7 +194,7 @@ char *getTempRtDir(void)
 
 		dir = combine_xx(dir, makeUpper(UserAppUUID ? UserAppUUID : APP_UUID));
 		remove(dir); // 2bs
-		_mkdir(dir);
+		My_mkdir(dir);
 		errorCase(!existDir(dir));
 		clearDir(dir);
 	}
