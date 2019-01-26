@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using System.Threading;
-using Microsoft.Win32;
 using System.IO;
 using System.Text;
-using Charlotte;
+using System.Threading;
+using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace WHTT
 {
