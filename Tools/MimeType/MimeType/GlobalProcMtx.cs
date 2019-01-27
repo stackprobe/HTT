@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Windows.Forms;
 
 namespace Charlotte
 {
@@ -9,90 +13,47 @@ namespace Charlotte
 
 	public class GlobalProcMtx
 	{
-		private static System.Threading.Mutex ProcMtx;
+		private static Mutex ProcMtx;
 
-		public static bool Create(string ident, string title)
+		public static bool Create(string procMtxName, string title)
 		{
-#if false
-			System.Security.AccessControl.MutexSecurity security = new System.Security.AccessControl.MutexSecurity();
-
-			security.AddAccessRule(
-				new System.Security.AccessControl.MutexAccessRule(
-					new System.Security.Principal.SecurityIdentifier(
-						System.Security.Principal.WellKnownSidType.WorldSid,
-						null
-						),
-					System.Security.AccessControl.MutexRights.FullControl,
-					System.Security.AccessControl.AccessControlType.Allow
-					)
-				);
-
-			bool createdNew;
-			ProcMtx = new System.Threading.Mutex(false, @"Global\Global_" + ident, out createdNew, security);
-
-			if (ProcMtx.WaitOne(0) == false)
+			try
 			{
-				ProcMtx.Close();
-				ProcMtx = null;
+				MutexSecurity security = new MutexSecurity();
 
-				System.Windows.Forms.MessageBox.Show(
-					"Already started on the other logon session !",
-					title + " / Error",
-					System.Windows.Forms.MessageBoxButtons.OK,
-					System.Windows.Forms.MessageBoxIcon.Error
+				security.AddAccessRule(
+					new MutexAccessRule(
+						new SecurityIdentifier(
+							WellKnownSidType.WorldSid,
+							null
+							),
+						MutexRights.FullControl,
+						AccessControlType.Allow
+						)
 					);
 
-				return false;
+				bool createdNew;
+				ProcMtx = new Mutex(false, @"Global\Global_" + procMtxName, out createdNew, security);
+
+				if (ProcMtx.WaitOne(0))
+					return true;
+
+				ProcMtx.Close();
+				ProcMtx = null;
 			}
-			return true;
-#else
-			for (int c = 0; ; c++)
-			{
-				try
-				{
-					ProcMtx = new System.Threading.Mutex(false, @"Global\Global_" + ident);
+			catch
+			{ }
 
-					if (ProcMtx.WaitOne(0))
-						break;
+			CloseProcMtx();
 
-					ProcMtx.Close();
-					ProcMtx = null;
+			MessageBox.Show(
+				"Already started on the other logon session !",
+				title + " / Error",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error
+				);
 
-					Program.PostMessage(new Exception());
-				}
-				catch (Exception e)
-				{
-					Program.PostMessage(e);
-				}
-
-				CloseProcMtx();
-
-				if (8 < c)
-				{
-					System.Windows.Forms.MessageBox.Show(
-						"Already started on the other logon session !",
-						title + " / Error",
-						System.Windows.Forms.MessageBoxButtons.OK,
-						System.Windows.Forms.MessageBoxIcon.Error
-						);
-
-					return false;
-				}
-
-				{
-					int millis;
-
-					using (System.Security.Cryptography.RNGCryptoServiceProvider cRnd = new System.Security.Cryptography.RNGCryptoServiceProvider())
-					{
-						byte[] crByte = new byte[1];
-						cRnd.GetBytes(crByte);
-						millis = (int)crByte[0];
-					}
-					System.Threading.Thread.Sleep(millis);
-				}
-			}
-			return true;
-#endif
+			return false;
 		}
 
 		public static void Release()
