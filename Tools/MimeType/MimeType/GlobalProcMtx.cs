@@ -7,6 +7,8 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Forms;
 
+// ^ sync @ GlobalProcMtx
+
 namespace Charlotte
 {
 	// sync > @ GlobalProcMtx
