@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+// ^ sync @ BootTools
+
 namespace WHTT
 {
 	// sync > @ BootTools
