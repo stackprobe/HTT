@@ -122,27 +122,21 @@ void unaddCwd(void)
 
 // sync > @ My_mkdir
 
-static int My_mkdir_Accessible(char *path)
-{
-	return _access(path, 0) == 0;
-}
 static int My_mkdir(char *dir) // ret: ? Ž¸”s
 {
-	for(int c = 1; My_mkdir_Accessible(dir); c++)
+#if 1
+	if(CreateDirectory(dir, NULL) == 0) // ? Ž¸”s
 	{
-		if(10 <= c)
-			return 1;
-
-		Sleep(100);
-	}
-	for(int c = 1; _mkdir(dir), My_mkdir_Accessible(dir) == 0; c++)
-	{
-		if(10 <= c)
-			return 1;
-
-		Sleep(100);
+		return 1;
 	}
 	return 0;
+#else
+	if(_mkdir(dir)) // ? Ž¸”s
+	{
+		return 1;
+	}
+	return 0;
+#endif
 }
 
 // < sync
