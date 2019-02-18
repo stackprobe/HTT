@@ -111,16 +111,18 @@ void unaddCwd(void)
 
 static void My_mkdir_WrLog(char *message)
 {
-#if 0
-	char *logFile = xcout("%s_MKDIR.log", getSelfFile());
-	FILE *logFp;
+	cout("%s\n", message);
 
-	logFp = fileOpen(logFile, "at");
-	writeLine(logFp, message);
-	fileClose(logFp);
+	{
+		char *logFile = xcout("%s_MKDIR.log", getSelfFile());
+		FILE *logFp;
 
-	memFree(logFile);
-#endif
+		logFp = fileOpen(logFile, "at");
+		writeLine(logFp, message);
+		fileClose(logFp);
+
+		memFree(logFile);
+	}
 }
 static void My_mkdir_WrLog_x(char *message)
 {
@@ -133,25 +135,24 @@ static int My_mkdir(char *dir) // ret: ? Ž¸”s
 	if(CreateDirectory(dir, NULL) == 0) // ? Ž¸”s
 	{
 		My_mkdir_WrLog_x(xcout("CreateDirectory() failed \"%s\" %u @ %I64d", dir, GetLastError(), time(NULL)));
-
-		Sleep(100);
+		My_mkdir_WrLog("*1");
 
 		for(int c = 0; ; c++)
 		{
-			My_mkdir_WrLog("*1");
+			Sleep(100);
+			My_mkdir_WrLog("*2");
 
 			if(existDir(dir))
 				break;
 
-			My_mkdir_WrLog("*2");
+			My_mkdir_WrLog("*3");
 
 			if(5 <= c)
 			{
-				My_mkdir_WrLog("*2.5");
+				My_mkdir_WrLog("*3.5");
 				return 1;
 			}
-			My_mkdir_WrLog("*3");
-
+			My_mkdir_WrLog("*4");
 			Sleep(100);
 
 			{
@@ -159,10 +160,6 @@ static int My_mkdir(char *dir) // ret: ? Ž¸”s
 				system(command);
 				memFree(command);
 			}
-
-			Sleep(100);
-
-			My_mkdir_WrLog("*4");
 		}
 		My_mkdir_WrLog("*5");
 	}
