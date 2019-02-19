@@ -173,6 +173,18 @@ static void My_mkdir_WrLog_x(char *message)
 	My_mkdir_WrLog(message);
 	memFree(message);
 }
+/*
+	2019.2.18
+	・WHTTR.exe(HTT_RPC)を起動する。
+		WHTTR.exeがHTT.exeを起動する。このとき...
+			WHTTR.exe起動時にWindowsDefenderのSmartScreenが表示されること。
+			AntiWindowsDefenderSmartScreen()によってHTT.exeがWHTTR.exeによって読み込み・削除・書き出しされること。
+	・WindowsDefenderのリアルタイム保護をオフにする。<-- 必須ではないかも。
+	・デスクトップをロックして放置する。
+	この手順で CreateDirectory, _mkdir が稀に失敗する。<-- 1分毎の空実行時の作業ディレクトリの作成。作成可能なはず。
+	失敗した場合 MD で1回リトライすれば成功する模様。
+	Sleepと5回のリトライは念の為。
+*/
 static int My_mkdir(char *dir) // ret: ? 失敗
 {
 #if 1
