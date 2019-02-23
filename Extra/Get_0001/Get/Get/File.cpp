@@ -113,6 +113,7 @@ static void My_mkdir_WrLog(char *message)
 {
 	cout("%s\n", message);
 
+#if 0
 	{
 		char *logFile = xcout("%s_MKDIR.log", getSelfFile());
 		FILE *logFp;
@@ -123,6 +124,7 @@ static void My_mkdir_WrLog(char *message)
 
 		memFree(logFile);
 	}
+#endif
 }
 static void My_mkdir_WrLog_x(char *message)
 {
