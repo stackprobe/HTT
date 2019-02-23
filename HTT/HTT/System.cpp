@@ -323,6 +323,10 @@ static DWORD GetTickCount_TEST(void)
 }
 #define GetTickCount() GetTickCount_TEST()
 #endif
+#if 1
+#define NowTick() \
+	GetTickCount64()
+#else
 static uint64 NowTick(void)
 {
 	uint currTick = GetTickCount();
@@ -354,6 +358,7 @@ static uint64 NowTick(void)
 	lastRetTick = retTick;
 	return retTick;
 }
+#endif
 uint64 getNowTick()
 {
 	return NowTick();
