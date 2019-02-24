@@ -2,8 +2,8 @@
 
 /*
 	ret:
-		     if メモリ空き < 100MB || メモリ空き < 10% || ディスク空き < 1GB   then return RS_RED
-		else if メモリ空き < 150MB || メモリ空き < 15% || ディスク空き < 1.5GB then return RS_YELLOW
+		     if メモリ空き < 1GB   || メモリ空き < 10% || ディスク空き < 1GB   then return RS_RED
+		else if メモリ空き < 1.5GB || メモリ空き < 15% || ディスク空き < 1.5GB then return RS_YELLOW
 		else                                                                  return RS_GREEN
 */
 static ResStatus_t GetResStatus2(void)
@@ -23,7 +23,7 @@ static ResStatus_t GetResStatus2(void)
 
 	{
 		int &peak = HiMemoryLoadPeak;
-		int hml = (int)lastMemoryLoad;
+		int hml = (int)(100 - lastMemoryFreePercent);
 
 		if(peak < hml)
 		{
@@ -32,7 +32,7 @@ static ResStatus_t GetResStatus2(void)
 		}
 	}
 
-	if(lastMemoryFree < 100000000 || 90 < lastMemoryLoad) // ? under 100MB || over 90%
+	if(lastMemoryFree < MemFreeRed && lastMemoryFreePercent < MemFreePercentRed)
 		return RS_RED;
 
 	updateDiskSpace(getTempRtDir()[0]);
@@ -48,10 +48,10 @@ static ResStatus_t GetResStatus2(void)
 		}
 	}
 
-	if(lastDiskFree < DiskFreeRed) // ? under 1GB
+	if(lastDiskFree < DiskFreeRed)
 		return RS_RED;
 
-	if(lastDiskFree < DiskFreeYellow || lastMemoryFree < 150000000 || 85 < lastMemoryLoad) // ? under 1.5GB || under 150MB || over 85%
+	if(lastDiskFree < DiskFreeYellow || lastMemoryFree < MemFreeYellow && lastMemoryFreePercent < MemFreePercentYellow)
 		return RS_YELLOW;
 
 	return RS_GREEN;

@@ -1,6 +1,6 @@
 #include "all.h"
 
-uint lastMemoryLoad; // パーセント(0 - 100)
+uint lastMemoryFreePercent;
 uint64 lastMemoryFree;
 uint64 lastMemorySize;
 uint64 lastPageFileFree;
@@ -15,7 +15,7 @@ void updateMemory(void)
 
 	errorCase(!GlobalMemoryStatusEx(&ms)); // ? 失敗
 
-	lastMemoryLoad = (uint)ms.dwMemoryLoad;
+	lastMemoryFreePercent = 100 - (uint)ms.dwMemoryLoad;
 	lastMemoryFree = (uint64)ms.ullAvailPhys;
 	lastMemorySize = (uint64)ms.ullTotalPhys;
 	lastPageFileFree = (uint64)ms.ullAvailPageFile;

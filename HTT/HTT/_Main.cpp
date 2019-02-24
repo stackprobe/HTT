@@ -55,10 +55,13 @@ int main(int argc, char **argv)
 	LoadConfig();
 
 	updateMemory();
-	errorCase_m(lastMemoryFree < 200000000, "物理メモリの空きが不足しています。\n200MB以上の空きが必要です。"); // ? under 200MB
-	errorCase_m(80 < lastMemoryLoad, "物理メモリの空きが不足しています。\n20%以上の空きが必要です。"); // ? over 80%
+	int memFreeNg = lastMemoryFree < MemFreeBootTime;
+	int memFreePercentNg = lastMemoryFreePercent < MemFreePercentBootTime;
+	cout("memFreeNg: %d\n", memFreeNg);
+	cout("memFreePercentNg: %d\n", memFreePercentNg);
+	errorCase_m(memFreeNg && memFreePercentNg, "物理メモリの空きが不足しています。\n2GB以上の空き又は20%以上の空きが必要です。");
 	updateDiskSpace(getTempRtDir()[0]);
-	errorCase_m(lastDiskFree < DiskFreeBootTime, "ハードディスクの空きが不足しています。\n2GB以上の空きが必要です。"); // ? under 2GB
+	errorCase_m(lastDiskFree < DiskFreeBootTime, "ハードディスクの空きが不足しています。\n2GB以上の空きが必要です。");
 
 	int portno = 80;
 //	char *serviceFile = "Service.dat";

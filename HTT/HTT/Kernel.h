@@ -1,4 +1,4 @@
-extern uint lastMemoryLoad;
+extern uint lastMemoryFreePercent;
 extern uint64 lastMemoryFree;
 extern uint64 lastMemorySize;
 extern uint64 lastPageFileFree;

@@ -44,3 +44,5 @@ char *addLine_x(char *buffer, char *line);
 
 char *getEnd(char *str, int num);
 char *getEnd(char *str, char *ptn);
+
+int strcmp_xc(char *a, char *b);

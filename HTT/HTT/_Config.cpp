@@ -8,6 +8,12 @@ int ConnectCountMax         = 50000;
 uint64 DiskFreeBootTime = 2000000000;
 uint64 DiskFreeYellow   = 1500000000;
 uint64 DiskFreeRed      = 1000000000;
+uint64 MemFreeBootTime  = 2000000000;
+uint64 MemFreeYellow    = 1500000000;
+uint64 MemFreeRed       = 1000000000;
+uint MemFreePercentBootTime = 20;
+uint MemFreePercentYellow   = 15;
+uint MemFreePercentRed      = 10;
 uint BindINetAddr;
 int TimeWaitEnabled = 1;
 int TimeWaitSec = 120;
@@ -89,6 +95,12 @@ void LoadConfig(void)
 		DiskFreeBootTime        = ToInt_x(ReadConfLine(fp), 100, IMAX);
 		DiskFreeYellow          = ToInt_x(ReadConfLine(fp), 100, (int)DiskFreeBootTime);
 		DiskFreeRed             = ToInt_x(ReadConfLine(fp), 100, (int)DiskFreeYellow);
+		MemFreeBootTime         = ToInt_x(ReadConfLine(fp), 100, IMAX);
+		MemFreePercentBootTime  = ToInt_x(ReadConfLine(fp),   1, 100);
+		MemFreeYellow           = ToInt_x(ReadConfLine(fp), 100, (int)MemFreeBootTime);
+		MemFreePercentYellow    = ToInt_x(ReadConfLine(fp),   1, MemFreePercentBootTime);
+		MemFreeRed              = ToInt_x(ReadConfLine(fp), 100, (int)MemFreeYellow);
+		MemFreePercentRed       = ToInt_x(ReadConfLine(fp),   1, MemFreePercentYellow);
 
 		{
 			char *line = ReadConfLine(fp);
@@ -140,6 +152,7 @@ void LoadConfig(void)
 
 		// ----
 
+		errorCase(strcmp_xc(ReadConfLine(fp), "\\e")); // ? not Terminator
 		errorCase(ReadConfLine(fp, 1)); // ? not EOF
 		fileClose(fp);
 
@@ -162,6 +175,10 @@ void LoadConfig(void)
 			DiskFreeBootTime *= MEGA;
 			DiskFreeYellow   *= MEGA;
 			DiskFreeRed      *= MEGA;
+
+			MemFreeBootTime *= MEGA;
+			MemFreeYellow   *= MEGA;
+			MemFreeRed      *= MEGA;
 		}
 	}
 	memFree(confFile);
@@ -174,6 +191,12 @@ void LoadConfig(void)
 	cout("DiskFreeBootTime: %I64u\n", DiskFreeBootTime);
 	cout("DiskFreeYellow: %I64u\n", DiskFreeYellow);
 	cout("DiskFreeRed: %I64u\n", DiskFreeRed);
+	cout("MemFreeBootTime: %I64u\n", MemFreeBootTime);
+	cout("MemFreeYellow: %I64u\n", MemFreeYellow);
+	cout("MemFreeRed: %I64u\n", MemFreeRed);
+	cout("MemFreePercentBootTime: %u\n", MemFreePercentBootTime);
+	cout("MemFreePercentYellow: %u\n", MemFreePercentYellow);
+	cout("MemFreePercentRed: %u\n", MemFreePercentRed);
 	cout("BindINetAddr: %08x\n", BindINetAddr);
 	cout("TimeWaitEnabled: %d\n", TimeWaitEnabled);
 	cout("TimeWaitSec: %d\n", TimeWaitSec);

@@ -271,3 +271,10 @@ char *getEnd(char *str, char *ptn)
 {
 	return getEnd(str, strlen(ptn));
 }
+
+int strcmp_xc(char *a, char *b)
+{
+	int out = strcmp(a, b);
+	memFree(a);
+	return out;
+}
