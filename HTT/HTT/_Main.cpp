@@ -9,6 +9,19 @@ static void CloseProcMtxHdl(void)
 }
 int main(int argc, char **argv)
 {
+#if 1 // test
+	{
+		static char text[18001];
+
+		for(int c = 0; c < 1000; c++)
+			strcpy(text + c * 18, "<br/>ƒtƒ@ƒCƒ‹<br/>");
+
+//		errorCase(printf("%s", text) < 0);
+		cout("%s", text);
+//		return 0;
+	}
+#endif
+
 #if 0 // test
 	{
 		for(int c = 10009; c; c--) cout("%08x", getCryptoRand());

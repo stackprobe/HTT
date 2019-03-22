@@ -47,38 +47,91 @@ void error2(char *source, int lineno, char *function, char *message)
 	termination(1);
 }
 
+// sync > @ cout
+
 void cout(char *format, ...)
 {
 	va_list marker;
 
 	va_start(marker, format);
-	errorCase(vprintf(format, marker) < 0);
+
+	if(!strcmp(format, "%s"))
+	{
+		coutLongText(va_arg(marker, char *));
+	}
+	else if(!strcmp(format, "%s\n"))
+	{
+		coutLongText(va_arg(marker, char *));
+		coutLongText("\n");
+	}
+	else
+		coutLongText_x(vxcout(format, marker));
+
 	va_end(marker);
 }
 char *xcout(char *format, ...)
 {
-	char *buffer;
-	int size;
+	char *ret;
 	va_list marker;
 
 	va_start(marker, format);
+	ret = vxcout(format, marker);
+	va_end(marker);
 
-	for(size = strlen(format) + 128; ; size *= 2)
+	return ret;
+}
+char *vxcout(char *format, va_list marker)
+{
+	char *buffer;
+
+	for(int size = strlen(format) + 100; ; size *= 2)
 	{
-		buffer = (char *)memAlloc(size + 20);
-		int retval = _vsnprintf(buffer, size + 10, format, marker);
-		buffer[size + 10] = '\0'; // ‹­§“I‚É•Â‚¶‚éB
+		int ret;
 
-		if(0 <= retval && retval <= size)
+#define MARGIN 10
+
+		buffer = (char *)memAlloc(size + MARGIN * 2);
+		ret = _vsnprintf(buffer, size + MARGIN, format, marker);
+
+#undef MARGIN
+
+		if(0 <= ret && ret <= size)
 			break;
 
 		memFree(buffer);
-		errorCase(128 * 1024 * 1024 < size); // anti-overflow
+		errorCase(128 * 1024 * 1024 < size); // ANTI OVER-FLOW
 	}
-	va_end(marker);
-
-	return buffer;
+	return strr(buffer);
 }
+void coutLongText(char *text)
+{
+	coutLongText_x(strx(text));
+}
+void coutLongText_x(char *text)
+{
+	char *p;
+	char *q;
+
+	for(p = text; *p; p = q)
+	{
+		int bkc;
+
+#define FPUTS_TEXT_LMT 100
+
+		for(q = p; *q && ((uint)q - (uint)p) < FPUTS_TEXT_LMT; q += _ismbblead(*q) ? 2 : 1)
+		{}
+
+#undef FPUTS_TEXT_LMT
+
+		bkc = *q;
+		*q = '\0';
+		errorCase(fputs(p, stdout) < 0);
+		*q = bkc;
+	}
+	memFree(text);
+}
+
+// < sync
 
 static int ArgIndex = 1;
 

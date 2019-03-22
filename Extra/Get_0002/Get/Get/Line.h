@@ -1,4 +1,5 @@
 char *strx(char *line);
+char *strr(char *line);
 void strz(char *&buffer, char *line);
 void strz_x(char *&buffer, char *line);
 

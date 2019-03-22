@@ -4,6 +4,10 @@ char *strx(char *line)
 {
 	return strcpy((char *)memAlloc(strlen(line) + 1), line);
 }
+char *strr(char *line)
+{
+	return (char *)memRealloc(line, strlen(line) + 1);
+}
 void strz(char *&buffer, char *line)
 {
 	memFree(buffer);
