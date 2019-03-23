@@ -9,7 +9,7 @@ static void CloseProcMtxHdl(void)
 }
 int main(int argc, char **argv)
 {
-#if 1 // test
+#if 0 // test
 	{
 		static char text[18001];
 
