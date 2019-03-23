@@ -107,29 +107,29 @@ char *vxcout(char *format, va_list marker)
 }
 void coutLongText(char *text)
 {
-	coutLongText_x(strx(text));
-}
-void coutLongText_x(char *text)
-{
+	char format[6]; // max: "%.99s"
 	char *p;
 	char *q;
+	uint d;
 
 	for(p = text; *p; p = q)
 	{
-		int bkc;
+#define PRINT_LMT 98
 
-#define FPUTS_TEXT_LMT 100
-
-		for(q = p; *q && ((uint)q - (uint)p) < FPUTS_TEXT_LMT; q += _ismbblead(*q) ? 2 : 1)
+		for(q = p; *q && (uint)q - (uint)p < PRINT_LMT; q += _ismbblead(*q) ? 2 : 1)
 		{}
 
-#undef FPUTS_TEXT_LMT
+#undef PRINT_LMT
 
-		bkc = *q;
-		*q = '\0';
-		errorCase(fputs(p, stdout) < 0);
-		*q = bkc;
+		d = (uint)q - (uint)p;
+
+		errorCase(sprintf(format, "%%.%us", d) < 0);
+		errorCase(printf(format, p) != d);
 	}
+}
+void coutLongText_x(char *text)
+{
+	coutLongText(text);
 	memFree(text);
 }
 
