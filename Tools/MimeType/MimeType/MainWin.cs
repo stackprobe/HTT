@@ -42,8 +42,8 @@ namespace Charlotte
 			this.MainSheet.Columns[0].HeaderText = "拡張子";
 			this.MainSheet.Columns[1].HeaderText = "MIME Type (Content-Type)";
 
-			this.MainSheet.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-			this.MainSheet.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+			this.MainSheet.Columns[0].SortMode = DataGridViewColumnSortMode.Programmatic;
+			this.MainSheet.Columns[1].SortMode = DataGridViewColumnSortMode.Programmatic;
 
 			try
 			{
@@ -310,12 +310,7 @@ namespace Charlotte
 			this.Close();
 		}
 
-		private void MainSheet_CellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-			// noop
-		}
-
-		private void MainSheet_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.RowIndex == -1)
 			{
@@ -325,20 +320,39 @@ namespace Charlotte
 
 		private void MS_Sort(int colidx)
 		{
+			SortOrder order = this.MainSheet.Columns[colidx].HeaderCell.SortGlyphDirection;
+
+			if (order == SortOrder.Ascending)
+				order = SortOrder.Descending;
+			else
+				order = SortOrder.Ascending;
+
 			if (colidx == 0)
 			{
 				this.MS_Sort((a, b) => StringTools.CompIgnoreCase(
 					"" + a.Cells[0].Value,
 					"" + b.Cells[0].Value
-					));
+					) * (order == SortOrder.Ascending ? 1 : -1));
 			}
 			else if (colidx == 1)
 			{
-				this.MS_Sort((a, b) => StringTools.CompIgnoreCase(
-					a.Cells[1].Value + "\t" + a.Cells[0].Value,
-					b.Cells[1].Value + "\t" + b.Cells[0].Value
-					));
+				this.MS_Sort((a, b) =>
+				{
+					int ret = StringTools.CompIgnoreCase(
+						"" + a.Cells[1].Value,
+						"" + b.Cells[1].Value
+						) * (order == SortOrder.Ascending ? 1 : -1);
+
+					if (ret == 0)
+						ret = StringTools.CompIgnoreCase("" + a.Cells[0].Value, "" + b.Cells[0].Value);
+
+					return ret;
+				});
 			}
+			this.MainSheet.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.None;
+			this.MainSheet.Columns[1].HeaderCell.SortGlyphDirection = SortOrder.None;
+
+			this.MainSheet.Columns[colidx].HeaderCell.SortGlyphDirection = order;
 		}
 
 		private void MS_Sort(Comparison<DataGridViewRow> comp)
