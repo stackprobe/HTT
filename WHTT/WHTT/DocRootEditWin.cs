@@ -128,51 +128,34 @@ namespace WHTT
 
 			try
 			{
-				string homeDir = Directory.GetCurrentDirectory();
+				string selPath = this.RootDir.Text;
 
 				try
 				{
-					using (FolderBrowserDialog fbd = new FolderBrowserDialog())
-					{
-						{
-							string selPath = this.RootDir.Text;
-
-							try
-							{
-								selPath = Path.GetFullPath(selPath);
-							}
-							catch
-							{
-								selPath = Directory.GetCurrentDirectory();
-							}
-							fbd.SelectedPath = selPath;
-						}
-
-						fbd.Description = "公開フォルダを選択して下さい。";
-
-						if (fbd.ShowDialog() == DialogResult.OK) // using fbd
-						{
-							string selPath = fbd.SelectedPath;
-
-							if (selPath.StartsWith("\\\\"))
-								throw new Exception("ネットワークフォルダは指定できません。");
-
-							if (4 <= homeDir.Length) // ? not root-dir
-								if (selPath.StartsWith(homeDir + "\\", StringComparison.OrdinalIgnoreCase))
-									selPath = selPath.Substring(homeDir.Length + 1);
-
-							if (selPath != Tools.ENCODING_SJIS.GetString(Tools.ENCODING_SJIS.GetBytes(selPath)))
-								throw new Exception("Shift_JIS に変換出来ない文字を含むパスは指定できません。");
-
-							this.RootDir.Text = selPath;
-							this.RootDir.Focus();
-							this.RootDir.SelectAll();
-						}
-					}
+					selPath = Path.GetFullPath(selPath);
 				}
-				finally
+				catch
 				{
-					Directory.SetCurrentDirectory(homeDir);
+					selPath = Directory.GetCurrentDirectory();
+				}
+
+				string homeDir = Directory.GetCurrentDirectory();
+
+				if (SaveLoadDialogs.SelectFolder(ref selPath, "公開フォルダを選択して下さい。"))
+				{
+					if (selPath.StartsWith("\\\\"))
+						throw new Exception("ネットワークフォルダは指定できません。");
+
+					if (4 <= homeDir.Length) // ? not root-dir
+						if (selPath.StartsWith(homeDir + "\\", StringComparison.OrdinalIgnoreCase))
+							selPath = selPath.Substring(homeDir.Length + 1);
+
+					if (selPath != Tools.ENCODING_SJIS.GetString(Tools.ENCODING_SJIS.GetBytes(selPath)))
+						throw new Exception("Shift_JIS に変換出来ない文字を含むパスは指定できません。");
+
+					this.RootDir.Text = selPath;
+					this.RootDir.Focus();
+					this.RootDir.SelectAll();
 				}
 			}
 			catch (Exception ex)

@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveLoadDialogs.cs" />
     <Compile Include="Tools.cs" />
     <EmbeddedResource Include="BusyWin.resx">
       <DependentUpon>BusyWin.cs</DependentUpon>
