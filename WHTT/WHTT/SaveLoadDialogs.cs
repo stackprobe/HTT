@@ -33,7 +33,8 @@ namespace WHTT
 				{
 					dlg.Title = title;
 					dlg.Filter = GetFilter(filterString);
-					dlg.FilterIndex = 1;
+					dlg.FilterIndex = GF_FilterIndex;
+					//dlg.FilterIndex = 1; // old
 					dlg.InitialDirectory = initialDir;
 					dlg.FileName = initialFile;
 
@@ -53,9 +54,13 @@ namespace WHTT
 			return null;
 		}
 
+		private static int GF_FilterIndex;
+
 		private static string GetFilter(string filterString)
 		{
 			StringBuilder buff = new StringBuilder();
+
+			GF_FilterIndex = 1;
 
 			foreach (string fExtension in filterString.Split('.').Select(extension => extension.Trim()).Where(extension => extension != ""))
 			{
@@ -71,6 +76,8 @@ namespace WHTT
 						extension = extension.Substring(p + 1);
 					}
 				}
+
+				GF_FilterIndex++;
 
 				buff.Append(name + "ファイル(*." + extension + ")|*." + extension + "|");
 			}
