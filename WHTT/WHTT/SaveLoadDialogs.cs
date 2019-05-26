@@ -33,8 +33,8 @@ namespace WHTT
 				{
 					dlg.Title = title;
 					dlg.Filter = GetFilter(filterString);
-					dlg.FilterIndex = GF_FilterIndex;
-					//dlg.FilterIndex = 1; // old
+					//dlg.FilterIndex = GF_FilterIndex; // del
+					dlg.FilterIndex = 1;
 					dlg.InitialDirectory = initialDir;
 					dlg.FileName = initialFile;
 
