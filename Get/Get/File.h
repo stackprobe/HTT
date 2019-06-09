@@ -13,16 +13,10 @@ void setCwd(char *dir);
 void setCwd_x(char *dir);
 char *getCwd(void);
 void addCwd(char *dir);
-void addCwd_x(char *dir);
 void unaddCwd(void);
 
 void createFile(char *file);
-void createDir(char *dir);
-
 void removeFile(char *file);
-void removeDir(char *dir);
-void clearDir(char *dir);
-void forceRemoveDir(char *dir);
 
 void moveFile(char *srcFile, char *destFile);
 

@@ -88,16 +88,6 @@ void WriteLog_x(char *line)
 		{
 			removeFile(GetAccessLogFile_2nd()); // 存在しなくてもエラーにならない！
 			moveFile(GetAccessLogFile(), GetAccessLogFile_2nd());
-
-#if 0 // old
-			autoList<char *> *lines = readLines(GetAccessLogFile());
-
-			for(int c = 0; c < 20; c++) // 適当な行数を先頭から順に削除
-				if(lines->GetCount())
-					memFree(lines->DesertElement(0));
-
-			writeLines_cx(GetAccessLogFile(), lines);
-#endif
 		}
 	}
 }

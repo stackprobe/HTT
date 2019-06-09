@@ -1,10 +1,6 @@
 char *strx(char *line);
 char *strr(char *line);
 void strz(char *&buffer, char *line);
-void strz_x(char *&buffer, char *line);
-
-char *getConstNullString(void);
-char *getNullString(void);
 
 autoList<char *> *tokenize(char *line, char *delimiters = "\t ");
 autoList<char *> *tokenize_xc(char *line, char *delimiters = "\t ");
@@ -38,16 +34,12 @@ void escapeYen(char *line);
 void unescapeYen(char *line);
 
 char *addToken(char *buffer, char *token);
-char *addToken_x(char *buffer, char *token);
 char *addChar(char *buffer, int chr);
 char *addLine(char *buffer, char *line);
-char *addLine_x(char *buffer, char *line);
 
 char *getEnd(char *str, int num);
-char *getEnd(char *str, char *ptn);
 
 int c2lc(int chr);
-int c2uc(int chr);
 
 int my_strnicmp(char *str1, char *str2, int count);
 

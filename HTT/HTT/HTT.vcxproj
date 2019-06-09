@@ -104,7 +104,6 @@
   <ItemGroup>
     <ClInclude Include="all.h" />
     <ClInclude Include="autoList.h" />
-    <ClInclude Include="autoTable.h" />
     <ClInclude Include="CryptoRand.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="File.h" />

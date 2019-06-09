@@ -1,7 +1,6 @@
 #include "Define.h"
 #include "System.h"
 #include "autoList.h"
-#include "autoTable.h"
 #include "MemAlloc.h"
 #include "Line.h"
 #include "File.h"
@@ -12,7 +11,6 @@
 #include "SockServer.h"
 #include "Mutex.h"
 #include "FileList.h"
-//#include "sha512.h"
 #include "CryptoRand.h"
 #include "rbt.h"
 

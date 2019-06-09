@@ -14,7 +14,6 @@ void setCwd(char *dir);
 void setCwd_x(char *dir);
 char *getCwd(void);
 void addCwd(char *dir);
-void addCwd_x(char *dir);
 void unaddCwd(void);
 
 void createFile(char *file);

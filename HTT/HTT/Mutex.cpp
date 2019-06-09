@@ -56,10 +56,6 @@ int waitForMillis(int h, int millis) // ret: ? ロック成功 || シグナル取得
 	}
 #endif
 }
-void waitForever(int h)
-{
-	errorCase(!waitForMillis(h, INFINITE));
-}
 void handleClose(int h)
 {
 	errorCase(!CloseHandle((HANDLE)h)); // ? 失敗

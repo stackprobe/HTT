@@ -159,20 +159,6 @@ void writeAddLine(char *file, char *line)
 	writeLine(fp, line);
 	fileClose(fp);
 }
-void writeLines(char *file, autoList<char *> *lines)
-{
-	FILE *fp = fileOpen(file, "wt");
-
-	for(int index = 0; index < lines->GetCount(); index++)
-		writeLine(fp, lines->GetElement(index));
-
-	fileClose(fp);
-}
-void writeLines_cx(char *file, autoList<char *> *lines)
-{
-	writeLines(file, lines);
-	releaseList(lines, (void (*)(char *))memFree);
-}
 
 void fileSeek(FILE *fp, int origin, __int64 offset) // origin, offset ‚Ì•À‚Ñ‚Í fseek() ‚Æ‹t
 {
@@ -195,12 +181,6 @@ void fileWrite(FILE *fp, void *block, int size)
 	}
 }
 
-void readBlock(char *file, void *block, int size)
-{
-	FILE *fp = fileOpen(file, "rb");
-	fileRead(fp, block, size);
-	fileClose(fp);
-}
 void writeBlock(char *file, void *block, int size, int addMode)
 {
 	FILE *fp = fileOpen(file, addMode ? "ab" : "wb");

@@ -18,18 +18,8 @@ typedef struct rbtTree_st
 rbtTree_t;
 
 rbtTree_t *rbtCreateTree(int (*funcComp)(void *, void *, void *), void (*funcRelease)(void *, void *), void *extraData);
-void rbtReleaseTree(rbtTree_t *tree);
 
 void rbtAddElement(rbtTree_t *tree, void *element);
 int rbtHasElement(rbtTree_t *tree, void *element);
 void *rbtGetElement(rbtTree_t *tree, void *element);
 void rbtRemoveElement(rbtTree_t *tree, void *element);
-
-void rbtSeekRootElement(rbtTree_t *tree);
-void rbtSeekForEndElement(rbtTree_t *tree, int direct);
-void rbtSeekForLeftEndElement(rbtTree_t *tree);
-void rbtSeekForRightEndElement(rbtTree_t *tree);
-
-void rbtSeekElement(rbtTree_t *tree, int direct);
-void rbtSeekForLeftElement(rbtTree_t *tree);
-void rbtSeekForRightElement(rbtTree_t *tree);

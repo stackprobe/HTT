@@ -119,11 +119,6 @@ void writeLine(char *file, char *line)
 	writeLine(fp, line);
 	fileClose(fp);
 }
-void writeLine_cx(char *file, char *line)
-{
-	writeLine(file, line);
-	memFree(line);
-}
 
 void fileSeek(FILE *fp, int origin, __int64 offset) // origin, offset ‚Ì•À‚Ñ‚Í fseek() ‚Æ‹t
 {

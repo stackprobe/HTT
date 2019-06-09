@@ -1,9 +1,5 @@
 #include "all.h"
 
-int getZero(void)
-{
-	return 0;
-}
 int s2i(char *line)
 {
 	int result = 0;
@@ -44,23 +40,6 @@ int s2i(char *line)
 	}
 	return result * sign;
 }
-
-int compInt(int a, int b)
-{
-	if(a < b) return -1;
-	if(b < a) return 1;
-	return 0;
-}
-int compI2D(i2D_t a, i2D_t b)
-{
-	int retval = compInt(a.X, b.X);
-
-	if(!retval)
-		retval = compInt(a.Y, b.Y);
-
-	return retval;
-}
-
 int getHitKey(int defaultKey)
 {
 	int key = defaultKey;
@@ -73,7 +52,6 @@ int getHitKey(int defaultKey)
 	}
 	return key;
 }
-
 double dPow(double value, int extend)
 {
 	errorCase(extend < 0);

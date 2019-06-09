@@ -98,9 +98,6 @@
     <ClInclude Include="autoList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="autoTable.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Tools.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

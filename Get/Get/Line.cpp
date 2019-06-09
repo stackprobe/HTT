@@ -13,20 +13,6 @@ void strz(char *&buffer, char *line)
 	memFree(buffer);
 	buffer = strx(line);
 }
-void strz_x(char *&buffer, char *line)
-{
-	memFree(buffer);
-	buffer = line;
-}
-
-char *getConstNullString(void)
-{
-	return "";
-}
-char *getNullString(void)
-{
-	return strx("");
-}
 
 autoList<char *> *tokenize(char *line, char *delimiters)
 {
@@ -220,12 +206,6 @@ char *addToken(char *buffer, char *token)
 	memFree(buffer);
 	return newBuffer;
 }
-char *addToken_x(char *buffer, char *token)
-{
-	char *newBuffer = addToken(buffer, token);
-	memFree(token);
-	return newBuffer;
-}
 char *addChar(char *buffer, int chr)
 {
 	char *newBuffer = xcout("%s%c", buffer, chr);
@@ -238,31 +218,16 @@ char *addLine(char *buffer, char *line)
 	buffer = addChar(buffer, '\n');
 	return buffer;
 }
-char *addLine_x(char *buffer, char *line)
-{
-	char *newBuffer = addLine(buffer, line);
-	memFree(line);
-	return newBuffer;
-}
 
 char *getEnd(char *str, int num)
 {
 	int len = strlen(str);
 	return str + len - m_min(num, len);
 }
-char *getEnd(char *str, char *ptn)
-{
-	return getEnd(str, strlen(ptn));
-}
 
 int c2lc(int chr)
 {
 	if('A' <= chr && chr <= 'Z') return chr + 0x20;
-	return chr;
-}
-int c2uc(int chr)
-{
-	if('a' <= chr && chr <= 'z') return chr - 0x20;
 	return chr;
 }
 

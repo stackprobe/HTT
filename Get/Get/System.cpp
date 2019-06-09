@@ -6,10 +6,6 @@ void addFinalizer(void (*func)(void))
 {
 	GetFinalizers()->AddElement(func);
 }
-void (*unaddFinalizer(void))(void)
-{
-	return GetFinalizers()->UnaddElement();
-}
 
 void termination(int errorlevel)
 {
@@ -137,10 +133,6 @@ void coutLongText_x(char *text)
 
 static int ArgIndex = 1;
 
-int hasArgs(int count)
-{
-	return count <= __argc - ArgIndex;
-}
 int argIs(char *spell)
 {
 	if(ArgIndex < __argc)
@@ -165,38 +157,7 @@ char *nextArg(void)
 	ArgIndex++;
 	return arg;
 }
-int getArgIndex(void)
-{
-	return ArgIndex;
-}
-void setArgIndex(int index)
-{
-	errorCase(index < 0 || __argc < index); // index == __argc ‚Í‘S•”“Ç‚ÝI‚í‚Á‚½ó‘Ô
-	ArgIndex = index;
-}
 
-char *makeTempPath(char *suffix)
-{
-error(); // unimpl
-	return NULL;
-}
-char *makeTempFile(char *suffix)
-{
-	char *out = makeTempPath(suffix);
-	createFile(out);
-	return out;
-}
-char *makeTempDir(char *suffix)
-{
-	char *out = makeTempPath(suffix);
-	createDir(out);
-	return out;
-}
-
-double now(void)
-{
-	return clock() / (double)CLOCKS_PER_SEC;
-}
 char *getTimeStamp(time_t t) // t: 0 == Œ»Žž
 {
 	static char timeStamp[25];

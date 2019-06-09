@@ -27,17 +27,6 @@ void mutexRelease(int h)
 	errorCase(!ReleaseMutex((HANDLE)h)); // ? 失敗
 }
 
-int eventOpen(char *eventName)
-{
-	HANDLE h = CreateEventA(NULL, FALSE, FALSE, eventName);
-	errorCase(h == NULL); // ? 失敗
-	return (int)h;
-}
-void eventSet(int h)
-{
-	errorCase(!SetEvent((HANDLE)h)); // ? 失敗
-}
-
 int waitForMillis(int h, int millis) // ret: ? ロック成功 || シグナル取得
 {
 #if 1

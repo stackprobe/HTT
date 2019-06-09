@@ -9,7 +9,6 @@ Service_t;
 extern int ServiceArgsHasProblem;
 
 Service_t *HTT_CreateService(char *name, char *execFile);
-void HTT_ReleaseService(Service_t *i);
 
 extern autoList<Service_t *> *ServiceList;
 extern int ServiceNameLenMin;

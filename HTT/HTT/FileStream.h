@@ -13,7 +13,6 @@ void writeChar(FILE *fp, int chr);
 void writeToken(FILE *fp, char *token);
 void writeLine(FILE *fp, char *line);
 void writeLine(char *file, char *line);
-void writeLine_cx(char *file, char *line);
 
 void fileSeek(FILE *fp, int origin, __int64 offset);
 void fileRead(FILE *fp, void *block, int size);

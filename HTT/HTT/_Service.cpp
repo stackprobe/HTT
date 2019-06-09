@@ -91,13 +91,6 @@ Service_t *HTT_CreateService(char *name, char *command)
 
 	return i;
 }
-void HTT_ReleaseService(Service_t *i)
-{
-	memFree(i->Name);
-	memFree(i->Command);
-	releaseList(i->Arguments, (void (*)(char *))memFree);
-	memFree(i);
-}
 
 autoList<Service_t *> *ServiceList;
 int ServiceNameLenMin;

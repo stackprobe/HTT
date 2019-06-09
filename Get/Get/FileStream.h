@@ -18,12 +18,9 @@ void writeLine_x(FILE *fp, char *line);
 void writeLine(char *file, char *line);
 void writeLine_cx(char *file, char *line);
 void writeAddLine(char *file, char *line);
-void writeLines(char *file, autoList<char *> *lines);
-void writeLines_cx(char *file, autoList<char *> *lines);
 
 void fileSeek(FILE *fp, int origin, __int64 offset);
 void fileRead(FILE *fp, void *block, int size);
 void fileWrite(FILE *fp, void *block, int size);
 
-void readBlock(char *file, void *block, int size);
 void writeBlock(char *file, void *block, int size, int addMode = 0);

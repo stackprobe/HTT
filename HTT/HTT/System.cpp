@@ -6,10 +6,6 @@ void addFinalizer(void (*func)(void))
 {
 	GetFinalizers()->AddElement(func);
 }
-void (*unaddFinalizer(void))(void)
-{
-	return GetFinalizers()->UnaddElement();
-}
 
 void termination(int errorlevel)
 {
@@ -162,15 +158,6 @@ char *nextArg(void)
 
 	ArgIndex++;
 	return arg;
-}
-int getArgIndex(void)
-{
-	return ArgIndex;
-}
-void setArgIndex(int index)
-{
-	errorCase(index < 0 || __argc < index); // index == __argc は全部読み終わった状態
-	ArgIndex = index;
 }
 
 char *getSelfFile(void)
@@ -350,12 +337,6 @@ char *makeTempPath(char *suffix)
 		memFree(path);
 	}
 }
-char *makeTempFile(char *suffix)
-{
-	char *out = makeTempPath(suffix);
-	createFile(out);
-	return out;
-}
 char *makeTempDir(char *suffix)
 {
 	char *out = makeTempPath(suffix);
@@ -363,61 +344,9 @@ char *makeTempDir(char *suffix)
 	return out;
 }
 
-#if 0 // for Test
-static DWORD GetTickCount_TEST(void)
-{
-	static int initOnce;
-	static uint baseTick;
-
-	if(!initOnce)
-	{
-		initOnce = 1;
-		baseTick = UINT_MAX - 10000 - GetTickCount();
-	}
-	return baseTick + GetTickCount();
-}
-#define GetTickCount() GetTickCount_TEST()
-#endif
-#if 1
 #define NowTick() \
 	GetTickCount64()
-#else
-static uint64 NowTick(void)
-{
-	uint currTick = GetTickCount();
-	static uint lastTick;
-	static uint64 baseTick;
-	uint64 retTick;
-	static uint64 lastRetTick;
 
-	if(currTick < lastTick) // ? カウンタが戻った -> オーバーフローした？
-	{
-		uint diffTick = lastTick - currTick;
-
-		// memo: ここの LOGPOS は再帰していない。@ 2017.4.18
-
-		if(UINT_MAX / 2 < diffTick) // オーバーフローだろう。
-		{
-			LOGPOS();
-			baseTick += (uint64)UINT_MAX + 1;
-		}
-		else // オーバーフローか？
-		{
-			LOGPOS();
-			baseTick += diffTick; // 前回と同じ戻り値になるように調整する。
-		}
-	}
-	lastTick = currTick;
-	retTick = baseTick + currTick;
-	errorCase(retTick < lastRetTick); // 2bs
-	lastRetTick = retTick;
-	return retTick;
-}
-#endif
-uint64 getNowTick()
-{
-	return NowTick();
-}
 time_t now(void)
 {
 	return (time_t)(NowTick() / 1000);

@@ -87,7 +87,6 @@
     <ClCompile Include="FileList.cpp" />
     <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="JChar.cpp" />
-    <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="MimeType.cpp" />
     <ClCompile Include="Mutex.cpp" />
@@ -103,13 +102,11 @@
   <ItemGroup>
     <ClInclude Include="all.h" />
     <ClInclude Include="autoList.h" />
-    <ClInclude Include="autoTable.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FileList.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="JChar.h" />
-    <ClInclude Include="Kernel.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="MemAlloc.h" />
     <ClInclude Include="MimeType.h" />

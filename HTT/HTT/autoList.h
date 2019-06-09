@@ -13,23 +13,6 @@ public:
 		this->ListSize = 0;
 		this->List = (Element_t *)memAlloc(0);
 	}
-	autoList(int buffer_size)
-	{
-		errorCase(buffer_size < 0 || INT_MAX / sizeof(Element_t) < buffer_size);
-
-		this->Count = 0;
-		this->ListSize = buffer_size;
-		this->List = (Element_t *)memAlloc(buffer_size * sizeof(Element_t));
-	}
-	autoList(Element_t *list_bind, int count)
-	{
-		errorCase(!list_bind);
-		errorCase(count < 0 || INT_MAX < count);
-
-		this->Count = count;
-		this->ListSize = count;
-		this->List = list_bind;
-	}
 	autoList(const autoList &source)
 	{
 		error();
@@ -39,16 +22,6 @@ public:
 		memFree(this->List);
 	}
 
-	autoList<Element_t> *GetClone()
-	{
-		autoList<Element_t> *list_ret = new autoList<Element_t>();
-
-		list_ret->Count = this->Count;
-		list_ret->ListSize = this->Count;
-		list_ret->List = (Element_t *)memClone(this->List, this->Count * sizeof(Element_t));
-
-		return list_ret;
-	}
 	Element_t *UnbindBuffer()
 	{
 		Element_t *list_ret = this->List;
@@ -59,28 +32,12 @@ public:
 
 		return list_ret;
 	}
-	void Change(autoList<Element_t> *list)
-	{
-		m_swap(this->Count, list->Count, int);
-		m_swap(this->ListSize, list->ListSize, int);
-		m_swap(this->List, list->List, Element_t *);
-	}
 
-	void Clear()
-	{
-		this->Count = 0;
-	}
 	int GetCount()
 	{
 		return this->Count;
 	}
 
-	void SetElement(int index, Element_t element)
-	{
-		errorCase(index < 0 || this->Count <= index);
-
-		this->List[index] = element;
-	}
 	Element_t GetElement(int index)
 	{
 		errorCase(index < 0 || this->Count <= index);
@@ -120,32 +77,6 @@ public:
 		this->Count--;
 		return this->List[this->Count];
 	}
-	void InsertElement(int index, Element_t element)
-	{
-		errorCase(index < 0 || this->Count < index);
-
-		this->AddElement(element); // dummy
-
-		for(int i = this->Count - 1; index < i; i--)
-		{
-			this->List[i] = this->List[i - 1];
-		}
-		this->List[index] = element;
-	}
-	Element_t DesertElement(int index)
-	{
-		errorCase(index < 0 || this->Count <= index);
-
-		Element_t element = this->List[index];
-
-		this->Count--;
-
-		for(int i = index; i < this->Count; i++)
-		{
-			this->List[i] = this->List[i + 1];
-		}
-		return element;
-	}
 	Element_t FastDesertElement(int index)
 	{
 		errorCase(index < 0 || this->Count <= index);
@@ -156,32 +87,6 @@ public:
 		this->List[index] = this->List[this->Count];
 
 		return element;
-	}
-	void RemoveElements(int start, int count)
-	{
-		errorCase(start < 0 || this->Count < start);
-		errorCase(count < 0 || this->Count - start < count);
-
-		int index;
-
-		for(index = start; index + count < this->Count; index++)
-		{
-			this->List[index] = this->List[index + count];
-		}
-		this->Count = index;
-	}
-
-	void CallAllElement(void (*func)(Element_t e))
-	{
-		for(int index = 0; index < this->Count; index++)
-		{
-			func(this->GetElement(index));
-		}
-	}
-	void Clear(void (*func)(Element_t e))
-	{
-		this->CallAllElement(func);
-		this->Clear();
 	}
 
 	void AddElements(Element_t *list, int count)
@@ -201,33 +106,6 @@ public:
 		delete list;
 	}
 
-	void UnaddElements(Element_t *list, int count)
-	{
-		errorCase(!list);
-		errorCase(count < 0 || this->Count < count);
-
-		this->Count -= count;
-
-		for(int index = 0; index < count; index++)
-		{
-			list[index] = this->List[this->Count + index];
-		}
-	}
-
-	/*
-	void InsertElements(int insPos, Element_t *list, int count) // fixme: 遅い
-	{
-		for(int index = 0; index < count; index++)
-		{
-			this->InsertElement(insPos + index, list[index]);
-		}
-	}
-	void InsertElements(int insPos, autoList<Element_t> *list)
-	{
-		this->InsertElements(insPos, list->ElementAt(0), list->GetCount());
-	}
-	*/
-
 	void Swap(int index1, int index2)
 	{
 		errorCase(index1 < 0 || this->Count <= index1);
@@ -238,32 +116,6 @@ public:
 		this->List[index1] = this->List[index2];
 		this->List[index2] = tmp;
 	}
-	void Reverse()
-	{
-		int i = 0;
-		int j = this->Count - 1;
-
-		while(i < j)
-		{
-			this->Swap(i, j);
-			i++;
-			j--;
-		}
-	}
-	/*
-	void Rotate(int bound) // [0] <- [bound] となるようにローテーションする。
-	{
-		if(bound == 0)
-			return;
-
-		errorCase(bound < 1 || this->Count <= bound);
-
-		Element_t *rotArea = (Element_t *)memClone(this->List, bound * sizeof(Element_t));
-		this->RemoveElements(0, bound);
-		this->AddElements(rotArea, bound);
-		memFree(rotArea);
-	}
-	*/
 	void Shuffle_7()
 	{
 		if(7 <= this->Count)
@@ -281,51 +133,6 @@ public:
 		for(int range = this->Count; 2 <= range; range--)
 		{
 			this->Swap(range - 1, getCryptoRand() % range);
-		}
-	}
-
-	void PutElement(int index, Element_t element, Element_t defaultElement)
-	{
-		errorCase(index < 0);
-
-		if(this->Count <= index)
-		{
-			while(this->Count < index)
-			{
-				this->AddElement(defaultElement);
-			}
-			this->AddElement(element);
-		}
-		else
-			this->SetElement(index, element);
-	}
-	Element_t RefElement(int index, Element_t defaultElement)
-	{
-		errorCase(index < 0);
-
-		if(index < this->Count)
-		{
-			return this->GetElement(index);
-		}
-		return defaultElement;
-	}
-
-	int UnaddRepeat(Element_t e)
-	{
-		int num = 0;
-
-		while(this->Count && this->List[this->Count - 1] == e)
-		{
-			this->Count--;
-			num++;
-		}
-		return num;
-	}
-	void AddRepeat(Element_t e, int num)
-	{
-		for(int c = 0; c < num; c++)
-		{
-			this->AddElement(e);
 		}
 	}
 
@@ -403,10 +210,3 @@ public:
 		return -1; // not found
 	}
 };
-
-template <class Element_t>
-void releaseList(autoList<Element_t> *list, void (*func)(Element_t e))
-{
-	list->CallAllElement(func);
-	delete list;
-}

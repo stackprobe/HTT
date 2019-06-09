@@ -15,6 +15,7 @@ static rbtNode_t *CreateNode(void *element, boolean red, rbtNode_t *p)
 
 static rbtNode_t *LastParent;
 static int LastDirect;
+
 static rbtNode_t *GetNode(rbtTree_t *tree, void *element)
 {
 	rbtNode_t *node;
@@ -58,31 +59,6 @@ rbtTree_t *rbtCreateTree(int (*funcComp)(void *, void *, void *), void (*funcRel
 	tree->LastAccessNode = NULL;
 
 	return tree;
-}
-void rbtReleaseTree(rbtTree_t *tree)
-{
-	autoList<rbtNode_t *> *nodes = new autoList<rbtNode_t *>();
-
-	errorCase(!tree);
-	nodes->AddElement(tree->Root);
-
-	while(nodes->GetCount())
-	{
-		rbtNode_t *node = nodes->UnaddElement();
-
-		if(node)
-		{
-			nodes->AddElement(node->Children[0]);
-			nodes->AddElement(node->Children[1]);
-
-			tree->FuncRelease(node->Element, tree->ExtraData);
-
-			memFree(node);
-		}
-	}
-	delete nodes;
-
-	memFree(tree);
 }
 
 /*
@@ -202,6 +178,7 @@ void *rbtGetElement(rbtTree_t *tree, void *element) // element == NULL のとき La
 }
 
 static rbtNode_t *LastNode;
+
 static int GetNearestLeaf(rbtTree_t *tree, rbtNode_t *node, int direct) // ret: direct 方向に Leaf が見つかれば 0 以外
 {
 	LastNode = node->Children[direct];
@@ -301,102 +278,4 @@ pcReset:
 		tree->Root = NULL;
 	}
 	memFree(node);
-}
-
-void rbtSeekRootElement(rbtTree_t *tree)
-{
-	errorCase(!tree);
-	errorCase(!tree->Root); // 要素が一つ以上なければならない。
-
-	tree->LastAccessNode = tree->Root;
-}
-void rbtSeekForEndElement(rbtTree_t *tree, int direct) // direct == 0: Left, 1: Right
-{
-	rbtNode_t *node;
-	rbtNode_t *tmpNode;
-
-	errorCase(!tree);
-	errorCase(direct != 0 && direct != 1);
-
-	node = tree->Root;
-
-	errorCase(!node); // 要素が一つ以上なければならない。
-
-	for(; ; )
-	{
-		tmpNode = node->Children[direct];
-
-		if(!tmpNode)
-		{
-			break;
-		}
-		node = tmpNode;
-	}
-	tree->LastAccessNode = node;
-}
-void rbtSeekForLeftEndElement(rbtTree_t *tree)
-{
-	rbtSeekForEndElement(tree, 0);
-}
-void rbtSeekForRightEndElement(rbtTree_t *tree)
-{
-	rbtSeekForEndElement(tree, 1);
-}
-
-void rbtSeekElement(rbtTree_t *tree, int direct) // direct == 0: Left, 1: Right
-{
-	rbtNode_t *node;
-	rbtNode_t *tmpNode;
-
-	errorCase(!tree);
-	errorCase(direct != 0 && direct != 1);
-
-	node = tree->LastAccessNode;
-
-	errorCase(!node); // LastAccessNode が有効でなければならない。
-
-	tmpNode = node->Children[direct];
-
-	if(tmpNode)
-	{
-		for(; ; )
-		{
-			node = tmpNode;
-			tmpNode = node->Children[1 - direct];
-
-			if(!tmpNode)
-			{
-				break;
-			}
-		}
-	}
-	else
-	{
-		for(; ; )
-		{
-			tmpNode = node->Parent;
-
-			if(!tmpNode || tmpNode->Children[1 - direct] == node)
-			{
-				break;
-			}
-			node = tmpNode;
-		}
-		node = tmpNode;
-	}
-
-	// node == NULL のとき、(左端のノードから左 || 右端のノードから右) にシークした。-> 位置そのまま
-
-	if(node)
-	{
-		tree->LastAccessNode = node;
-	}
-}
-void rbtSeekForLeftElement(rbtTree_t *tree)
-{
-	rbtSeekElement(tree, 0);
-}
-void rbtSeekForRightElement(rbtTree_t *tree)
-{
-	rbtSeekElement(tree, 1);
 }

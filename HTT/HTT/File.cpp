@@ -110,11 +110,6 @@ void addCwd(char *dir)
 	GetCwdStack()->AddElement(getCwd());
 	setCwd(dir);
 }
-void addCwd_x(char *dir)
-{
-	addCwd(dir);
-	memFree(dir);
-}
 void unaddCwd(void)
 {
 	setCwd_x(GetCwdStack()->UnaddElement());
