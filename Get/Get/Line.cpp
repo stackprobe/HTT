@@ -230,7 +230,6 @@ int c2lc(int chr)
 	if('A' <= chr && chr <= 'Z') return chr + 0x20;
 	return chr;
 }
-
 int my_strnicmp(char *str1, char *str2, int count)
 {
 	int retval = 0;

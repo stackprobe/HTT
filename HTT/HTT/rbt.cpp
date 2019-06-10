@@ -1,6 +1,6 @@
 #include "all.h"
 
-static rbtNode_t *CreateNode(void *element, boolean red, rbtNode_t *p)
+static rbtNode_t *CreateNode(void *element, int red, rbtNode_t *p)
 {
 	rbtNode_t *node = (rbtNode_t *)memAlloc(sizeof(rbtNode_t));
 

@@ -1,7 +1,7 @@
 typedef struct rbtNode_st // “à•”‚Å‚Ì‚ÝŽg—p
 {
 	void *Element;
-	boolean Red;
+	int Red;
 	struct rbtNode_st *Parent;
 	struct rbtNode_st *Children[2];
 }

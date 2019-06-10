@@ -40,7 +40,6 @@ char *addLine(char *buffer, char *line);
 char *getEnd(char *str, int num);
 
 int c2lc(int chr);
-
 int my_strnicmp(char *str1, char *str2, int count);
 
 int isRangeToken(char *token, int minchr, int maxchr);
