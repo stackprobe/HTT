@@ -118,7 +118,7 @@ public:
 	}
 	void Shuffle_7()
 	{
-		if(7 <= this->Count)
+		if(14 < this->Count)
 		{
 			for(int index = 0; index < 7; index++)
 			{
