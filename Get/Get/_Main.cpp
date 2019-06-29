@@ -56,6 +56,8 @@ static void Download(void)
 static char *Soft404HtmlFile;
 static char *Soft503HtmlFile;
 
+static char *BeforeDLProg;
+
 int main(int argc, char **argv)
 {
 #if 0 // test
@@ -157,6 +159,9 @@ int main(int argc, char **argv)
 		memFree(e01Prog);
 		LOGPOS();
 	}
+	if(argIs("/P"))
+		BeforeDLProg = nextArg();
+
 	int headerOnlyMode = argIs("/H");
 
 	addCwd(getSelfDir());
@@ -346,7 +351,17 @@ endContent:
 		writeLine(fp, "0");
 		fileClose(fp);
 	}
+
 	memFree(target);
 
+	if(BeforeDLProg)
+	{
+		LOGPOS();
+		char *commandLine = xcout("\"%s\"", BeforeDLProg);
+		cout("$ %s\n", commandLine);
+		system(commandLine);
+		memFree(commandLine);
+		LOGPOS();
+	}
 	termination(0);
 }
