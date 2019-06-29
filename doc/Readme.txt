@@ -68,7 +68,7 @@
 　　http://darjeeling-tea.test/orange-pekoe.html というリクエストは C:\Assam\orange-pekoe.html というファイルの取得になります。
 
 　　ドメイン名をどう指定して良いか分からない場合は、アクセスログの Host:"ホスト名" に合わせてみて下さい。
-　　例えば Host:"earlgray" というリクエストは、ドメイン名 earlgray に対応します。
+　　例えば Host:"earlgray.test" というリクエストは、ドメイン名 earlgray.test に対応します。
 
 　　ドメイン毎に分ける必要がない場合は、default のみ登録してお使い下さい。
 

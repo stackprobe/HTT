@@ -260,10 +260,13 @@ int main(int argc, char **argv)
 
 	if(existFile(target))
 	{
+		char *targetContentType = "";
+
 		if(BeforeDLProg)
 		{
 			LOGPOS();
 			writeLine(TARGET_FILE, target);
+			createFile(TARGET_CONTENT_TYPE_FILE);
 
 			LOGPOS();
 			char *commandLine = xcout("\"%s\"", BeforeDLProg);
@@ -275,12 +278,17 @@ int main(int argc, char **argv)
 			memFree(target);
 			target = readLine(TARGET_FILE);
 			cout("target_new: %s\n", target);
+			targetContentType = readLine(TARGET_CONTENT_TYPE_FILE); // g
+			cout("targetContentType_new: [%s]\n", targetContentType);
 		}
+
+		if(*targetContentType == '\0')
+			targetContentType = GetMimeType(target);
 
 		FILE *fp = fileOpen(SEND_FILE, "wt");
 		writeLine(fp, "HTTP/1.1 200 Happy Tea Time");
 		writeLine(fp, "Server: htt");
-		writeLine_x(fp, xcout("Content-Type: %s", GetMimeType(target)));
+		writeLine_x(fp, xcout("Content-Type: %s", targetContentType));
 		writeLine_x(fp, xcout("Content-Length: %I64d", getFileSize(target)));
 		writeLine(fp, "Connection: close");
 		writeLine(fp, "");
