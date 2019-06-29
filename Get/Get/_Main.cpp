@@ -266,7 +266,7 @@ int main(int argc, char **argv)
 		{
 			LOGPOS();
 			writeLine(TARGET_FILE, target);
-			writeLine(TARGET_CONTENT_TYPE_FILE, "");
+			createFile(TARGET_CONTENT_TYPE_FILE);
 
 			LOGPOS();
 			char *commandLine = xcout("\"%s\"", BeforeDLProg);
@@ -277,10 +277,8 @@ int main(int argc, char **argv)
 
 			memFree(target);
 			target = readLine(TARGET_FILE);
-			errorCase(!target);
 			cout("target_new: %s\n", target);
 			targetContentType = readLine(TARGET_CONTENT_TYPE_FILE); // g
-			errorCase(!targetContentType);
 			cout("targetContentType_new: [%s]\n", targetContentType);
 		}
 
