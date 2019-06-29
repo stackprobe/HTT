@@ -17,3 +17,6 @@
 
 // selfDir Ç…Ç†ÇÈÅB
 #define MIME_TYPE_FILE "MimeType.tsv"
+
+// BeforeDLProg óp
+#define TARGET_FILE "Target.httgetdat"

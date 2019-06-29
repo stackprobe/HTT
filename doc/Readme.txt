@@ -61,11 +61,11 @@
 　　リストには「ドメイン名 ==> 対応するディレクトリ」の形で表示されます。
 　　登録されていないドメイン名でアクセスされた場合、default に対応するディレクトリが使用されます。
 
-　　例えば happy-tea-time ==> C:\HTT\DocRoot と登録した場合、
-　　http://happy-tea-time/sub/abc.txt というリクエストは C:\HTT\DocRoot\sub\abc.txt というファイルの取得になります。
+　　例えば happy-tea-time.test ==> C:\HTT\DocRoot と登録した場合、
+　　http://happy-tea-time.test/sub/abc.txt というリクエストは C:\HTT\DocRoot\sub\abc.txt というファイルの取得になります。
 
-　　また default ==> C:\Assam と登録し darjeeling-tea というドメインを登録していない場合、
-　　http://darjeeling-tea/orange-pekoe.html というリクエストは C:\Assam\orange-pekoe.html というファイルの取得になります。
+　　また default ==> C:\Assam と登録し darjeeling-tea.test というドメインを登録していない場合、
+　　http://darjeeling-tea.test/orange-pekoe.html というリクエストは C:\Assam\orange-pekoe.html というファイルの取得になります。
 
 　　ドメイン名をどう指定して良いか分からない場合は、アクセスログの Host:"ホスト名" に合わせてみて下さい。
 　　例えば Host:"earlgray" というリクエストは、ドメイン名 earlgray に対応します。

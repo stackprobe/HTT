@@ -85,6 +85,8 @@ namespace Charlotte
 
 			this.MS_AutoResize();
 			this.MainSheet.ClearSelection();
+
+			Utils.EnableDoubleBuffer(this.MainSheet);
 		}
 
 		private void MS_AutoResize()

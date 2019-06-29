@@ -36,13 +36,14 @@ namespace Charlotte
 					CheckLogonUserAndTmp();
 
 					if (MessageBox.Show(
-@"このツールは HTT.exe を停止した状態で実行して下さい。
-起動して宜しいですか？",
+@"実行中のサーバー(HTT.exe)を全て終了して下さい。
+本ツール実行中はサーバーを起動しないで下さい。
+続行するにはOKを押して下さい。",
 						APP_TITLE + " / 確認",
 						MessageBoxButtons.OKCancel,
 						MessageBoxIcon.Information
 						)
-						== System.Windows.Forms.DialogResult.OK
+						== DialogResult.OK
 						)
 					{
 						// orig >

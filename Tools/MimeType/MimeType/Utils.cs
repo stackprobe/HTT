@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Charlotte.Tools;
+using System.Windows.Forms;
+using System.Reflection;
 
 namespace Charlotte
 {
@@ -25,6 +27,17 @@ namespace Charlotte
 				ret = "error";
 
 			return ret;
+		}
+
+		public static void EnableDoubleBuffer(Control control)
+		{
+			control.GetType().InvokeMember(
+				"DoubleBuffered",
+				BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+				null,
+				control,
+				new object[] { true }
+				);
 		}
 	}
 }

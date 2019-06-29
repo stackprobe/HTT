@@ -260,6 +260,23 @@ int main(int argc, char **argv)
 
 	if(existFile(target))
 	{
+		if(BeforeDLProg)
+		{
+			LOGPOS();
+			writeLine(TARGET_FILE, target);
+
+			LOGPOS();
+			char *commandLine = xcout("\"%s\"", BeforeDLProg);
+			cout("$ %s\n", commandLine);
+			system(commandLine);
+			memFree(commandLine);
+			LOGPOS();
+
+			memFree(target);
+			target = readLine(TARGET_FILE);
+			cout("target_new: %s\n", target);
+		}
+
 		FILE *fp = fileOpen(SEND_FILE, "wt");
 		writeLine(fp, "HTTP/1.1 200 Happy Tea Time");
 		writeLine(fp, "Server: htt");
@@ -354,14 +371,5 @@ endContent:
 
 	memFree(target);
 
-	if(BeforeDLProg)
-	{
-		LOGPOS();
-		char *commandLine = xcout("\"%s\"", BeforeDLProg);
-		cout("$ %s\n", commandLine);
-		system(commandLine);
-		memFree(commandLine);
-		LOGPOS();
-	}
 	termination(0);
 }
