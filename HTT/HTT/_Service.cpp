@@ -1,5 +1,12 @@
 #include "all.h"
 
+static void AddArgument(autoList<char *> *dest, char *arg)
+{
+	if(*arg)
+	{
+		dest->AddElement(strx(arg));
+	}
+}
 static autoList<char *> *CommandToArguments(char *command)
 {
 	char *p = command;
@@ -14,7 +21,7 @@ static autoList<char *> *CommandToArguments(char *command)
 			q = strchr(p, '"');
 			errorCase(!q);
 			*q = '\0'; // ”j‰ó
-			dest->AddElement(strx(p));
+			AddArgument(dest, p);
 			*q = '"'; // •œŒ³
 			q++;
 		}
@@ -24,11 +31,11 @@ static autoList<char *> *CommandToArguments(char *command)
 
 			if(!q)
 			{
-				dest->AddElement(strx(p));
+				AddArgument(dest, p);
 				break;
 			}
 			*q = '\0'; // ”j‰ó
-			dest->AddElement(strx(p));
+			AddArgument(dest, p);
 			*q = ' '; // •œŒ³
 			q++;
 		}
