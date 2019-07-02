@@ -3,6 +3,7 @@
 char *SendFileFullPath;
 int RemoveSendFileAtTermination;
 char *ClientIP;
+int TightFlag; // { 0, "LMH" } == { none, low, middle, hi }
 
 void HTT_Disconnect(void)
 {

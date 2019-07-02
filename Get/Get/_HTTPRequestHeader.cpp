@@ -112,6 +112,13 @@ int ParseHTTPRequestHeader(void) // ret: ? successful
 		*p = '\0';
 	}
 
+	p = strchr(url, '*');
+	if(p)
+	{
+		cout("Remove asterisk! (HTT special specification)\n");
+		*p = '\0';
+	}
+
 	p = strstr(url, "://");
 	if(p)
 	{

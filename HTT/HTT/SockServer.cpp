@@ -307,11 +307,12 @@ static int IsKeepServer(void) // ret: ? サーバー継続
 endKeyLoop:
 	if(!SoftStopServerFlag && (waitForMillis(StopServerEvent, 0) || stopServerReq)) // ? 停止イベントが来た。
 	{
-		cout("全ての切断を待ってから終了します...\n");
+		LOGPOS();
 
 		if(ConnectList->GetCount() <= 0)
 			return 0;
 
+		cout("全ての切断を待ってから終了します...\n");
 		SoftStopServerFlag = 1;
 		SoftStopServerTimeoutTime = now() + SoftStopServerTimeoutSec;
 	}

@@ -26,6 +26,8 @@ int SoftStopServerTimeoutSec = 3;
 
 static int ConfLineNo;
 
+#define ERROR_MSG_LEAD "HTT設定ファイル HTT.conf の読み込みに失敗しました。\n書式に問題があるか、ファイルが壊れています。\nreason-phrase : "
+
 static char *ReadConfLine(FILE *fp, int nullOk = 0)
 {
 	for(; ; )
@@ -37,7 +39,7 @@ static char *ReadConfLine(FILE *fp, int nullOk = 0)
 			if(nullOk)
 				return NULL;
 
-			error_m("read eof @ HTT.conf");
+			error_m(ERROR_MSG_LEAD "read eof");
 		}
 		ConfLineNo++;
 
@@ -62,7 +64,7 @@ static int ToInt_x(char *line, int minval, int maxval)
 	else
 		value = atoi(line);
 
-	errorCase_m(!m_isRange(value, minval, maxval), "out of range @ HTT.conf");
+	errorCase_m(!m_isRange(value, minval, maxval), ERROR_MSG_LEAD "out of range");
 
 	memFree(line);
 	return value;
@@ -208,4 +210,5 @@ void LoadConfig(void)
 	cout("TimeWaitSleepMillisMax: %d\n", TimeWaitSleepMillisMax);
 	cout("RecvServiceNameTimeoutSec: %d\n", RecvServiceNameTimeoutSec);
 	cout("ConfigTmpDir: %s\n", ConfigTmpDir ? ConfigTmpDir : "<AUTO>");
+	cout("SoftStopServerTimeoutSec: %d\n", SoftStopServerTimeoutSec);
 }

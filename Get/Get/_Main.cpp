@@ -11,13 +11,25 @@ static void Disconnect(void)
 	HTT_Disconnect();
 	termination(1);
 }
+static int GetDownloadIdleTimeoutSec(void) // ret: 下り無通信タイムアウト_秒
+{
+	int ret = 300;
+
+	switch(TightFlag)
+	{
+	case 'L': ret = 90; break;
+	case 'M': ret = 60; break;
+	case 'H': ret = 30; break;
+	}
+	return ret;
+}
 static void Download(void)
 {
 	setFileSize(RECV_FILE, 0);
 
 	if(1 <= getFileSize(SEND_FILE))
 	{
-		if(getFileWriteTime(SEND_FILE) + 300 < time(NULL)) // ? timeout
+		if(getFileWriteTime(SEND_FILE) + GetDownloadIdleTimeoutSec() < time(NULL)) // ? timeout
 			Disconnect();
 
 		return;
@@ -71,16 +83,14 @@ int main(int argc, char **argv)
 	if(getFileSize(IP_FILE) == 0) // ? 定期的な空実行
 		termination(0);
 
-	int tightFlag = 0; // 0 or "LMH"
+	TightFlag = 0;
 
 	if(existFile(TIGHT_FILE))
 	{
 		FILE *fp = fileOpen(TIGHT_FILE, "rb");
-		tightFlag = readChar(fp);
+		TightFlag = readChar(fp); // "LMH"
 		fileClose(fp);
 	}
-//cout("tightFlag: %d\n", tightFlag); // test
-
 	SendFileFullPath = getFullPath(SEND_FILE);
 	ClientIP = readLine(IP_FILE);
 
@@ -202,12 +212,12 @@ int main(int argc, char **argv)
 	int noContent = 1;
 	char *httpStatus = "none";
 
-	cout("tightFlag: %02x\n", tightFlag);
+	cout("TightFlag: %02x\n", TightFlag);
 
 	Soft404HtmlFile = combine(getSelfDir(), SOFT404HTML_FILE);
 	Soft503HtmlFile = combine(getSelfDir(), SOFT503HTML_FILE);
 
-	if(tightFlag)
+	if(TightFlag)
 	{
 		int htmlFlag = IsMimeHtml(target);
 
@@ -216,9 +226,9 @@ int main(int argc, char **argv)
 		int res503Flag = 0;
 
 		if(htmlFlag)
-			res503Flag = tightFlag == 'M' || tightFlag == 'H';
+			res503Flag = TightFlag == 'M' || TightFlag == 'H';
 		else
-			res503Flag = tightFlag == 'H';
+			res503Flag = TightFlag == 'H';
 
 		cout("res503Flag: %d\n", res503Flag);
 

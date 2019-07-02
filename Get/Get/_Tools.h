@@ -1,6 +1,7 @@
 extern char *SendFileFullPath;
 extern int RemoveSendFileAtTermination;
 extern char *ClientIP;
+extern int TightFlag;
 
 void HTT_Disconnect(void);
 
