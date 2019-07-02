@@ -26,7 +26,7 @@ int SoftStopServerTimeoutSec = 3;
 
 static int ConfLineNo;
 
-#define ERROR_MSG_LEAD "HTT設定ファイル HTT.conf の読み込みに失敗しました。\n書式に問題があるか、ファイルが壊れています。\nreason-phrase : "
+#define ERROR_MSG_LEAD "HTT設定ファイル HTT.conf の読み込みに失敗しました。\n書式に問題があるか、ファイルが壊れています。\n当該ファイルが旧いバージョンのままになっていないか確認して下さい。\nreason-phrase : "
 
 static char *ReadConfLine(FILE *fp, int nullOk = 0)
 {
