@@ -20,5 +20,6 @@ extern int TimeWaitRatePower;
 extern int TimeWaitSleepMillisMax;
 extern int RecvServiceNameTimeoutSec;
 extern char *ConfigTmpDir;
+extern int SoftStopServerTimeoutSec;
 
 void LoadConfig(void);

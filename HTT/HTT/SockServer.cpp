@@ -41,6 +41,7 @@ static int SockSignaled;
 static int SockWaitMillisCount;
 static int SockWaitMillis;
 static int SoftStopServerFlag;
+static time_t SoftStopServerTimeoutTime;
 static autoList<Connect_t *> *PCCI_DisconnectList;
 
 static int IsTight(void)
@@ -169,7 +170,7 @@ static int Transmit(Connect_t *c) // ret: ? 切断
 			/*
 				タイト時、2秒 <- 接続しても何もしない接続があるため。
 			*/
-			if(getFileWriteTime(IP_FILE) + (IsTight() ? 2 : RecvServiceNameTimeoutSec) < time(NULL))
+			if(getFileWriteTime(IP_FILE) + (IsTight() || SoftStopServerFlag ? 2 : RecvServiceNameTimeoutSec) < time(NULL))
 			{
 				retval = 1;
 				goto endFunc;
@@ -254,13 +255,32 @@ endFunc:
 }
 static int IsKeepServer(void) // ret: ? サーバー継続
 {
-	if(waitForMillis(StopServerEvent, 0)) // ? 停止イベントが来た。
-		return 0;
+	int stopServerReq = 0;
 
-	if(SoftStopServerFlag && ConnectList->GetCount() <= 0)
+	if(SoftStopServerFlag)
 	{
-		cout("全て切断したので終了します。\n");
-		return 0;
+		time_t currTime = now();
+
+		{
+			static time_t lastCheckedTime;
+
+			if(lastCheckedTime < currTime)
+			{
+				cout("全ての切断を待ってから終了します。%I64d ⇒ %I64d (%d)\n", currTime, SoftStopServerTimeoutTime, ConnectList->GetCount());
+				lastCheckedTime = currTime;
+			}
+		}
+
+		if(ConnectList->GetCount() <= 0)
+		{
+			cout("全て切断したので終了します。\n");
+			return 0;
+		}
+		if(SoftStopServerTimeoutTime < currTime)
+		{
+			cout("全て切断していませんがタイムアウトなので終了します。%d\n", ConnectList->GetCount());
+			return 0;
+		}
 	}
 	for(; ; )
 	{
@@ -273,9 +293,7 @@ static int IsKeepServer(void) // ret: ? サーバー継続
 				return 0;
 
 			case '0':
-				cout("全ての切断を待ってから終了します...\n");
-				SoftStopServerFlag = 1;
-				break;
+				stopServerReq = 1;
 
 			case 'r':
 			case 'R':
@@ -287,6 +305,16 @@ static int IsKeepServer(void) // ret: ? サーバー継続
 		}
 	}
 endKeyLoop:
+	if(!SoftStopServerFlag && (waitForMillis(StopServerEvent, 0) || stopServerReq)) // ? 停止イベントが来た。
+	{
+		cout("全ての切断を待ってから終了します...\n");
+
+		if(ConnectList->GetCount() <= 0)
+			return 0;
+
+		SoftStopServerFlag = 1;
+		SoftStopServerTimeoutTime = now() + SoftStopServerTimeoutSec;
+	}
 	return 1;
 }
 static void PCCInterval_RED(void)

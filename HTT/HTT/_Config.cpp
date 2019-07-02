@@ -22,6 +22,7 @@ int TimeWaitRatePower = 3;
 int TimeWaitSleepMillisMax = 50;
 int RecvServiceNameTimeoutSec = 60;
 char *ConfigTmpDir;
+int SoftStopServerTimeoutSec = 3;
 
 static int ConfLineNo;
 
@@ -149,6 +150,8 @@ void LoadConfig(void)
 				errorCase(!existDir(ConfigTmpDir));
 			}
 		}
+
+		SoftStopServerTimeoutSec = ToInt_x(ReadConfLine(fp), 0, IMAX);
 
 		// ----
 
