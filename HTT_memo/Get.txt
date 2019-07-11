@@ -1,80 +1,80 @@
 ==== Get.exe spec memo ====
 
 
-���s���@
+実行方法
 
-	Get.exe [/E:01] [/P �_�E�����[�h�O����v���O����] [/H] ���J�t�H���_��`�t�@�C��
+	Get.exe [/E:01] [/P ダウンロード前介入プログラム] [/H] 公開フォルダ定義ファイル
 
 		/E:01
-			�ȈՃA�b�v���[�_�[�p
+			簡易アップローダー用
 
-		�_�E�����[�h�O����v���O����
-			�t�@�C���̃_�E�����[�h���J�n���钼�O�Ɏ��s�����v���O����
-			.exe �� .bat ��z�肷��B
-			���̃v���O�����̓_�E�����[�h�Ώۃt�@�C���� Content-Type ��ύX�o����B
+		ダウンロード前介入プログラム
+			ファイルのダウンロードを開始する直前に実行されるプログラム
+			.exe か .bat を想定する。
+			このプログラムはダウンロード対象ファイルと Content-Type を変更出来る。
 
 		/H
-			HEAD���N�G�X�g�Ƃ��ē���
-			�{�f�B��Ԃ��Ȃ��B
+			HEADリクエストとして動作
+			ボディを返さない。
 
-		���J�t�H���_��`�t�@�C��
-			��΃p�X�܂��͑��΃p�X
-			���΃p�X�̏ꍇ�A�{�v���O���������݂���f�B���N�g������̑��΃p�X�ƂȂ�B
-
-
-		�������̏����͌Œ�
+		公開フォルダ定義ファイル
+			絶対パスまたは相対パス
+			相対パスの場合、本プログラムが存在するディレクトリからの相対パスとなる。
 
 
-���J�t�H���_��`�t�@�C��
+		※引数の順序は固定
 
-	�`��       ... �e�L�X�g
-	�����R�[�h ... CP932
-	���s�R�[�h ... CR-LF ���� LF
 
-	���� = 1*(( HOST-NAME SP DOC-ROOT | COMMENT ) NEW-LINE ) EOF
+公開フォルダ定義ファイル
 
-		HOST-NAME = 1*( 0x21 �` 0x7e )
+	形式       ... テキスト
+	文字コード ... CP932
+	改行コード ... CR-LF 又は LF
+
+	書式 = 1*(( HOST-NAME SP DOC-ROOT | COMMENT ) NEW-LINE ) EOF
+
+		HOST-NAME = 1*( 0x21 ～ 0x7e )
 		SP = 0x20
-		DOC-ROOT = 1*( �p�X�Ɏg�p�ł��镶�� )
-		COMMENT = 0x3b *( ���s�ȊO�̕��� )
+		DOC-ROOT = 1*( パスに使用できる文字 )
+		COMMENT = 0x3b *( 改行以外の文字 )
 		NEW-LINE = *1( 0x0d ) 0x0a
 		EOF = *1( 0x1a )
 
-		�e�s�� HOST-NAME �� DOC-ROOT ���z�X�g���ƑΉ�������J�t�H���_�̑g�ݍ��킹�Ƃ���B
-		�z�X�g���͑啶���E����������ʂ��Ȃ��B
-		�z�X�g���͏d�����Ă͂Ȃ�Ȃ��B
-		�Z�~�R�����Ŏn�܂�s�̓R�����g�ƌ��Ȃ��B
+		各行の HOST-NAME と DOC-ROOT をホスト名と対応する公開フォルダの組み合わせとする。
+		ホスト名は大文字・小文字を区別しない。
+		ホスト名は重複してはならない。
+		セミコロンで始まる行はコメントと見なす。
 
-		���J�t�H���_
-			��΃p�X�܂��͑��΃p�X
-			���΃p�X�̏ꍇ�A���J�t�H���_��`�t�@�C�������݂���f�B���N�g������̑��΃p�X�ƂȂ�B
-
-
-�z�X�g��
-
-	HTTP���N�G�X�g�w�b�_�� Host �t�B�[���h�̒l����擾����B
-	����ɂ͑啶���E����������ʂ��Ȃ��B
+		公開フォルダ
+			絶対パスまたは相対パス
+			相対パスの場合、公開フォルダ定義ファイルが存在するディレクトリからの相対パスとなる。
 
 
-���ʂȎd�l
+ホスト名
 
-	���N�G�X�gURL�� '?' ���� '*' �̒��O�܂ł��p�X�ƌ��Ȃ��B
+	HTTPリクエストヘッダの Host フィールドの値から取得する。
+	判定には大文字・小文字を区別しない。
 
 
-�Ƃ肠����HTTP�T�[�o�[�Ƃ��ē������菇
+特別な仕様
 
-	1. ���̃t�H���_�� Service.dat ���ȉ��̓��e�ō쐬����B
+	リクエストURLの '?' 又は '*' の直前までをパスと見なす。
+
+
+とりあえずHTTPサーバーとして動かす手順
+
+	1. このフォルダに Service.dat を以下の内容で作成する。
 
 		GET .\Get.exe DocRoot.dat
 
-	2. ���̃t�H���_�� DocRoot.dat ���ȉ��̓��e�ō쐬����B
+	2. このフォルダに DocRoot.dat を以下の内容で作成する。
 
 		default .
 
-	3. ���̃t�H���_�� index.html ��K���ȓ��e�ō쐬����B
-	4. �ȉ��̃R�}���h�����s����B
+	3. このフォルダに index.html を適当な内容で作成する。
+	4. 以下のコマンドを実行する。
 
 		HTT.exe /S Service.dat
 
-	5. �u���E�U���� http://localhost/ �ɃA�N�Z�X���� index.html �̓��e���\�����ꂽ�琬��
+	5. ブラウザから http://localhost/ にアクセスして index.html の内容が表示されたら成功
 

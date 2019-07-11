@@ -1,326 +1,326 @@
 ==== HTT.exe spec memo ====
 
 
-�N�����@
+起動方法
 
-	HTT.exe [/U ���[�U�[UUID] [/P �|�[�g�ԍ�] /S �T�[�r�X��`�t�@�C��
+	HTT.exe [/U ユーザーUUID] [/P ポート番号] /S サービス定義ファイル
 
-		���[�U�[UUID
+		ユーザーUUID
 			e.g. /U {c62710c7-160b-4fbe-9b43-16f2099dde32}
 
-		�|�[�g�ԍ�
-			�f�t�H���g 80
+		ポート番号
+			デフォルト 80
 
-		�T�[�r�X��`�t�@�C��
-			��΃p�X�܂��͑��΃p�X
-			���΃p�X�̏ꍇ�A�N�����̍�ƃf�B���N�g������̑��΃p�X�ƂȂ�B
-
-
-���s���̃L�[����
-
-	�G�X�P�[�v�L�[ ... �I�����@���Q��
-	'0'            ... �I�����@���Q��
-	R�L�[          ... �s�[�N�l�̃��Z�b�g
+		サービス定義ファイル
+			絶対パスまたは相対パス
+			相対パスの場合、起動時の作業ディレクトリからの相対パスとなる。
 
 
-�I�����@
+実行中のキー操作
 
-	HTT.exe [/U ���[�U�[UUID] /T �����s���邩�A�G�X�P�[�v�L�[�܂��� '0' �L�[�������B
-
-	/T �܂��̓G�X�P�[�v�L�[���������ꍇ
-
-		���݂̐ڑ��������I�ɐؒf���ăT�[�o�[���I������B
-
-	'0' �L�[���������ꍇ
-
-		���݂̐ڑ����ؒf�����̂�҂��Ă���T�[�o�[���I������B
-		�҂��Ă���Ԃ� /T �܂��̓G�X�P�[�v�L�[�������΁A�����ؒf���Ă����ɏI������B
+	エスケープキー ... 終了方法を参照
+	'0'            ... 終了方法を参照
+	Rキー          ... ピーク値のリセット
 
 
-�T�[�r�X��`�t�@�C��
+終了方法
 
-	�`��       ... �e�L�X�g
-	�����R�[�h ... CP932
-	���s�R�[�h ... CR-LF ���� LF
+	HTT.exe [/U ユーザーUUID] /T を実行するか、エスケープキーまたは '0' キーを押す。
 
-	���� = 1*(( SERVICE-NAME SP SERVICE-COMMAND | COMMENT ) NEW-LINE ) EOF
+	/T またはエスケープキーを押した場合
 
-		SERVICE-NAME = 1*1000( 0x21 �` 0x7e )
+		現在の接続を強制的に切断してサーバーを終了する。
+
+	'0' キーを押した場合
+
+		現在の接続が切断されるのを待ってからサーバーを終了する。
+		待っている間に /T またはエスケープキーを押せば、強制切断してすぐに終了する。
+
+
+サービス定義ファイル
+
+	形式       ... テキスト
+	文字コード ... CP932
+	改行コード ... CR-LF 又は LF
+
+	書式 = 1*(( SERVICE-NAME SP SERVICE-COMMAND | COMMENT ) NEW-LINE ) EOF
+
+		SERVICE-NAME = 1*1000( 0x21 ～ 0x7e )
 		SP = 0x20
-		SERVICE-COMMAND = 1*( �R�}���h�Ɏg�p�ł��镶�� )
-		COMMENT = 0x3b *( ���s�ȊO�̕��� )
+		SERVICE-COMMAND = 1*( コマンドに使用できる文字 )
+		COMMENT = 0x3b *( 改行以外の文字 )
 		NEW-LINE = *1( 0x0d ) 0x0a
 		EOF = *1( 0x1a )
 
-		�e�s�� SERVICE-NAME �� SERVICE-COMMAND ���T�[�r�X���ƑΉ�����T�[�r�X�R�}���h�̑g�ݍ��킹�Ƃ���B
-		�T�[�r�X���͑啶���E����������ʂ��Ȃ��B
-		�T�[�r�X�����d�����Ă͂Ȃ�Ȃ��B
-		�Z�~�R�����Ŏn�܂�s�̓R�����g�ƌ��Ȃ��B
+		各行の SERVICE-NAME と SERVICE-COMMAND をサービス名と対応するサービスコマンドの組み合わせとする。
+		サービス名は大文字・小文字を区別しない。
+		サービス名が重複してはならない。
+		セミコロンで始まる行はコメントと見なす。
 
-	�T�[�r�X�R�}���h
+	サービスコマンド
 
-		���d�l -->
+		旧仕様 -->
 
-		�R�}���h�C���^�v���^�� SERVICE-COMMAND �����̂܂ܓn���Ď��s���镶����ł���B
-		�ȉ��̂悤�ɌĂ�ł��邾���A�߂�l�����Ă��Ȃ��B
+		コマンドインタプリタに SERVICE-COMMAND をそのまま渡して実行する文字列である。
+		以下のように呼んでいるだけ、戻り値も見ていない。
 
 			system( SERVICE-COMMAND );
 
-		�����R�}���h���g����B
-		�Ⴆ�΁A��M�f�[�^�����̂܂ܑ��M���邾���̃G�R�[�T�[�r�X�i�G�R�[�T�[�o�[�j��
+		内部コマンドも使える。
+		例えば、受信データをそのまま送信するだけのエコーサービス（エコーサーバー）は
 
 			COPY /B Send.httdat + Recv.httdat 1 & MOVE /Y 1 Send.httdat & TYPE NUL > Recv.httdat
 
-		�ڑ������炷���ɐؒf���邾���̃T�[�r�X��
+		接続したらすぐに切断するだけのサービスは
 
 			DEL Send.httdat
 
-		�Ƃ��� SERVICE-COMMAND �Ŏ����ł���B
+		という SERVICE-COMMAND で実現できる。
 
-		<-- ���d�l
+		<-- 旧仕様
 
-		���݂̎d�l -->
+		現在の仕様 -->
 
-		SERVICE-COMMAND �� "" ���l�����ăR�}���h�E������ɕ������Ĉȉ��̂悤�ɌĂԁB�߂�l�͌��Ă��Ȃ��B
+		SERVICE-COMMAND を "" を考慮してコマンド・引数列に分解して以下のように呼ぶ。戻り値は見ていない。
 
 			_spawnv( _P_WAIT , SERVICE-COMMAND-ARGUMENT-0 , SERVICE-COMMAND-ARGUMENTS );
 
-		�����R�}���h�͎g���Ȃ��Ȃ����B
+		内部コマンドは使えなくなった。
 
-		�A���A�ȉ��̉��ꂩ�𖞂����ꍇ�A���d�l�ǂ��� system �֐����Ăяo���B
+		但し、以下の何れかを満たす場合、旧仕様どおり system 関数を呼び出す。
 
-			�R�}���h�E�����ɂP�ł��󔒂������Ă���B(_spawn �n�֐��̐����ɂ��)
-			SERVICE-COMMAND �� 1024 �o�C�g�𒴂���B(_spawn �n�֐��̐����ɂ��)
+			コマンド・引数に１つでも空白が入っている。(_spawn 系関数の制限による)
+			SERVICE-COMMAND が 1024 バイトを超える。(_spawn 系関数の制限による)
 
-		<-- ���݂̎d�l
-
-		----
-
-		���s���̍�ƃf�B���N�g���͂ǂ����̃e���|�����t�H���_�i���T�[�r�X�t�H���_�j�ł��邽�߁A
-		�R�}���h���̃p�X�͐�΃p�X�ŋL�q����K�v������B
+		<-- 現在の仕様
 
 		----
 
-		�ȉ��̒u�����s���B
+		実行時の作業ディレクトリはどこかのテンポラリフォルダ（＝サービスフォルダ）であるため、
+		コマンド内のパスは絶対パスで記述する必要がある。
 
-			<BASE> ... �T�[�r�X��`�t�@�C�������݂���f�B���N�g���ւ̐�΃p�X
+		----
 
-			�啶���E����������ʂ��Ȃ��B
-			<BASE> �̍Ō�ɉ~�L��������B��: C:\, C:\ABC\, C:\ABC\DEF\
+		以下の置換を行う。
 
-			��: �T�[�r�X��`�t�@�C���� C:\HTT\Service.dat �ł���ꍇ�A
-			"<Base>bin\Get.exe" <Base>dat\DocRoot.dat �Ƃ����R�}���h�� "C:\HTT\bin\Get.exe" C:\HTT\dat\DocRoot.dat �ɕϊ�����B
-			<Base> �̒���ɉ~�L�����s�v�ł��邱�Ƃɒ��ӁB�����Ă����Q�݂���������...
+			<BASE> ... サービス定義ファイルが存在するディレクトリへの絶対パス
+
+			大文字・小文字を区別しない。
+			<BASE> の最後に円記号を入れる。例: C:\, C:\ABC\, C:\ABC\DEF\
+
+			例: サービス定義ファイルが C:\HTT\Service.dat である場合、
+			"<Base>bin\Get.exe" <Base>dat\DocRoot.dat というコマンドは "C:\HTT\bin\Get.exe" C:\HTT\dat\DocRoot.dat に変換する。
+			<Base> の直後に円記号が不要であることに注意。あっても無害みたいだけど...
 
 
-�ڑ�
+接続
 
-	�ڑ����Ƀe���|�����t�H���_�i�T�[�r�X�t�H���_�j���쐬����B
-	�ؒf����܂ŁA�����T�[�r�X�t�H���_����T�[�r�X�R�}���h�����s��������B
+	接続毎にテンポラリフォルダ（サービスフォルダ）を作成する。
+	切断するまで、同じサービスフォルダからサービスコマンドを実行し続ける。
 
-	�T�[�r�X�t�H���_�̃p�X = TEMP-DIR \ APP-UUID \ CRYPTO-RAND
+	サービスフォルダのパス = TEMP-DIR \ APP-UUID \ CRYPTO-RAND
 
-		TEMP-DIR    ... ���ϐ� TMP �̎w���f�B���N�g��, TMP ������`�̏ꍇ�� TEMP, TEMP ������`�Ȃ�G���[�ŗ�����B
-		APP-UUID    ... {A84D19ED-158C-4F8D-8F63-AAF315C26381} (�A���A���[�U�[UUID���w�肳��Ă���΁A���[�U�[UUID�ɂȂ�)
-		CRYPTO-RAND ... ( 0�`9, a�`z ) �� 36 �������g�p���� 25 ���̗���(CSPRNG�g�p)
+		TEMP-DIR    ... 環境変数 TMP の指すディレクトリ, TMP が未定義の場合は TEMP, TEMP も未定義ならエラーで落ちる。
+		APP-UUID    ... {A84D19ED-158C-4F8D-8F63-AAF315C26381} (但し、ユーザーUUIDが指定されていれば、ユーザーUUIDになる)
+		CRYPTO-RAND ... ( 0～9, a～z ) の 36 文字を使用した 25 桁の乱数(CSPRNG使用)
 
-		��: C:\Users\user01\AppData\Local\Temp\{A84D19ED-158C-4F8D-8F63-AAF315C26381}\m2awgejwq4w6b81le90mwxiax
+		例: C:\Users\user01\AppData\Local\Temp\{A84D19ED-158C-4F8D-8F63-AAF315C26381}\m2awgejwq4w6b81le90mwxiax
 
-	�T�[�r�X�t�H���_�̒����Ɉȉ��̃t�@�C�����쐬����B
+	サービスフォルダの直下に以下のファイルを作成する。
 
-		IP.httdat    ... �N���C�A���g�̂h�o�A�h���X���L�q�����t�@�C���i�폜�s�E�ύX�s�j
-		Recv.httdat  ... ��M�f�[�^�t�@�C���i�폜�s�j
-		Send.httdat  ... ���M�f�[�^�t�@�C��
-		Tight.httdat ... �X�e�[�^�X�F�O���[���ȊO���͌��݂̂s�b�o�ڑ������u�b��ő哯���ڑ����v�𒴂��Ă���ꍇ�A�쐬����B�����łȂ��ꍇ�A�쐬���Ȃ��B
+		IP.httdat    ... クライアントのＩＰアドレスを記述したファイル（削除不可・変更不可）
+		Recv.httdat  ... 受信データファイル（削除不可）
+		Send.httdat  ... 送信データファイル
+		Tight.httdat ... ステータス：グリーン以外又は現在のＴＣＰ接続数が「暫定最大同時接続数」を超えている場合、作成する。そうでない場合、作成しない。
 
-		�T�[�r�X�R�}���h�͂���ȊO�̃t�@�C���E�t�H���_���쐬���ėǂ��B
+		サービスコマンドはこれ以外のファイル・フォルダを作成して良い。
 
-	IP.httdat �̓��e = NUM DOT NUM DOT NUM DOT NUM NEW-LINE
+	IP.httdat の内容 = NUM DOT NUM DOT NUM DOT NUM NEW-LINE
 
-		NUM = '0' | '1'�`'9' *('0'�`'9')
+		NUM = '0' | '1'～'9' *('0'～'9')
 		DOT = '.'
 		NEW-LINE = 0x0d 0x0a
 
-		NUM �� 0�`255 �̐���
+		NUM は 0～255 の整数
 
-	Tight.httdat �̓��e = LEVEL NEW-LINE
+	Tight.httdat の内容 = LEVEL NEW-LINE
 
 		LEVEL = 'L' | 'M' | 'H'
 		NEW-LINE = 0x0d 0x0a
 
-		LEVEL �̊�͈ȉ��̂Ƃ���
+		LEVEL の基準は以下のとおり
 
-			           �����̕ύX                ���薳�ʐM�^�C���A�E�g�̕ύX
+			           応答の変更                下り無通信タイムアウトの変更
 			-----------------------------------------------------------------
-			L ... ��   ����ǂ���                300�b -> 90�b
-			M ... ��   HTML�̂� 503 ����������   300�b -> 60�b
-			H ... ��   �S�� 503 ����������       300�b -> 30�b
+			L ... 低   平常どおり                300秒 -> 90秒
+			M ... 中   HTMLのみ 503 を応答する   300秒 -> 60秒
+			H ... 高   全て 503 を応答する       300秒 -> 30秒
 
-	��M�f�[�^����
+	受信データ処理
 
-		1. �ʐM�X�g���[������ő� 1,000,000 �o�C�g�ǂݍ��ށB
-		2. �ǂݍ��񂾃f�[�^�� 1 �o�C�g�ȏ�ł���� Recv.httdat �ɒǋL����B
+		1. 通信ストリームから最大 1,000,000 バイト読み込む。
+		2. 読み込んだデータが 1 バイト以上であれば Recv.httdat に追記する。
 
-	���M�f�[�^����
+	送信データ処理
 
-		1. Send.httdat �̐擪����ő� 1,000,000 �o�C�g�ǂݍ��ށB
-		2. �ʐM�X�g���[���ɏ����o���B
-		3. �������߂��f�[�^�� 1 �o�C�g�ȏ�ł���� Send.httdat �̐擪����u�����o�����������v�폜����B
+		1. Send.httdat の先頭から最大 1,000,000 バイト読み込む。
+		2. 通信ストリームに書き出す。
+		3. 書き込めたデータが 1 バイト以上であれば Send.httdat の先頭から「書き出した分だけ」削除する。
 
-		Send.httdat �͋�ɂȂ��Ă��폜���Ȃ��B
+		Send.httdat は空になっても削除しない。
 
-	�T�[�r�X�̕R�t��
+	サービスの紐付け
 
-		��M�f�[�^�� ( 1*1000( CHR ) NOCHR ) �Ŏn�܂�A�ŏ��� NOCHR �̒��O�܂ł̕�����Ɉ�v����T�[�r�X��������ƁA���̃T�[�r�X�ɕR�t����B
+		受信データが ( 1*1000( CHR ) NOCHR ) で始まり、最初の NOCHR の直前までの文字列に一致するサービス名があると、そのサービスに紐付ける。
 
-		CHR = 0x21 �` 0x7e
-		NOCHR = 0x00 �` 0x20 | 0x7f �` 0xff
+		CHR = 0x21 ～ 0x7e
+		NOCHR = 0x00 ～ 0x20 | 0x7f ～ 0xff
 
-		�T�[�r�X���͑啶���E����������ʂ��Ȃ��B
-		�i��M�f�[�^����j�R�t���ł��Ȃ��Ɣ��f�����ꍇ�A�ؒf����B
-		�ڑ����Ă���U�O�b�o�߂��Ă��T�[�r�X�̕R�t�����ł��Ȃ��ꍇ���A�ؒf����B
-		��M�f�[�^�̃T�[�r�X���̕����͍폜�����A���̂܂܃T�[�r�X�R�}���h�����s����B
+		サービス名は大文字・小文字を区別しない。
+		（受信データから）紐付けできないと判断した場合、切断する。
+		接続してから６０秒経過してもサービスの紐付けができない場合も、切断する。
+		受信データのサービス名の部分は削除せず、そのままサービスコマンドを実行する。
 
-	�T�[�r�X�R�}���h
+	サービスコマンド
 
-		���s���� = �T�[�r�X�̕R�t���ɐ������� AND (Recv.httdat�̍X�V OR Send.httdat�̍X�V OR �O��̃T�[�r�X�R�}���h���s����2�`3�b������ȏ�o�߂���)
+		実行条件 = サービスの紐付けに成功した AND (Recv.httdatの更新 OR Send.httdatの更新 OR 前回のサービスコマンド実行から2～3秒かそれ以上経過した)
 
-		�T�[�r�X�R�}���h�̍�ƃf�B���N�g�� = �T�[�r�X�t�H���_
-		�O��̃T�[�r�X�R�}���h���s���� Recv.httdat, Send.httdat �̃T�C�Y�̕ω��� 1,000,000 �o�C�g���z���Ȃ��B
-		Send.httdat ���폜����Ɛؒf�̗v���ƌ��Ȃ��B
+		サービスコマンドの作業ディレクトリ = サービスフォルダ
+		前回のサービスコマンド実行から Recv.httdat, Send.httdat のサイズの変化は 1,000,000 バイトを越えない。
+		Send.httdat を削除すると切断の要求と見なす。
 
-	�ؒf����
+	切断処理
 
-		�T�[�r�X�R�}���h�����������t�@�C���E�t�H���_���܂߃T�[�r�X�t�H���_���폜����B
-
-
-�T�[�r�X�R�}���h�̒���I�ȋ���s
-
-	���������U�O�b�ɂP��̕p�x�Ŏ��s����B
-	��邱�Ƃ͈ȉ��̂Ƃ���B
-
-	�e���|�����t�H���_���쐬���A�ȉ��̃t�@�C�����쐬����B
-
-		IP.httdat    ... ��t�@�C��
-		Recv.httdat  ... ��t�@�C��
-		Send.httdat  ... ��t�@�C��
-		Tight.httdat ... ��t�@�C�� (�����ꍇ������)
-
-	�S�ẴT�[�r�X�̃T�[�r�X�R�}���h�����s����B
-	����s�̌������� = IP.httdat ����ł��邩�ǂ����B
+		サービスコマンドが生成したファイル・フォルダを含めサービスフォルダを削除する。
 
 
-�T�[�r�X�R�}���h�̎���
+サービスコマンドの定期的な空実行
 
-	�ۏႳ��邱��
+	だいたい６０秒に１回の頻度で実行する。
+	やることは以下のとおり。
 
-		IP.httdat, Recv.httdat, Send.httdat �����݂���B
-		����ȊO�̃t�@�C���E�t�H���_���쐬���ėǂ��B
-			�g���q httdat �̃t�@�C���͏����B�i�����̃t�@�C�����쐬�E�ύX�E�폜���邱�Ƃ͈Ӗ�������ꍇ������j
-			�쐬�����t�@�C���E�t�H���_�͐ؒf�܂łɍ폜����K�v�͖����B
-		�ؒf�܂ŁA������ƃf�B���N�g���ł��邱�ƁB
-		�T�[�r�X�R�}���h�̎��s���́A�������͑��̃T�[�r�X�R�}���h�����s���Ȃ��B�i�A�g�~�b�N�Ɏ��s�����j
+	テンポラリフォルダを作成し、以下のファイルを作成する。
 
-	��������
+		IP.httdat    ... 空ファイル
+		Recv.httdat  ... 空ファイル
+		Send.httdat  ... 空ファイル
+		Tight.httdat ... 空ファイル (無い場合もある)
 
-		IP.httdat, Recv.httdat ���폜���Ă͂Ȃ�Ȃ��B�i�폜���Ă��č쐬����Ȃ�j
-		�E�F�C�g���Ȃ����ƁB�����I��邱�ƁB��1
-		�v���Z�X�̏I���Ɠ�������ɌĂяo�����̃R�}���h�C���^�v���^�ɐ����Ԃ����ƁB��2
-
-		��1 �T�[�r�X�R�}���h���s���� HTT.exe �̏������S�ău���b�N����邽�߁B
-		��2 �v���Z�X�I���O�ɐ����Ԃ����Ⴄ�ꍇ�� calc.exe -> START /WAIT calc.exe �݂����ɑΏ����ĂˁB
-
-	����I�ȋ���s�̔���
-
-		IP.httdat ����ł��邱�ƁB
-
-	�ؒf�̗v��
-
-		Send.httdat ���폜����B
-
-	�^�C���A�E�g�̔���
-
-		�e�t�@�C���́u�X�V�v�����͈ȉ��̓����ɑΉ�����B
-
-			IP.httdat   ... �ڑ���������
-			Recv.httdat ... �P�o�C�g�ȏ�̃f�[�^���Ō�Ɏ�M�������� ��3
-			Send.httdat ... �P�o�C�g�ȏ�̃f�[�^���Ō�ɑ��M��������
-
-		��3 �ŏ��̎��s���� Recv.httdat �̓T�[�r�X��R�t���������ƈ�v����B
-
-	��M�f�[�^�T�C�Y���ی��Ȃ����剻�����邱�Ƃւ̒���
-
-		�T�C�Y�̃`�F�b�N�Ɍ�������ƁA������˂��čی��Ȃ��f�[�^�𑗂葱���A
-		�T�[�o�[�̃f�B�X�N���p���N������U�����\�ƂȂ�B
-		�T�C�Y�̃`�F�b�N�Ɍ��������Ă͂Ȃ�Ȃ��B
-
-		Recv.httdat �̃T�C�Y���m�F���A���肦�Ȃ����傫�ȃT�C�Y�ɂȂ��Ă�����A�폜�܂��͐ؒf����B
-		�܂��͓ǂݏI������������폜���邩 Recv.httdat �̃T�C�Y���[���ɂ���B
-
-	���M�f�[�^�T�C�Y�̍ی��Ȃ����剻�����邱�Ƃւ̒���
-
-		��M�f�[�^���ł͂Ȃ����A���M���؂邱�Ƃ�z�肹�����X�ƃf�[�^���������߂΁A
-		���l�Ƀf�B�X�N���p���N�����Ă��܂���������Ȃ��B
-
-		Send.httdat �̃T�C�Y���m�F���A�傫���Ȃ肷���Ȃ��悤�ɒǋL����f�[�^�ʂ𒲐�����B
-		���̎��s�܂ł� 1,000,000 �o�C�g��葽�����M����邱�Ƃ͂Ȃ��B/* �������� 2 �` 3,000,000 �o�C�g���x�ɂ��� */
+	全てのサービスのサービスコマンドを実行する。
+	空実行の見分け方 = IP.httdat が空であるかどうか。
 
 
-����
+サービスコマンドの実装
 
-	�ő哯���ڑ���
+	保障されること
+
+		IP.httdat, Recv.httdat, Send.httdat が存在する。
+		これ以外のファイル・フォルダを作成して良い。
+			拡張子 httdat のファイルは除く。（これらのファイルを作成・変更・削除することは意味がある場合がある）
+			作成したファイル・フォルダは切断までに削除する必要は無い。
+		切断まで、同じ作業ディレクトリであること。
+		サービスコマンドの実行中は、同じ又は他のサービスコマンドを実行しない。（アトミックに実行される）
+
+	制限事項
+
+		IP.httdat, Recv.httdat を削除してはならない。（削除しても再作成するなら可）
+		ウェイトしないこと。すぐ終わること。※1
+		プロセスの終了と同時か後に呼び出し側のコマンドインタプリタに制御を返すこと。※2
+
+		※1 サービスコマンド実行中は HTT.exe の処理が全てブロックされるため。
+		※2 プロセス終了前に制御を返しちゃう場合は calc.exe -> START /WAIT calc.exe みたいに対処してね。
+
+	定期的な空実行の判定
+
+		IP.httdat が空であること。
+
+	切断の要求
+
+		Send.httdat を削除する。
+
+	タイムアウトの判定
+
+		各ファイルの「更新」日時は以下の日時に対応する。
+
+			IP.httdat   ... 接続した日時
+			Recv.httdat ... １バイト以上のデータを最後に受信した日時 ※3
+			Send.httdat ... １バイト以上のデータを最後に送信した日時
+
+		※3 最初の実行時の Recv.httdat はサービスを紐付けた日時と一致する。
+
+	受信データサイズが際限なく巨大化し得ることへの注意
+
+		サイズのチェックに穴があると、そこを突いて際限なくデータを送り続け、
+		サーバーのディスクをパンクさせる攻撃が可能となる。
+		サイズのチェックに穴があってはならない。
+
+		Recv.httdat のサイズを確認し、ありえない程大きなサイズになっていたら、削除または切断する。
+		または読み終わった部分を削除するか Recv.httdat のサイズをゼロにする。
+
+	送信データサイズの際限なく巨大化し得ることへの注意
+
+		受信データ程ではないが、送信が滞ることを想定せず延々とデータを書き込めば、
+		同様にディスクをパンクさせてしまうかもしれない。
+
+		Send.httdat のサイズを確認し、大きくなりすぎないように追記するデータ量を調整する。
+		次の実行までに 1,000,000 バイトより多く送信されることはない。/* せいぜい 2 ～ 3,000,000 バイト程度にする */
+
+
+制限
+
+	最大同時接続数
 
 		5000
 
-	�b��ő哯���ڑ���
+	暫定最大同時接続数
 
-		4750�i�ő哯���ڑ����~0.95�j
+		4750（最大同時接続数×0.95）
 
-		�^�C�g���x��
+		タイトレベル
 
-			L ... 4250�i�ő哯���ڑ����~0.85�j
-			M ... 4500�i�ő哯���ڑ����~0.9�j
-			H ... 4750�i�ő哯���ڑ����~0.95�j
+			L ... 4250（最大同時接続数×0.85）
+			M ... 4500（最大同時接続数×0.9）
+			H ... 4750（最大同時接続数×0.95）
 
-		�^�C�g�ȏ󋵂ł̐U�镑���i�Q�l�j
+		タイトな状況での振る舞い（参考）
 
-			�` L                ... �T�[�r�X���^�C���A�E�g�P���E�����h�o����ő�Q�O�E���薳�ʐM�^�C���A�E�g�T��
-			L �` M              ... �T�[�r�X���^�C���A�E�g�Q�b�E�����h�o����ő�P�O�E���薳�ʐM�^�C���A�E�g�P���R�O�b
-			M �` H              ... �g�s�s�o�ȊO�͂��̂܂܁E�g�s�l�k�݂̂T�O�R�@�@�@�E���薳�ʐM�^�C���A�E�g�P��
-			H �` �ő哯���ڑ��� ... �g�s�s�o�ȊO�͂��̂܂܁E�S�ĂT�O�R�@�@�@�@�@�@�@�E���薳�ʐM�^�C���A�E�g�R�O�b
-			�ő哯���ڑ��� �`   ... �S�Ẵ��N�G�X�g�i�S�ẴT�[�r�X�j�ڑ���A���ؒf�E���薳�ʐM�^�C���A�E�g�R�O�b
+			～ L                ... サービス名タイムアウト１分・同じＩＰから最大２０・下り無通信タイムアウト５分
+			L ～ M              ... サービス名タイムアウト２秒・同じＩＰから最大１０・下り無通信タイムアウト１分３０秒
+			M ～ H              ... ＨＴＴＰ以外はそのまま・ＨＴＭＬのみ５０３　　　・下り無通信タイムアウト１分
+			H ～ 最大同時接続数 ... ＨＴＴＰ以外はそのまま・全て５０３　　　　　　　・下り無通信タイムアウト３０秒
+			最大同時接続数 ～   ... 全てのリクエスト（全てのサービス）接続後、即切断・下り無通信タイムアウト３０秒
 
-	�����h�o�A�h���X����̐ڑ����̏��
+	同じＩＰアドレスからの接続数の上限
 
-		20 (���\�[�X���N�����Ă����� 10)
+		20 (リソースが逼迫してきたら 10)
 
-	���\�[�X�̎g�p�󋵂ɂ�鐧��
+	リソースの使用状況による制限
 
-		�ی��Ȃ��ڑ��������Ă��܂��ƃ������E�f�B�X�N��H���s�������Ƃ����O�����B
-		�������E�f�B�X�N�̎g�p�󋵂ɉ����Ĉȉ��̂Ƃ��蓮�삷��B
+		際限なく接続を許してしまうとメモリ・ディスクを食い尽くすことが懸念される。
+		メモリ・ディスクの使用状況に応じて以下のとおり動作する。
 
-		�����������̋� 1.0GB �ȉ� OR �����������̋� 10% �ȉ� OR �f�B�X�N�̋� 1.0GB �ȉ��i�X�e�[�^�X�F���b�h�j��4
+		物理メモリの空き 1.0GB 以下 OR 物理メモリの空き 10% 以下 OR ディスクの空き 1.0GB 以下（ステータス：レッド）※4
 
-			�S�Ă̐ڑ���ؒf����B
-			�V�����ڑ����󂯕t���Ȃ��B
+			全ての接続を切断する。
+			新しい接続を受け付けない。
 
-		�����������̋� 1.5GB �ȉ� OR �����������̋� 15% �ȉ� OR �f�B�X�N�̋� 1.5GB �ȉ��i�X�e�[�^�X�F�C�G���[�j��4
+		物理メモリの空き 1.5GB 以下 OR 物理メモリの空き 15% 以下 OR ディスクの空き 1.5GB 以下（ステータス：イエロー）※4
 
-			�ڑ����[���ɂȂ�����P�����ڑ���������B== �����ڑ����O�`�P�ɍi��B
+			接続がゼロになったら１つだけ接続を許可する。== 同時接続数０～１に絞る。
 
-		����ȊO�i�X�e�[�^�X�F�O���[���j
+		それ以外（ステータス：グリーン）
 
-			�ʏ�^�]
+			通常運転
 
-	�N�����̃��\�[�X�̐���
+	起動時のリソースの制限
 
-		�����������̋� 2.0GB �ȉ� OR �����������̋� 20% �ȉ� OR �f�B�X�N�̋� 2.0GB �ȉ� ��4
+		物理メモリの空き 2.0GB 以下 OR 物理メモリの空き 20% 以下 OR ディスクの空き 2.0GB 以下 ※4
 
-	�T�[�r�X�R�}���h�ɕۏႳ��郊�\�[�X
+	サービスコマンドに保障されるリソース
 
-		��4 �f�B�X�N�̋󂫂͍ŏ� 100MB �܂ŕύX�ł���B�i�q�`�l�h���C�u���g�p����Ƃ��Ȃǁj
+		※4 ディスクの空きは最小 100MB まで変更できる。（ＲＡＭドライブを使用するときなど）
 
-		���������� 100MB �f�B�X�N�̋� 100MB �����������ۏႳ���͂��B
-		���̃v���Z�X�ɂ��e���͂���̂ŁA�s�K�v�Ƀ��\�[�X������Ȃ��悤�S�|����B
-		��ʂɎg���O�ɋ󂫂��m�F����B
+		物理メモリ 100MB ディスクの空き 100MB がだいたい保障されるはず。
+		他のプロセスによる影響はあるので、不必要にリソースを消費しないよう心掛ける。
+		大量に使う前に空きを確認する。
 
