@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Charlotte.Tools
 {
-	public class IntTools
+	public static class IntTools
 	{
 		public const int IMAX = 1000000000;
 

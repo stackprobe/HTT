@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Charlotte.Tools
 {
-	public class FileTools
+	public static class FileTools
 	{
 		public static void Delete(string path)
 		{

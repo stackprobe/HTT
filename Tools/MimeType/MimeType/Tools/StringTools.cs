@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Charlotte.Tools
 {
-	public class StringTools
+	public static class StringTools
 	{
 		public static Encoding ENCODING_SJIS = Encoding.GetEncoding(932);
 

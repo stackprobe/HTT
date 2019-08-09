@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Charlotte
 {
-	public class Utils
+	public static class Utils
 	{
 		public static string ExtMimeTypeFilter(string str)
 		{

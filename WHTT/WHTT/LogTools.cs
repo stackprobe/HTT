@@ -6,7 +6,7 @@ using System.IO;
 
 namespace WHTT
 {
-	public class LogTools
+	public static class LogTools
 	{
 		private static string Format = null; // "" == no format
 

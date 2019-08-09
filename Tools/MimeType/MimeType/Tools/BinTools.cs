@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Charlotte.Tools
 {
-	public class BinTools
+	public static class BinTools
 	{
 		public static int Comp(byte a, byte b)
 		{

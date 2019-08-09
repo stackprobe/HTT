@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Charlotte.Tools
 {
-	public class SecurityTools
+	public static class SecurityTools
 	{
 		public static Random CRandom = new Random(new RNGCryptoServiceProvider());
 

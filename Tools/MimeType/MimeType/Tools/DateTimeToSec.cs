@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Charlotte.Tools
 {
-	public class DateTimeToSec
+	public static class DateTimeToSec
 	{
 		public static long ToSec(long dateTime)
 		{

@@ -61,7 +61,7 @@ namespace WHTT
 		}
 	}
 
-	public class Tools
+	public static class Tools
 	{
 		public static readonly Encoding ENCODING_SJIS = Encoding.GetEncoding(932);
 
@@ -240,7 +240,7 @@ namespace WHTT
 		// < sync
 	}
 
-	public class EventSet
+	public static class EventSet
 	{
 		[DllImport("kernel32.dll")]
 		private static extern IntPtr CreateEvent(IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);

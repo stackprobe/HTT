@@ -12,7 +12,7 @@ namespace WHTT
 {
 	// sync > @ SaveLoadDialogs
 
-	public class SaveLoadDialogs
+	public static class SaveLoadDialogs
 	{
 		public static string SaveFile(string title, string filterString, string initialFile)
 		{
