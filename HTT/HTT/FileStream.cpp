@@ -21,31 +21,28 @@ FILE *rfopen(char *file, char *mode)
 			return NULL;
 		}
 
-		// sync > @ HTT_rfopen_ForceCreateFile
+#define RFOPEN_DISEASEABLE_FILE_1 "Recv.httdat"
+#define RFOPEN_DISEASEABLE_FILE_2 "Send.httdat"
 
-#define RFOPEN_FORCE_CREATE_FILE_1 "Recv.httdat"
-#define RFOPEN_FORCE_CREATE_FILE_2 "Send.httdat"
-
-		if(!strcmp(file, RFOPEN_FORCE_CREATE_FILE_1) || !strcmp(file, RFOPEN_FORCE_CREATE_FILE_2))
+		if(!strcmp(file, RFOPEN_DISEASEABLE_FILE_1) || !strcmp(file, RFOPEN_DISEASEABLE_FILE_2))
 		{
 			DWORD lastError = GetLastError();
 
 			LOGPOS();
-//			cout("file: \"%s\"\n", file);
-//			cout("mode: \"%s\"\n", mode);
+			cout("file: \"%s\"\n", file);
+			cout("mode: \"%s\"\n", mode);
 			cout("lastError: %d\n", (int)lastError);
 
-			if(lastError == ERROR_VIRUS_INFECTED || lastError == ERROR_VIRUS_DELETED || (mode[0] == 'r' && _access(file, 0)))
+			if(lastError == ERROR_VIRUS_INFECTED || lastError == ERROR_VIRUS_DELETED)
 			{
 				LOGPOS();
-				cout("file.1: \"%s\"\n", file);
-				cout("mode.1: \"%s\"\n", mode);
 
 				{
-					static char dummyFile[100]; // fixme ’·‚³“K“–
+					static char *dummyFile;
 					static __int64 counter;
 
-					sprintf(dummyFile, "%s_rfopen-dummyFile_%I64d.tmp", file, counter);
+					memFree(dummyFile);
+					dummyFile = xcout("%s_rfopen-dummyFile_%I64d.tmp", file, counter);
 					counter++;
 
 					file = dummyFile;
@@ -65,10 +62,8 @@ FILE *rfopen(char *file, char *mode)
 			}
 		}
 
-#undef RFOPEN_FORCE_CREATE_FILE_1
-#undef RFOPEN_FORCE_CREATE_FILE_2
-
-		// < sync
+#undef RFOPEN_DISEASEABLE_FILE_1
+#undef RFOPEN_DISEASEABLE_FILE_2
 
 		Sleep(100);
 	}
