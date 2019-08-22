@@ -20,6 +20,35 @@ FILE *rfopen(char *file, char *mode)
 			cout("Can not open file \"%s\" as \"%s\" mode.\n", file, mode);
 			return NULL;
 		}
+
+		// sync > @ HTT_rfopen_ForceCreateRecvFile
+
+#define RFOPEN_FORCE_CREATE_FILE "Recv.httdat"
+
+		if(mode[0] == 'r' && !strcmp(file, RFOPEN_FORCE_CREATE_FILE))
+		{
+			DWORD lastError = GetLastError();
+
+			cout("fopen RecvFile LastError: %d\n", (int)lastError);
+
+			if(lastError == ERROR_VIRUS_INFECTED || lastError == ERROR_VIRUS_DELETED || _access(RFOPEN_FORCE_CREATE_FILE, 0))
+			{
+				LOGPOS();
+
+				file = RFOPEN_FORCE_CREATE_FILE ".2";
+				writeLine(file,
+					"                " "                " "                " "                "
+					"                " "                " "                " "                "
+					"                " "                " "                " "                "
+					"                " "                " "                " "                " // SP x 256
+					);
+			}
+		}
+
+#undef RFOPEN_FORCE_CREATE_FILE
+
+		// < sync
+
 		Sleep(100);
 	}
 }

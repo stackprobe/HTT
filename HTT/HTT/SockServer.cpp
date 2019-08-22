@@ -128,13 +128,6 @@ static int Transmit(Connect_t *c) // ret: ? Ø’f
 		writeBlock(RECV_FILE, Buffer, size, 1);
 		c->NextServiceExecTime = -1;
 		SockSignaled = 1;
-
-		if(!existPath(RECV_FILE)) // ZANTEI -- deletion by Windows Defender
-		{
-			LOGPOS();
-			retval = 1;
-			goto endFunc;
-		}
 	}
 	if(c->NextServiceExecTime < now())
 	{
