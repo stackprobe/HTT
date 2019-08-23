@@ -1,0 +1,68 @@
+==== HTT memo e0001 ====
+
+
+ウィルス検出される理由
+
+	HTT は HTT.exe , Get.exe が以下とおり動作して HTTP リクエストを処理します。
+
+		No.   Actor                     処理
+		------------------------------------
+		1.    クライアント ⇒ HTT.exe   接続
+		2.    クライアント ⇒ HTT.exe   HTTP リクエストを送信する
+		3.    HTT.exe                   HTTP リクエストを一時ファイル Recv.httdat に書き出す
+		4.    HTT.exe                   Get.exe を起動する
+		5.    Get.exe                   Recv.httdat を読み込む
+		6.    Get.exe                   HTTP リクエストを処理し HTTP レスポンスを生成する
+		7.    Get.exe                   HTTP レスポンスを一時ファイル Send.httdat に書き出す
+		8.    Get.exe                   終了する
+		9.    HTT.exe                   Send.httdat を読み込む
+		10.   HTT.exe ⇒ クライアント   HTTP レスポンスを送信する
+		11.   HTT.exe ⇒ クライアント   切断
+
+	Get.exe は Uploader では (Get.exe , Post.exe , PutFile.exe) , HTT_RPC では Service.exe にそれぞれ置き換わります。
+
+	(2.) で「ウィルス又はウィルスと判定されるような内容の HTTP リクエスト」が送信された場合
+	(3.) で作成された Recv.httdat がウィルスとして検出されるようです。
+
+
+Recv.httdat , Send.httdat のパス
+
+	TEMP-DIR \ DIR-1 \ DIR-2 \ TEMP-FILE
+
+		TEMP-DIR  ... 環境変数 TMP の指すフォルダ
+		DIR-1     ... アプリケーション固有のフォルダ
+		              アプリケーション起動時に作成され、正常終了時に削除されます
+		DIR-2     ... 接続毎に固有のフォルダ
+		              接続時に作成され、切断時に削除されます
+		TEMP-FILE ... 受信データは Recv.httdat , 送信データは Send.httdat
+
+	例) C:\Users\user01\AppData\Local\Temp\{A84D19ED-158C-4F8D-8F63-AAF315C26381}\m2awgejwq4w6b81le90mwxiax\Recv.httdat
+
+
+対策1
+
+	手っ取り早くウィルス対策ソフトを無効化する。
+
+
+対策2
+
+	一時ファイルのフォルダ ( TEMP_DIR \ DIR-1 ) を「除外フォルダ」として登録する。
+
+	 	アプリケーション              当該フォルダ
+		--------------------------------------------------------------------------
+		簡易HTTPサーバー (HTT)        %TMP%\{A84D19ED-158C-4F8D-8F63-AAF315C26381}
+		簡易アップローダ (Uploader)   %TMP%\{1A7B4AF5-CDE5-4EFD-AEAB-35CDB9AD3C38}
+		HTTDir                        %TMP%\{4A33312E-C34A-424E-BC11-31842FCBD78F}
+		HTT_RPC                       %TMP%\{6A04A791-BF4B-4BC3-91C5-459321F5B5FB}
+
+
+対策3
+
+	一時ファイルのフォルダを変更して、除外フォルダとして登録する。
+
+	例えば C:\HTT_temp に変更する場合は以下のとおり
+
+		1. C:\HTT_temp フォルダを作成する
+		2. HTT.conf の TMP_DIR 項目を AUTO から C:\HTT_temp に変更する
+		3. C:\HTT_temp を除外フォルダとして登録する
+
