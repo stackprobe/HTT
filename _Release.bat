@@ -10,4 +10,4 @@ C:\Factory\Tools\xcp.exe /C Sample out\Sample
 
 C:\Factory\SubTools\zip.exe /O out HTT
 
-PAUSE
+IF NOT "%1" == "/-P" PAUSE

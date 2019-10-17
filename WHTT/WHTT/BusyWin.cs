@@ -64,7 +64,11 @@ namespace WHTT
 
 		private void BusyWin_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(this.InitL, this.InitT);
+			//this.Location = new Point(this.InitL, this.InitT); // old
+			this.Location = new Point(
+				this.InitL + 15,
+				this.InitT + 30
+				);
 		}
 
 		private bool ActivatedFlag;
