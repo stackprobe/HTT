@@ -1,4 +1,4 @@
-IF NOT EXIST WHTT\. GOTO END
+IF NOT EXIST HTT_is_here.sig GOTO END
 CLS
 rem ƒŠƒŠ[ƒX‚µ‚Ä qrum ‚µ‚Ü‚·B
 PAUSE
