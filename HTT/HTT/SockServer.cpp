@@ -464,7 +464,7 @@ endForceDisconnection:
 				createFile(SEND_FILE);
 				unaddCwd();
 
-				Connect_t *c = nb(Connect_t);
+				Connect_t *c = nb_(Connect_t);
 
 				c->Sock = clSock;
 				c->WorkDir = dir;

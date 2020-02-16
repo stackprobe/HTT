@@ -50,7 +50,7 @@ int LoadHTTPRequestHeader(char *file) // ret: ? successful
 				trim(line);
 				trim(p);
 
-				HeaderField_t *i = nb(HeaderField_t);
+				HeaderField_t *i = nb_(HeaderField_t);
 
 				i->Name = strx(line);
 				i->Value = strx(p);

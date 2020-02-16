@@ -13,7 +13,7 @@ static void TimeWaitMain(int connectFlag)
 	errorCase(currTime < LastTime); // 2bs
 
 	if(!TimeWaitRing)
-		TimeWaitRing = na(int, TimeWaitSec);
+		TimeWaitRing = na_(int, TimeWaitSec);
 
 	while(LastTime < currTime)
 	{

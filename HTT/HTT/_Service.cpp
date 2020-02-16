@@ -88,7 +88,7 @@ Service_t *HTT_CreateService(char *name, char *command)
 		errorCase(!m_isRange(*p, 0x21, 0x7e));
 	}
 
-	Service_t *i = nb(Service_t);
+	Service_t *i = nb_(Service_t);
 
 	i->Name = strx(name);
 	i->Command = strx(command);

@@ -9,7 +9,7 @@ Node_t;
 
 static Node_t *CreateNode(char *ip)
 {
-	Node_t *i = nb(Node_t);
+	Node_t *i = nb_(Node_t);
 
 	i->IP = strx(ip);
 

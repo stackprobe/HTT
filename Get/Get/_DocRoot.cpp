@@ -7,7 +7,7 @@ static DocRoot_t *CreateDocRoot(char *domain, char *rootDir, char *baseDir)
 	errorCase(m_isEmpty(domain));
 	errorCase(m_isEmpty(rootDir));
 
-	DocRoot_t *i = nb(DocRoot_t);
+	DocRoot_t *i = nb_(DocRoot_t);
 
 	i->Domain = strx(domain);
 	i->RootDir = getFullPath(rootDir, baseDir);
