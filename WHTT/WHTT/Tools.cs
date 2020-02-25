@@ -166,19 +166,19 @@ namespace WHTT
 
 		public static void PostShown_GetAllControl(Form f, Action<Control> reaction)
 		{
-			List<Control.ControlCollection> controlTable = new List<Control.ControlCollection>();
+			Queue<Control.ControlCollection> controlTable = new Queue<Control.ControlCollection>();
 
-			controlTable.Add(f.Controls);
+			controlTable.Enqueue(f.Controls);
 
-			for (int index = 0; index < controlTable.Count; index++)
+			while (1 <= controlTable.Count)
 			{
-				foreach (Control control in controlTable[index])
+				foreach (Control control in controlTable.Dequeue())
 				{
 					GroupBox gb = control as GroupBox;
 
 					if (gb != null)
 					{
-						controlTable.Add(gb.Controls);
+						controlTable.Enqueue(gb.Controls);
 					}
 					TabControl tc = control as TabControl;
 
@@ -186,21 +186,21 @@ namespace WHTT
 					{
 						foreach (TabPage tp in tc.TabPages)
 						{
-							controlTable.Add(tp.Controls);
+							controlTable.Enqueue(tp.Controls);
 						}
 					}
 					SplitContainer sc = control as SplitContainer;
 
 					if (sc != null)
 					{
-						controlTable.Add(sc.Panel1.Controls);
-						controlTable.Add(sc.Panel2.Controls);
+						controlTable.Enqueue(sc.Panel1.Controls);
+						controlTable.Enqueue(sc.Panel2.Controls);
 					}
 					Panel p = control as Panel;
 
 					if (p != null)
 					{
-						controlTable.Add(p.Controls);
+						controlTable.Enqueue(p.Controls);
 					}
 					reaction(control);
 				}
