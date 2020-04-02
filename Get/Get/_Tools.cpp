@@ -69,6 +69,8 @@ static char *GetAccessLogFile_2nd(void)
 	return file;
 }
 
+int WriteLog_Disabled;
+
 void WriteLog(char *line)
 {
 	errorCase(!line);
@@ -76,6 +78,12 @@ void WriteLog(char *line)
 }
 void WriteLog_x(char *line)
 {
+	if(WriteLog_Disabled)
+	{
+		memFree(line);
+		return;
+	}
+
 	toJToken(line);
 	cout("LOG: %s\n", line);
 	writeAddLine(GetAccessLogFile(), line);

@@ -140,6 +140,8 @@ int main(int argc, char **argv)
 	if(!ParseHTTPRequestHeader()) // ? Ž¸”s
 		Disconnect();
 
+	WriteLog_Disabled = argIs("/-L");
+
 	WaitLogMutex();
 
 	// Log
