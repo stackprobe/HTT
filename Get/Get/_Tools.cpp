@@ -43,6 +43,12 @@ static void ReleaseLogMutex(void)
 }
 void WaitLogMutex(void)
 {
+	if(WriteLog_Disabled)
+	{
+		LOGPOS();
+		return;
+	}
+
 	LOGPOS();
 	waitForever(GetLogMutex());
 	addFinalizer(ReleaseLogMutex);
