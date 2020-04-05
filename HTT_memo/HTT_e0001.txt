@@ -71,8 +71,8 @@ Recv.httdat , Send.httdat のパス
 		例えば C:\HTT_temp に変更する場合は以下のとおり
 
 			1. C:\HTT_temp フォルダを作成する
-			2. HTT.conf の TMP_DIR 項目を AUTO から C:\HTT_temp に変更する
-			3. C:\HTT_temp を除外フォルダとして登録する
+			2. C:\HTT_temp を除外フォルダとして登録する
+			3. HTT.conf の TMP_DIR 項目を AUTO から C:\HTT_temp に変更する
 
 		※ HTT.conf の編集は HTT.exe を停止した状態で行って下さい。
 
