@@ -2,6 +2,12 @@ CLS
 rem ÉäÉäÅ[ÉXÇµÇƒ qrum ÇµÇ‹Ç∑ÅB
 PAUSE
 
+CALL newcsrr
+
+CALL ff
+cx **
+CD /D %~dp0.
+
 CALL qq
 cx **
 
@@ -14,5 +20,3 @@ START "" /B /WAIT /DC:\home\bat syncRev
 CALL qrumauto rel
 
 rem **** AUTO RELEASE COMPLETED ****
-
-:END
