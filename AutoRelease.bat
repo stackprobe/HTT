@@ -1,4 +1,3 @@
-IF NOT EXIST HTT_is_here.sig GOTO END
 CLS
 rem リリースして qrum します。
 PAUSE
@@ -8,7 +7,7 @@ cx **
 
 CALL _Release.bat /-P
 
-MOVE out\HTT.zip S:\リリース物\.
+MOVE out\* S:\リリース物\.
 
 START "" /B /WAIT /DC:\home\bat syncRev
 
