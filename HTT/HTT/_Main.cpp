@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	cout("memFreeNg: %d\n", memFreeNg);
 	cout("memFreePercentNg: %d\n", memFreePercentNg);
 	errorCase_m(memFreeNg && memFreePercentNg, xcout("物理メモリの空きが不足しています。\n%.3f GB以上の空き又は %d %%以上の空きが必要です。", MemFreeBootTime / 1000000000.0, MemFreePercentBootTime));
-	updateDiskSpace(getTempRtDir()[0]);
+	updateDiskSpace_Dir(getTempRtDir());
 	errorCase_m(lastDiskFree < DiskFreeBootTime, xcout("ハードディスクの空きが不足しています。\n%.3f GB以上の空きが必要です。", DiskFreeBootTime / 1000000000.0));
 
 	int portno = 80;

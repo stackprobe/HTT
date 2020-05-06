@@ -29,26 +29,16 @@ uint64 lastDiskFree;
 uint64 lastDiskFree_real;
 uint64 lastDiskSize;
 
-void updateDiskSpace(int drive)
+void updateDiskSpace_Dir(char *dir)
 {
 	ULARGE_INTEGER a;
 	ULARGE_INTEGER f;
 	ULARGE_INTEGER t;
 
-	errorCase(
-		(drive < 'A' || 'Z' < drive) &&
-		(drive < 'a' || 'z' < drive)
-		);
-
-	char dir[] = {
-		drive,
-		':',
-		'\\',
-		'\0',
-	};
+	errorCase(m_isEmpty(dir));
 
 	/*
-		ドライブが存在しない || 準備出来ていない -> 失敗する。
+		ドライブが存在しない || 準備出来ていない || ディレクトリが存在しない -> 失敗する。
 	*/
 	errorCase(!GetDiskFreeSpaceEx((LPCTSTR)dir, &a, &t, &f)); // ? 失敗
 
