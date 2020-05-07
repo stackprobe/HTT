@@ -65,6 +65,7 @@ endfunc:
 	return retval;
 }
 
+char *HRH_Method;
 int HRH_UrlEndSlash;
 autoList<char *> *HRH_UrlPaths;
 char *HRH_UserAgent; // HEADER_VALUE_NOT_DEFINED == –³Žw’è
@@ -93,10 +94,13 @@ static char *DecodeUrl(char *url)
 }
 int ParseHTTPRequestHeader(void) // ret: ? successful
 {
-	char *p = strchr(HRH_Header, ' ');
+	char *ph = HRH_Header;
+	char *p = strchr(ph, ' ');
 	if(!p)
 		return 0;
 
+	*p = '\0';
+	HRH_Method = strx(ph);
 	p++;
 	char *q = strchr(p, ' ');
 	if(!q)

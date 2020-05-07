@@ -110,7 +110,11 @@ int main(int argc, char **argv)
 			setFileSize(RECV_FILE, 0); // レスポンス送信中は次のリクエストを受け付けない。
 			termination(0);
 		}
+//Sleep(2000); // test
+//cout("current-time: %I64d\n", time(NULL)); // test
+//cout("write-time.1: %I64d\n", getFileWriteTime(RECV_FILE)); // test
 		TouchFile(RECV_FILE);
+//cout("write-time.2: %I64d\n", getFileWriteTime(RECV_FILE)); // test
 	}
 	else
 	{
@@ -153,6 +157,12 @@ int main(int argc, char **argv)
 	}
 
 	if(!ParseHTTPRequestHeader()) // ? 失敗
+		Disconnect();
+
+	if(
+		strcmp(HRH_Method, "GET") &&
+		strcmp(HRH_Method, "HEAD")
+		)
 		Disconnect();
 
 	WriteLog_Disabled = argIs("/-L");
