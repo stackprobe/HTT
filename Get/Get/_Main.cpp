@@ -159,12 +159,6 @@ int main(int argc, char **argv)
 	if(!ParseHTTPRequestHeader()) // ? Ž¸”s
 		Disconnect();
 
-	if(
-		strcmp(HRH_Method, "GET") &&
-		strcmp(HRH_Method, "HEAD")
-		)
-		Disconnect();
-
 	WriteLog_Disabled = argIs("/-L");
 
 	WaitLogMutex();
@@ -179,12 +173,19 @@ int main(int argc, char **argv)
 		WriteLog_x(xcout("A%s", HRH_UserAgent));
 	}
 
+	if(
+		HRH_Header[0] != 'G' &&
+		HRH_Header[0] != 'H'
+		)
+	{
+		cout("invalid-method\n");
+		Disconnect();
+	}
 	if(!strcmp(HRH_HostName, HEADER_VALUE_NOT_DEFINED))
 	{
 		cout("no-host\n");
 		Disconnect();
 	}
-
 	if(argIs("/E:01"))
 	{
 		LOGPOS();

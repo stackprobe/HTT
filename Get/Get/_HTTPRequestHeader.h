@@ -10,7 +10,6 @@ extern autoList<HeaderField_t *> *HRH_Fields;
 
 int LoadHTTPRequestHeader(char *file);
 
-extern char *HRH_Method;
 extern int HRH_UrlEndSlash;
 extern autoList<char *> *HRH_UrlPaths;
 extern char *HRH_UserAgent;
