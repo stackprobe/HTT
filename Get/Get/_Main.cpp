@@ -23,16 +23,14 @@ static int GetDownloadIdleTimeoutSec(void) // ret: 下り無通信タイムアウト_秒
 	}
 	return ret;
 }
-static void Download(void)
+static int Download(void) // ? 処理継続
 {
-	setFileSize(RECV_FILE, 0);
-
 	if(1 <= getFileSize(SEND_FILE))
 	{
 		if(getFileWriteTime(SEND_FILE) + GetDownloadIdleTimeoutSec() < time(NULL)) // ? timeout
 			Disconnect();
 
-		return;
+		return 0;
 	}
 	FILE *fp = fileOpen(DOWNLOAD_FILE, "rt");
 	char *dlFile = readLine(fp);
@@ -44,8 +42,17 @@ static void Download(void)
 	errorCase(rPos < 0 || fSize < rPos);
 
 	if(fSize <= rPos) // ? 送信完了
-		Disconnect();
+	{
+		if(!existFile(KEEP_ALIVE_FILE))
+			Disconnect();
 
+		cout("Keep-Alive Continue to NEXT REQUEST !!!\n");
+
+		removeFile(DUMMY_FILE); // 無いかもしれない。
+		removeFile(DOWNLOAD_FILE);
+		removeFile(KEEP_ALIVE_FILE);
+		return 1;
+	}
 	int rwSize = (int)m_min(fSize - rPos, 2000000);
 	void *buffer = memAlloc(rwSize);
 
@@ -60,6 +67,8 @@ static void Download(void)
 	writeLine(fp, dlFile);
 	writeLine_x(fp, xcout("%I64d", rPos + rwSize));
 	fileClose(fp);
+
+	return 0;
 }
 
 #define SOFT404HTML_FILE "NotFound.htm"
@@ -96,15 +105,21 @@ int main(int argc, char **argv)
 
 	if(existFile(DOWNLOAD_FILE))
 	{
-		Download();
-		termination(0);
+		if(!Download())
+		{
+			setFileSize(RECV_FILE, 0); // レスポンス送信中は次のリクエストを受け付けない。
+			termination(0);
+		}
+		TouchFile(RECV_FILE);
 	}
-	if(getFileWriteTime(RECV_FILE) + 60 < time(NULL)) // ? timeout
-		Disconnect();
+	else
+	{
+		if(getFileWriteTime(RECV_FILE) + 60 < time(NULL)) // ? timeout
+			Disconnect();
 
-	if(512000 < getFileSize(RECV_FILE)) // ? リクエストヘッダが大きすぎる。
-		Disconnect();
-
+		if(512000 < getFileSize(RECV_FILE)) // ? リクエストヘッダが大きすぎる。
+			Disconnect();
+	}
 	if(!LoadHTTPRequestHeader(RECV_FILE)) // ? 失敗 || 受信未完了
 		termination(0);
 
@@ -270,6 +285,8 @@ int main(int argc, char **argv)
 		}
 	}
 
+	int keepAlive = 0;
+
 	if(existFile(target))
 	{
 		char *targetContentType = "";
@@ -292,17 +309,39 @@ int main(int argc, char **argv)
 			cout("target_new: %s\n", target);
 			targetContentType = readLine(TARGET_CONTENT_TYPE_FILE); // g
 			cout("targetContentType_new: [%s]\n", targetContentType);
+
+			removeFile(TARGET_FILE);
+			removeFile(TARGET_CONTENT_TYPE_FILE);
 		}
 
 		if(*targetContentType == '\0')
 			targetContentType = GetMimeType(target);
 
+		if(HRH_KeepAlive)
+		{
+			cout("Keep-Alive Requested\n");
+
+			if(getFileWriteTime(IP_FILE) + 20 < time(NULL))
+			{
+				cout("Keep-Alive timeout\n");
+			}
+			else if(headerOnlyMode) // zantei zantei zantei zantei zantei
+			{
+				cout("Keep-Alive HEAD\n");
+			}
+			else
+			{
+				cout("Keep-Alive OK!\n");
+				keepAlive = 1;
+			}
+			cout("keepAlive: %d\n", keepAlive);
+		}
 		FILE *fp = fileOpen(SEND_FILE, "wt");
 		writeLine(fp, "HTTP/1.1 200 Happy Tea Time");
 		writeLine(fp, "Server: htt");
 		writeLine_x(fp, xcout("Content-Type: %s", targetContentType));
 		writeLine_x(fp, xcout("Content-Length: %I64d", getFileSize(target)));
-		writeLine(fp, "Connection: close");
+		writeLine_x(fp, xcout("Connection: %s", keepAlive ? "Keep-Alive" : "close"));
 		writeLine(fp, "");
 		fileClose(fp);
 
@@ -388,6 +427,11 @@ endContent:
 		writeLine(fp, "0");
 		fileClose(fp);
 	}
+
+	if(keepAlive)
+		createFile(KEEP_ALIVE_FILE);
+
+	setFileSize(RECV_FILE, 0);
 
 	memFree(target);
 

@@ -68,8 +68,9 @@ endfunc:
 int HRH_UrlEndSlash;
 autoList<char *> *HRH_UrlPaths;
 char *HRH_UserAgent; // HEADER_VALUE_NOT_DEFINED == 無指定
-char *HRH_HostName; // HEADER_VALUE_NOT_DEFINED == 無指定
+char *HRH_HostName;  // HEADER_VALUE_NOT_DEFINED == 無指定
 char *HRH_HostPortPart; // NULL == 無指定
+int HRH_KeepAlive;
 
 static char *DecodeUrl(char *url)
 {
@@ -155,6 +156,10 @@ int ParseHTTPRequestHeader(void) // ret: ? successful
 		else if(!_stricmp(i->Name, "User-Agent"))
 		{
 			HRH_UserAgent = i->Value;
+		}
+		else if(!_stricmp(i->Name, "Connection"))
+		{
+			HRH_KeepAlive = !_stricmp(i->Value, "Keep-Alive");
 		}
 	}
 	if(!HRH_UserAgent)

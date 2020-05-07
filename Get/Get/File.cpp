@@ -241,3 +241,18 @@ char *makeFairLocalPath(char *localPath)
 	}
 	return untokenize_xc(nodes, ".");
 }
+
+void TouchFile(char *file) // file の最終更新日時を現時刻に更新する。
+{
+	cout("TouchFile_file: %s\n", file);
+
+	// todo ??? SetFileTime()
+
+	__int64 size = getFileSize(file);
+
+	FILE *fp = fileOpen(file, "ab");
+	writeChar(fp, 'D'); // ダミーの１バイトを書き込む。これで最終更新日時は更新されるはず。
+	fileClose(fp);
+
+	setFileSize(file, size); // 書き込んだダミーの１バイトを除去する。
+}

@@ -15,5 +15,6 @@ extern autoList<char *> *HRH_UrlPaths;
 extern char *HRH_UserAgent;
 extern char *HRH_HostName;
 extern char *HRH_HostPortPart;
+extern int HRH_KeepAlive;
 
 int ParseHTTPRequestHeader(void);

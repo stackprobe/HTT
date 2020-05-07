@@ -24,3 +24,5 @@ char *getFullPath(char *path, char *baseDir = ".");
 char *getExt(char *path);
 
 char *makeFairLocalPath(char *localPath);
+
+void TouchFile(char *file);
