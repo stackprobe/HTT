@@ -11,7 +11,7 @@ CD /D %~dp0.
 CALL qq
 cx **
 
-CALL _Release.bat /-P
+CALL Release.bat /-P
 
 MOVE out\* S:\ƒŠƒŠ[ƒX•¨\.
 
