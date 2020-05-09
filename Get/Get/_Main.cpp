@@ -107,7 +107,18 @@ int main(int argc, char **argv)
 	{
 		if(!Download())
 		{
+#if 1
+			__int64 recvFileSize = getFileSize(RECV_FILE);
+
+			cout("Donwload_recvFileSize: %I64d\n", recvFileSize);
+
+			// HTTPパイプラインに対応してみる。
+			if(REQUEST_BUFFER_SIZE_MAX < recvFileSize)
+				Disconnect();
+#else
+			// HTTP/1.1 の場合、クライアントはレスポンス受信中に次のリクエストを送ってはならない？ ---> HTTPパイプラインというものがあるらしい。
 			setFileSize(RECV_FILE, 0); // レスポンス送信中は次のリクエストを受け付けない。
+#endif
 			termination(0);
 		}
 //Sleep(2000); // test
@@ -121,7 +132,7 @@ int main(int argc, char **argv)
 		if(getFileWriteTime(RECV_FILE) + 60 < time(NULL)) // ? timeout
 			Disconnect();
 
-		if(512000 < getFileSize(RECV_FILE)) // ? リクエストヘッダが大きすぎる。
+		if(REQUEST_BUFFER_SIZE_MAX < getFileSize(RECV_FILE))
 			Disconnect();
 	}
 	if(!LoadHTTPRequestHeader(RECV_FILE)) // ? 失敗 || 受信未完了
@@ -442,7 +453,7 @@ endContent:
 	if(keepAlive)
 		createFile(KEEP_ALIVE_FILE);
 
-	setFileSize(RECV_FILE, 0);
+//	setFileSize(RECV_FILE, 0); // --> DeleteFileDataPart_BeforeFP() @ LoadHTTPRequestHeader()
 
 	memFree(target);
 

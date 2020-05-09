@@ -26,3 +26,5 @@ char *getExt(char *path);
 char *makeFairLocalPath(char *localPath);
 
 void TouchFile(char *file);
+
+void DeleteFileDataPart_BeforeFP(char *file, FILE *rfp);

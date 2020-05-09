@@ -6,7 +6,6 @@ autoList<HeaderField_t *> *HRH_Fields;
 int LoadHTTPRequestHeader(char *file) // ret: ? successful
 {
 	FILE *fp = fileOpen(file, "rb");
-	int retval = 0;
 
 	HRH_Header = readLine(fp);
 
@@ -25,8 +24,9 @@ int LoadHTTPRequestHeader(char *file) // ret: ? successful
 		if(!line[0]) // ? リクエストヘッダ終了
 		{
 			memFree(line);
-			retval = 1;
-			break;
+			DeleteFileDataPart_BeforeFP(file, fp);
+//			fileClose(fp); // dont!
+			return 1;
 		}
 		unctrl(line);
 
@@ -62,7 +62,7 @@ int LoadHTTPRequestHeader(char *file) // ret: ? successful
 	}
 endfunc:
 	fileClose(fp);
-	return retval;
+	return 0;
 }
 
 int HRH_UrlEndSlash;

@@ -256,3 +256,43 @@ void TouchFile(char *file) // file の最終更新日時を現時刻に更新する。
 
 	setFileSize(file, size); // 書き込んだダミーの１バイトを除去する。
 }
+
+void DeleteFileDataPart_BeforeFP(char *file, FILE *rfp)
+{
+//	FILE *rfp = fileOpen(file, "rb");
+	FILE *wfp = fileOpen(file, "r+b");
+
+	const int bufferSize = 1000000;
+	static void *buffer;
+
+	if(!buffer)
+		buffer = memAlloc(bufferSize);
+
+	__int64 count = 0;
+
+	for(; ; )
+	{
+		int readSize = fread(buffer, 1, bufferSize, rfp);
+
+		if(readSize <= 0)
+			break;
+
+		if(readSize < bufferSize)
+		{
+			fwrite(buffer, 1, readSize, wfp);
+			count += readSize;
+			break;
+		}
+		fwrite(buffer, 1, bufferSize, wfp);
+		count += bufferSize;
+	}
+	fileClose(rfp);
+
+	{
+		int fh = _fileno(wfp);
+
+		_chsize_s(fh, count);
+	}
+
+	fileClose(wfp);
+}

@@ -23,3 +23,5 @@
 #define TARGET_CONTENT_TYPE_FILE "TargetContentType.httgetdat"
 
 #define KEEP_ALIVE_FILE "KeepAlive.flg"
+
+#define REQUEST_BUFFER_SIZE_MAX 512000
