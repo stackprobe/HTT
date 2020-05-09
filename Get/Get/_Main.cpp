@@ -366,7 +366,7 @@ int main(int argc, char **argv)
 			{
 				cout("Keep-Alive disabled\n");
 			}
-			if(getFileWriteTime(IP_FILE) + 20 < time(NULL))
+			else if(getFileWriteTime(IP_FILE) + 20 < time(NULL))
 			{
 				cout("Keep-Alive timeout\n");
 			}
