@@ -48,14 +48,11 @@ static void S_UpdateDiskSpace(char *dir)
 	lastDiskFree      = (uint64)f.LowPart | (uint64)f.HighPart << 32;
 	lastDiskSize      = (uint64)t.LowPart | (uint64)t.HighPart << 32;
 }
-/*
-	ドライブが存在しない || 準備出来ていない -> error();
-*/
 void updateDiskSpace(int drive)
 {
 	char dir[4];
 
-//	errorCase(!isalpha(drive));
+	errorCase(!isalpha(drive));
 
 	dir[0] = drive;
 	dir[1] = ':';
@@ -66,25 +63,7 @@ void updateDiskSpace(int drive)
 }
 void updateDiskSpace_Dir(char *dir)
 {
-#if 0 // zantei
-	return S_UpdateDiskSpace(dir);
-#else
-	int drive;
-
-	errorCase(!*dir); // 2bs
-
-	if(dir[1] == ':')
-	{
-		drive = dir[0];
-	}
-	else
-	{
-		dir = getCwd();
-		drive = dir[0];
-		memFree(dir);
-	}
-	return updateDiskSpace(drive);
-#endif
+	S_UpdateDiskSpace(dir);
 }
 
 // < sync

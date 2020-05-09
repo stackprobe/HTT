@@ -35,7 +35,7 @@ static ResStatus_t GetResStatus2(void)
 	if(lastMemoryFree < MemFreeRed && lastMemoryFreePercent < MemFreePercentRed)
 		return RS_RED;
 
-	updateDiskSpace_Dir(getTempRtDir());
+	updateDiskSpace(getTempRtDir()[0]);
 
 	{
 		int &peak = LowDiskFreePeak;
