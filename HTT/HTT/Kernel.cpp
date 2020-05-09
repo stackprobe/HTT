@@ -27,7 +27,7 @@ void updateMemory(void)
 
 // sync > @ updateDiskSpace
 
-uint64 lastDiskFree_User; // このプロセスが使用出来る空き領域サイズ
+uint64 lastDiskFree_User; // 現在のユーザーが利用できるディスクの空きバイト数
 uint64 lastDiskFree;
 uint64 lastDiskSize;
 
