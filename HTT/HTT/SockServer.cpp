@@ -16,6 +16,7 @@
 #define RECV_FILE "Recv.httdat"
 #define SEND_FILE "Send.httdat"
 #define TIGHT_FILE "Tight.httdat"
+#define SOFT_STOP_FILE "SoftStop.httdat"
 
 /*
 	サービスからの応答用
@@ -184,6 +185,9 @@ connected:
 			else
 				removeFile(TIGHT_FILE);
 
+			if(SoftStopServerFlag)
+				createFile(SOFT_STOP_FILE);
+
 			if(ServiceArgsHasProblem)
 			{
 				BeforeServiceExecSystem();
@@ -294,6 +298,7 @@ static int IsKeepServer(void) // ret: ? サーバー継続
 
 			case '0':
 				stopServerReq = 1;
+				break;
 
 			case 'r':
 			case 'R':

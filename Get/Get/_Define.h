@@ -2,6 +2,7 @@
 #define RECV_FILE "Recv.httdat"
 #define SEND_FILE "Send.httdat"
 #define TIGHT_FILE "Tight.httdat"
+#define SOFT_STOP_FILE "SoftStop.httdat"
 
 /*
 	“à—e:

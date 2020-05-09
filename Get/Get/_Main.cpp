@@ -1,5 +1,15 @@
 /*
-	Get.exe [/H] DOC-ROOT-FILE
+	Get.exe [/-L] [/E:01] [/P BEFORE-DL-PROGRAM] [/H] [/-K] DOC-ROOT-FILE
+
+		★オプションは並び替え不可
+
+		/-L   ... ログ出力抑止
+		/E:01 ... 簡易アップローダー用
+		          https://github.com/stackprobe/Post/blob/master/doc/Service.dat このへん
+		/P    ... ダウンロード前介入プログラム
+		          https://github.com/stackprobe/Post2/tree/master/ornithopter/cs/Corona このへん
+		/H    ... HEAD モード
+		/-K   ... Keep-Alive 無効化
 */
 
 #include "all.h"
@@ -137,7 +147,14 @@ int main(int argc, char **argv)
 			Disconnect();
 	}
 	if(!LoadHTTPRequestHeader(RECV_FILE, REQUEST_BUFFER_SIZE_MAX)) // ? 失敗 || 受信未完了
+	{
+		if(existFile(SOFT_STOP_FILE))
+		{
+			cout("#################### SS-DISCONNECT ####################\n");
+			Disconnect();
+		}
 		termination(0);
+	}
 
 	// show header zantei
 	{
@@ -213,6 +230,7 @@ int main(int argc, char **argv)
 		BeforeDLProg = nextArg();
 
 	int headerOnlyMode = argIs("/H");
+	int keepAliveDisabled = argIs("/-K");
 
 	addCwd(getSelfDir());
 	LoadDocRootFile(nextArg());
@@ -344,6 +362,10 @@ int main(int argc, char **argv)
 		{
 			cout("Keep-Alive Requested\n");
 
+			if(keepAliveDisabled)
+			{
+				cout("Keep-Alive disabled\n");
+			}
 			if(getFileWriteTime(IP_FILE) + 20 < time(NULL))
 			{
 				cout("Keep-Alive timeout\n");
@@ -364,7 +386,7 @@ int main(int argc, char **argv)
 		writeLine(fp, "Server: htt");
 		writeLine_x(fp, xcout("Content-Type: %s", targetContentType));
 		writeLine_x(fp, xcout("Content-Length: %I64d", getFileSize(target)));
-		writeLine_x(fp, xcout("Connection: %s", keepAlive ? "Keep-Alive" : "close"));
+		writeLine_x(fp, xcout("Connection: %s", keepAlive ? "keep-alive" : "close"));
 		writeLine(fp, "");
 		fileClose(fp);
 
