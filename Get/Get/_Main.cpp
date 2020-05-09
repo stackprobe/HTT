@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 #if 1
 			__int64 recvFileSize = getFileSize(RECV_FILE);
 
-			cout("Donwload_recvFileSize: %I64d\n", recvFileSize);
+			cout("Download_recvFileSize: %I64d\n", recvFileSize);
 
 			// HTTPパイプラインに対応してみる。
 			if(REQUEST_BUFFER_SIZE_MAX < recvFileSize)
