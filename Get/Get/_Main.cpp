@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 		if(REQUEST_BUFFER_SIZE_MAX < getFileSize(RECV_FILE))
 			Disconnect();
 	}
-	if(!LoadHTTPRequestHeader(RECV_FILE)) // ? Ž¸”s || ŽóM–¢Š®—¹
+	if(!LoadHTTPRequestHeader(RECV_FILE, REQUEST_BUFFER_SIZE_MAX)) // ? Ž¸”s || ŽóM–¢Š®—¹
 		termination(0);
 
 	// show header zantei

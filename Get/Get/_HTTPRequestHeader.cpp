@@ -3,7 +3,7 @@
 char *HRH_Header;
 autoList<HeaderField_t *> *HRH_Fields;
 
-int LoadHTTPRequestHeader(char *file) // ret: ? successful
+int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit) // ret: ? successful
 {
 	FILE *fp = fileOpen(file, "rb");
 
@@ -24,7 +24,7 @@ int LoadHTTPRequestHeader(char *file) // ret: ? successful
 		if(!line[0]) // ? リクエストヘッダ終了
 		{
 			memFree(line);
-			DeleteFileDataPart_BeforeFP(file, fp);
+			DeleteFileDataPart_BeforeFP(file, fp, fileSizeLimit);
 //			fileClose(fp); // dont!
 			return 1;
 		}

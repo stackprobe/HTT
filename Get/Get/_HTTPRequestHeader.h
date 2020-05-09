@@ -8,7 +8,7 @@ HeaderField_t;
 extern char *HRH_Header;
 extern autoList<HeaderField_t *> *HRH_Fields;
 
-int LoadHTTPRequestHeader(char *file);
+int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit);
 
 extern int HRH_UrlEndSlash;
 extern autoList<char *> *HRH_UrlPaths;

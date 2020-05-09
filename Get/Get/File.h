@@ -27,4 +27,4 @@ char *makeFairLocalPath(char *localPath);
 
 void TouchFile(char *file);
 
-void DeleteFileDataPart_BeforeFP(char *file, FILE *rfp);
+void DeleteFileDataPart_BeforeFP(char *file, FILE *fp_binding, size_t fileSizeLimit);
