@@ -263,10 +263,13 @@ void DeleteFileDataPart_BeforeFP(char *file, FILE *fp_binding, size_t fileSizeLi
 	void *buffer = memAlloc(fileSizeLimit);
 	size_t readSize = fread(buffer, 1, fileSizeLimit, fp);
 
-	if(readSize != 0)
+	if(readSize)
+	{
 		cout("DeleteFileDataPart_BeforeFP()_readSize: %u\n", readSize);
 
-	m_range(readSize, 0, fileSizeLimit); // 2bs
+		errorCase(fileSizeLimit <= readSize);
+	}
+
 	fileClose(fp);
 	fp = fileOpen(file, "wb");
 	fwrite(buffer, 1, readSize, fp);
