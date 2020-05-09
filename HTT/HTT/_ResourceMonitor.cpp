@@ -39,7 +39,7 @@ static ResStatus_t GetResStatus2(void)
 
 	{
 		int &peak = LowDiskFreePeak;
-		int ldf = (int)(lastDiskFree / (1000 * 1000 * 1000));
+		int ldf = (int)(lastDiskFree_User / (1000 * 1000 * 1000));
 
 		if(ldf < peak)
 		{
@@ -48,10 +48,10 @@ static ResStatus_t GetResStatus2(void)
 		}
 	}
 
-	if(lastDiskFree < DiskFreeRed)
+	if(lastDiskFree_User < DiskFreeRed)
 		return RS_RED;
 
-	if(lastDiskFree < DiskFreeYellow || lastMemoryFree < MemFreeYellow && lastMemoryFreePercent < MemFreePercentYellow)
+	if(lastDiskFree_User < DiskFreeYellow || lastMemoryFree < MemFreeYellow && lastMemoryFreePercent < MemFreePercentYellow)
 		return RS_YELLOW;
 
 	return RS_GREEN;

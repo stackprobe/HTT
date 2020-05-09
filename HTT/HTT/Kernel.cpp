@@ -55,7 +55,7 @@ void updateDiskSpace(int drive)
 {
 	char dir[4];
 
-	errorCase(!isalpha(drive));
+//	errorCase(!isalpha(drive));
 
 	dir[0] = drive;
 	dir[1] = ':';
