@@ -297,7 +297,7 @@ int main(int argc, char **argv)
 				LOGPOS();
 
 				FILE *fp = fileOpen(SEND_FILE, "wt");
-				writeLine(fp, "HTTP/1.1 200 Server Busy");
+				writeLine(fp, "HTTP/1.1 200 Guinness Beer Server");
 				writeLine(fp, "Server: htt");
 				writeLine(fp, "Content-Type: text/html");
 				writeLine_x(fp, xcout("Content-Length: %I64d", getFileSize(Soft503HtmlFile)));
@@ -314,7 +314,7 @@ int main(int argc, char **argv)
 				LOGPOS();
 
 				FILE *fp = fileOpen(SEND_FILE, "wt");
-				writeLine(fp, "HTTP/1.1 503 Server Busy");
+				writeLine(fp, "HTTP/1.1 503 Guinness Beer Server");
 				writeLine(fp, "Server: htt");
 				writeLine(fp, "Connection: close");
 				writeLine(fp, "");
@@ -406,7 +406,7 @@ int main(int argc, char **argv)
 			goto targetNotFound;
 		}
 		writeLine_cx(SEND_FILE, xcout(
-			"HTTP/1.1 301 Hot Chocolate\n"
+			"HTTP/1.1 301 Chocomint Ice\n"
 			"Server: htt\n"
 			"Location: http://%s%s/%s/\n"
 			"Connection: close\n"
@@ -429,7 +429,7 @@ targetNotFound:
 		if(htmlFlag && existFile(Soft404HtmlFile))
 		{
 			FILE *fp = fileOpen(SEND_FILE, "wt");
-			writeLine(fp, "HTTP/1.1 200 Coffee Time");
+			writeLine(fp, "HTTP/1.1 200 Mad Tea Party");
 			writeLine(fp, "Server: htt");
 			writeLine(fp, "Content-Type: text/html");
 			writeLine_x(fp, xcout("Content-Length: %I64d", getFileSize(Soft404HtmlFile)));
@@ -444,7 +444,7 @@ targetNotFound:
 		else
 		{
 			writeLine(SEND_FILE,
-				"HTTP/1.1 404 Coffee Time\n"
+				"HTTP/1.1 404 Mad Tea Party\n"
 				"Server: htt\n"
 				"Connection: close\n"
 				""
