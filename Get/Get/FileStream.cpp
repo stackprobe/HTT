@@ -53,17 +53,23 @@ void fileClose(FILE *fp)
 	errorCase(fclose(fp)); // ? Ž¸”s
 }
 
+__int64 getFileSeekPos(FILE *fp)
+{
+	__int64 pos = _ftelli64(fp);
+	errorCase(pos < 0); // ? Ž¸”s
+	return pos;
+}
 __int64 getFileSize(FILE *fp)
 {
 	errorCase(_fseeki64(fp, 0I64, SEEK_END)); // ? Ž¸”s
-	__int64 size = _ftelli64(fp);
-	errorCase(size < 0); // ? Ž¸”s
-	return size;
+	return getFileSeekPos(fp);
 }
 __int64 getFileSize(char *file)
 {
 	FILE *fp = fileOpen(file, "rb");
+
 	__int64 size = getFileSize(fp);
+
 	fileClose(fp);
 	return size;
 }
@@ -75,6 +81,19 @@ void setFileSize(char *file, __int64 size)
 	errorCase(_chsize_s(fh, size)); // ? Ž¸”s
 
 	fileClose(fp);
+}
+
+size_t getFileSeekPos32(FILE *fp, size_t retMax)
+{
+	__int64 pos = getFileSeekPos(fp);
+	errorCase((__int64)retMax < pos);
+	return (size_t)pos;
+}
+size_t getFileSize32(FILE *fp, size_t retMax)
+{
+	__int64 size = getFileSize(fp);
+	errorCase((__int64)retMax < size);
+	return (size_t)size;
 }
 
 int readChar(FILE *fp)

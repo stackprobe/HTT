@@ -2,9 +2,13 @@ FILE *rfopen(char *file, char *mode);
 FILE *fileOpen(char *file, char *mode);
 void fileClose(FILE *fp);
 
+__int64 getFileSeekPos(FILE *fp);
 __int64 getFileSize(FILE *fp);
 __int64 getFileSize(char *file);
 void setFileSize(char *file, __int64 size);
+
+size_t getFileSeekPos32(FILE *fp, size_t retMax);
+size_t getFileSize32(FILE *fp, size_t retMax);
 
 int readChar(FILE *fp);
 char *readLine(FILE *fp);

@@ -146,7 +146,7 @@ int main(int argc, char **argv)
 		if(REQUEST_BUFFER_SIZE_MAX < getFileSize(RECV_FILE))
 			Disconnect();
 	}
-	if(!LoadHTTPRequestHeader(RECV_FILE, REQUEST_BUFFER_SIZE_MAX)) // ? Ž¸”s || ŽóM–¢Š®—¹
+	if(!LoadHTTPRequestHeader(RECV_FILE, REQUEST_BUFFER_SIZE_MAX, ACT_RECV_FILE)) // ? Ž¸”s || ŽóM–¢Š®—¹
 	{
 		if(existFile(SOFT_STOP_FILE))
 		{

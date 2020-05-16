@@ -23,6 +23,8 @@
 #define TARGET_FILE "Target.httgetdat"
 #define TARGET_CONTENT_TYPE_FILE "TargetContentType.httgetdat"
 
+#define ACT_RECV_FILE "ActRecv.dat"
+
 #define KEEP_ALIVE_FILE "KeepAlive.flg"
 
 #define REQUEST_BUFFER_SIZE_MAX 512000

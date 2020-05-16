@@ -257,22 +257,32 @@ void TouchFile(char *file) // file の最終更新日時を現時刻に更新する。
 	setFileSize(file, size); // 書き込んだダミーの１バイトを除去する。
 }
 
-void DeleteFileDataPart_BeforeFP(char *file, FILE *fp_binding, size_t fileSizeLimit)
+void DivideFile_FP(char *file, FILE *fp_binding, size_t fileSizeLimit, char *beforeFile, char *afterFile)
 {
 	FILE *fp = fp_binding;
-	void *buffer = memAlloc(fileSizeLimit);
-	size_t readSize = fread(buffer, 1, fileSizeLimit, fp);
+	size_t beforeFileSize = getFileSeekPos32(fp, fileSizeLimit);
+	size_t fileSize = getFileSize32(fp, (size_t)(fileSizeLimit * 2));
+	size_t afterFileSize = fileSize - beforeFileSize;
 
-	if(readSize)
-	{
-		cout("DeleteFileDataPart_BeforeFP()_readSize: %u\n", readSize);
+	errorCase(fileSizeLimit < afterFileSize);
 
-		errorCase(fileSizeLimit <= readSize);
-	}
+	void *beforeFileData = memAlloc(beforeFileSize);
+	void *afterFileData  = memAlloc(afterFileSize);
+
+	fileSeek(fp, SEEK_SET, 0);
+	fileRead(fp, beforeFileData, beforeFileSize);
+	fileRead(fp, afterFileData,  afterFileSize);
 
 	fileClose(fp);
-	fp = fileOpen(file, "wb");
-	fwrite(buffer, 1, readSize, fp);
+
+	fp = fileOpen(beforeFile, "wb");
+	fileWrite(fp, beforeFileData, beforeFileSize);
 	fileClose(fp);
-	memFree(buffer);
+
+	fp = fileOpen(afterFile, "wb");
+	fileWrite(fp, afterFileData, afterFileSize);
+	fileClose(fp);
+
+	memFree(beforeFileData);
+	memFree(afterFileData);
 }
