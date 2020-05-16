@@ -257,11 +257,12 @@ void TouchFile(char *file) // file の最終更新日時を現時刻に更新する。
 	setFileSize(file, size); // 書き込んだダミーの１バイトを除去する。
 }
 
-void DivideFile_FP(char *file, FILE *fp_binding, size_t fileSizeLimit, char *beforeFile, char *afterFile)
+void DivideFile_FP(FILE *fp_binding, size_t fileSizeLimit, char *beforeFile, char *afterFile)
 {
 	FILE *fp = fp_binding;
+
 	size_t beforeFileSize = getFileSeekPos32(fp, fileSizeLimit);
-	size_t fileSize = getFileSize32(fp, (size_t)(fileSizeLimit * 2));
+	size_t fileSize = getFileSize32(fp, fileSizeLimit * 2);
 	size_t afterFileSize = fileSize - beforeFileSize;
 
 	errorCase(fileSizeLimit < afterFileSize);

@@ -27,4 +27,4 @@ char *makeFairLocalPath(char *localPath);
 
 void TouchFile(char *file);
 
-void DivideFile_FP(char *file, FILE *fp_binding, size_t fileSizeLimit, char *beforeFile, char *afterFile);
+void DivideFile_FP(FILE *fp_binding, size_t fileSizeLimit, char *beforeFile, char *afterFile);

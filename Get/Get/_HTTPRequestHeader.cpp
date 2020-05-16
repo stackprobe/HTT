@@ -3,7 +3,7 @@
 char *HRH_Header;
 autoList<HeaderField_t *> *HRH_Fields;
 
-int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit, char *currRequestFile) // ret: ? successful
+int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit, char *loadedHTTPRequestHeaderFile) // ret: ? successful
 {
 	FILE *fp = fileOpen(file, "rb");
 
@@ -24,7 +24,7 @@ int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit, char *currRequestFil
 		if(!line[0]) // ? リクエストヘッダ終了
 		{
 			memFree(line);
-			DivideFile_FP(file, fp, fileSizeLimit, currRequestFile, file);
+			DivideFile_FP(fp, fileSizeLimit, loadedHTTPRequestHeaderFile, file);
 //			fileClose(fp); // dont!
 			return 1;
 		}

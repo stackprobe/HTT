@@ -476,7 +476,8 @@ endContent:
 	if(keepAlive)
 		createFile(KEEP_ALIVE_FILE);
 
-//	setFileSize(RECV_FILE, 0); // --> DeleteFileDataPart_BeforeFP() @ LoadHTTPRequestHeader()
+//	setFileSize(RECV_FILE, 0); // --> DivideFile_FP() @ LoadHTTPRequestHeader()
+	removeFile(ACT_RECV_FILE);
 
 	memFree(target);
 
