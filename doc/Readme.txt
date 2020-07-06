@@ -17,7 +17,7 @@
 
 ■動作環境
 
-　Windows 10
+　Windows 10 Pro または Windows 10 Home
 
 
 ■インストール方法
