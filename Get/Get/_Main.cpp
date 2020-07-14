@@ -61,6 +61,7 @@ static int Download(void) // ? èàóùåpë±
 		removeFile(DUMMY_FILE); // ñ≥Ç¢Ç©Ç‡ÇµÇÍÇ»Ç¢ÅB
 		removeFile(DOWNLOAD_FILE);
 		removeFile(KEEP_ALIVE_FILE);
+		createFile(KEEP_ALIVE_KEPT_CONNECTION_FILE);
 		return 1;
 	}
 	int rwSize = (int)m_min(fSize - rPos, 2000000);
@@ -140,7 +141,9 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		if(getFileWriteTime(RECV_FILE) + 60 < time(NULL)) // ? timeout
+		time_t timeoutSec = existFile(KEEP_ALIVE_KEPT_CONNECTION_FILE) ? 20 : 60;
+
+		if(getFileWriteTime(RECV_FILE) + timeoutSec < time(NULL)) // ? timeout
 			Disconnect();
 
 		if(REQUEST_BUFFER_SIZE_MAX < getFileSize(RECV_FILE))

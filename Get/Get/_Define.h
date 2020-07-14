@@ -26,5 +26,6 @@
 #define ACT_RECV_FILE "ActRecv.dat"
 
 #define KEEP_ALIVE_FILE "KeepAlive.flg"
+#define KEEP_ALIVE_KEPT_CONNECTION_FILE "K-A-KeptConnection.flg"
 
 #define REQUEST_BUFFER_SIZE_MAX 512000
