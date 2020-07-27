@@ -52,9 +52,9 @@
 			this.MainSheet.AllowUserToAddRows = false;
 			this.MainSheet.AllowUserToDeleteRows = false;
 			this.MainSheet.AllowUserToResizeRows = false;
-			this.MainSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-			| System.Windows.Forms.AnchorStyles.Left)
-			| System.Windows.Forms.AnchorStyles.Right)));
+			this.MainSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.MainSheet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.MainSheet.ContextMenuStrip = this.MainSheetMenu;
 			this.MainSheet.Location = new System.Drawing.Point(12, 12);
@@ -66,6 +66,7 @@
 			this.MainSheet.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.MainSheet.Size = new System.Drawing.Size(454, 437);
 			this.MainSheet.TabIndex = 0;
+			this.MainSheet.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainSheet_CellContentClick);
 			this.MainSheet.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainSheet_ColumnHeaderMouseClick);
 			// 
 			// MainSheetMenu

@@ -312,6 +312,11 @@ namespace Charlotte
 			this.Close();
 		}
 
+		private void MainSheet_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			// noop
+		}
+
 		private void MainSheet_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (e.RowIndex == -1)
