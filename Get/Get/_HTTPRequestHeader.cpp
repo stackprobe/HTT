@@ -36,7 +36,7 @@ int LoadHTTPRequestHeader(char *file, size_t fileSizeLimit, char *loadedHTTPRequ
 			{
 				trim(line);
 				HeaderField_t *i = HRH_Fields->GetElement(HRH_Fields->GetCount() - 1);
-				i->Value = addChar(i->Value, ' '); // todo
+				i->Value = addChar(i->Value, ' '); // HACK
 				i->Value = addLine(i->Value, line);
 			}
 		}

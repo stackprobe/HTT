@@ -246,7 +246,7 @@ void TouchFile(char *file) // file の最終更新日時を現時刻に更新する。
 {
 	cout("TouchFile_file: %s\n", file);
 
-	// todo ??? SetFileTime()
+	// HACK ??? SetFileTime()
 
 	__int64 size = getFileSize(file);
 
