@@ -7,7 +7,7 @@
 ビルド済み配布物
 ----------------
 
-http://stackprobe.dip.jp/HTT
+http://stackprobe.ccsp.mydns.jp/HTT
 
 
 マニュアル
